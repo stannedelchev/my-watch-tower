@@ -1,8 +1,9 @@
-import { useGetAllStations } from "./api/generated/ground-stations/ground-stations";
+import { useGetAllGroundStations } from "./api/generated/ground-stations/ground-stations";
 import "./App.css";
+import type { GroundStationEntity } from "./model";
 
 function App() {
-  const { data, isLoading, error } = useGetAllStations();
+  const { data, isLoading, error } = useGetAllGroundStations();
 
   return (
     <>
@@ -13,7 +14,7 @@ function App() {
           {error && <p>Error loading ground stations: {String(error)}</p>}
           {data && (
             <ul>
-              {data.map((station: any) => (
+              {data.map((station: GroundStationEntity) => (
                 <li key={station.id}>
                   {station.name} - ({station.latitude}, {station.longitude})
                 </li>

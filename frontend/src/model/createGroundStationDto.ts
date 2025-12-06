@@ -6,6 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export * from './createGroundStationDto';
-export * from './groundStationEntity';
-export * from './updateGroundStationDto';
+export interface CreateGroundStationDto {
+  name: string;
+  latitude: number;
+  longitude: number;
+  altitude: number;
+}
