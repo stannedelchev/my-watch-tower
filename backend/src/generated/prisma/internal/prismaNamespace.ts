@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   TleSource: 'TleSource',
   Satellite: 'Satellite',
+  Tags: 'Tags',
   GroundStation: 'GroundStation',
   Transmitter: 'Transmitter'
 } as const
@@ -403,7 +404,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tleSource" | "satellite" | "groundStation" | "transmitter"
+    modelProps: "tleSource" | "satellite" | "tags" | "groundStation" | "transmitter"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -552,6 +553,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SatelliteCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SatelliteCountAggregateOutputType> | number
+        }
+      }
+    }
+    Tags: {
+      payload: Prisma.$TagsPayload<ExtArgs>
+      fields: Prisma.TagsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TagsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TagsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>
+        }
+        findFirst: {
+          args: Prisma.TagsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TagsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>
+        }
+        findMany: {
+          args: Prisma.TagsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>[]
+        }
+        create: {
+          args: Prisma.TagsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>
+        }
+        createMany: {
+          args: Prisma.TagsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TagsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>[]
+        }
+        delete: {
+          args: Prisma.TagsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>
+        }
+        update: {
+          args: Prisma.TagsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>
+        }
+        deleteMany: {
+          args: Prisma.TagsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TagsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TagsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>[]
+        }
+        upsert: {
+          args: Prisma.TagsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TagsPayload>
+        }
+        aggregate: {
+          args: Prisma.TagsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTags>
+        }
+        groupBy: {
+          args: Prisma.TagsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TagsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TagsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TagsCountAggregateOutputType> | number
         }
       }
     }
@@ -760,10 +835,20 @@ export const SatelliteScalarFieldEnum = {
   line1: 'line1',
   line2: 'line2',
   updatedAt: 'updatedAt',
+  isTracked: 'isTracked',
   sourceId: 'sourceId'
 } as const
 
 export type SatelliteScalarFieldEnum = (typeof SatelliteScalarFieldEnum)[keyof typeof SatelliteScalarFieldEnum]
+
+
+export const TagsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color'
+} as const
+
+export type TagsScalarFieldEnum = (typeof TagsScalarFieldEnum)[keyof typeof TagsScalarFieldEnum]
 
 
 export const GroundStationScalarFieldEnum = {
@@ -989,6 +1074,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   tleSource?: Prisma.TleSourceOmit
   satellite?: Prisma.SatelliteOmit
+  tags?: Prisma.TagsOmit
   groundStation?: Prisma.GroundStationOmit
   transmitter?: Prisma.TransmitterOmit
 }

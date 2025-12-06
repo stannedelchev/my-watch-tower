@@ -33,9 +33,22 @@ model Satellite {
 
   updatedAt DateTime @updatedAt
 
+  isTracked Boolean @default(false)
+
   sourceId     Int
   source       TleSource    @relation(fields: [sourceId], references: [id])
   transmitters Transmitter[]
+
+  tags Tags[] @relation("SatelliteTags")
+}
+
+// do we need to specify SatelliteTags? Probably no - no other types of Tags for now
+model Tags {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  color String? // hex color code, e.g. #ff0000
+
+  satellites Satellite[] @relation("SatelliteTags")
 }
 
 model GroundStation {

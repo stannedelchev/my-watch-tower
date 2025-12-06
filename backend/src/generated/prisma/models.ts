@@ -10,6 +10,7 @@
  */
 export type * from './models/TleSource.js'
 export type * from './models/Satellite.js'
+export type * from './models/Tags.js'
 export type * from './models/GroundStation.js'
 export type * from './models/Transmitter.js'
 export type * from './commonInputTypes.js'

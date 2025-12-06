@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   TleSource: 'TleSource',
   Satellite: 'Satellite',
+  Tags: 'Tags',
   GroundStation: 'GroundStation',
   Transmitter: 'Transmitter'
 } as const
@@ -91,10 +92,20 @@ export const SatelliteScalarFieldEnum = {
   line1: 'line1',
   line2: 'line2',
   updatedAt: 'updatedAt',
+  isTracked: 'isTracked',
   sourceId: 'sourceId'
 } as const
 
 export type SatelliteScalarFieldEnum = (typeof SatelliteScalarFieldEnum)[keyof typeof SatelliteScalarFieldEnum]
+
+
+export const TagsScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  color: 'color'
+} as const
+
+export type TagsScalarFieldEnum = (typeof TagsScalarFieldEnum)[keyof typeof TagsScalarFieldEnum]
 
 
 export const GroundStationScalarFieldEnum = {

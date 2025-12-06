@@ -28,6 +28,11 @@ export type TleSource = Prisma.TleSourceModel
  */
 export type Satellite = Prisma.SatelliteModel
 /**
+ * Model Tags
+ * 
+ */
+export type Tags = Prisma.TagsModel
+/**
  * Model GroundStation
  * 
  */
