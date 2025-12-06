@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GroundStationsController } from './ground-stations/ground-stations.controller';
+import { PrismaService } from './prisma/prisma.service';
+import { BootstrapService } from './bootstrap/bootstrap.service';
+import { ConfigModule } from '@nestjs/config';
+import { TleUpdateService } from './tle-update/tle-update.service';
+import { GroundStationsModule } from './ground-stations/ground-stations.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController, GroundStationsController],
-  providers: [AppService],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), GroundStationsModule],
+  controllers: [AppController],
+  providers: [AppService, PrismaService, BootstrapService, TleUpdateService],
 })
 export class AppModule {}
