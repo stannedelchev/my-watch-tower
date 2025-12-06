@@ -1,0 +1,80 @@
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import axios from 'axios';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { SatnogsdbTransmitter } from './satnogsdb.interfaces';
+
+@Injectable()
+export class TransmittersUpdateService implements OnModuleInit {
+  private readonly logger = new Logger(TransmittersUpdateService.name);
+
+  constructor(private prisma: PrismaService) {}
+
+  onModuleInit() {
+    this.logger.log('Starting transmitters update on module init.');
+    // await this.updateTransmitters();
+    // we need some sort of scheduling here
+  }
+
+  async updateTransmitters() {
+    const FETCH_URL = 'https://db.satnogs.org/api/transmitters/?format=json';
+    this.logger.log(`Fetching transmitters from ${FETCH_URL}`);
+
+    const transmittersData: SatnogsdbTransmitter[] = [];
+    try {
+      const response = await axios.get<SatnogsdbTransmitter[]>(FETCH_URL);
+      transmittersData.push(...response.data);
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch transmitters from ${FETCH_URL}: ${error}`,
+      );
+      return;
+    }
+
+    this.logger.log(`Fetched ${transmittersData.length} transmitters.`);
+    const timeStart = Date.now();
+    for (const transmitter of transmittersData) {
+      const satelliteExists = await this.prisma.satellite.findUnique({
+        where: { id: transmitter.norad_cat_id },
+      });
+      if (!satelliteExists) {
+        continue;
+      }
+
+      const partialSat = {
+        description: transmitter.description,
+        type: transmitter.type,
+        status: transmitter.status,
+        uplinkLow: transmitter.uplink_low
+          ? transmitter.uplink_low.toString()
+          : null,
+        uplinkHigh: transmitter.uplink_high
+          ? transmitter.uplink_high.toString()
+          : null,
+        downlinkLow: transmitter.downlink_low
+          ? transmitter.downlink_low.toString()
+          : null,
+        downlinkHigh: transmitter.downlink_high
+          ? transmitter.downlink_high.toString()
+          : null,
+        mode: transmitter.mode,
+        baud: transmitter.baud,
+        invert: transmitter.invert,
+        citation: transmitter.citation,
+      };
+
+      await this.prisma.transmitter.upsert({
+        where: { uuid: transmitter.uuid },
+        update: partialSat,
+        create: {
+          uuid: transmitter.uuid,
+          ...partialSat,
+          satelliteNoradId: transmitter.norad_cat_id,
+        },
+      });
+    }
+    const timeEnd = Date.now();
+    this.logger.debug(
+      `Transmitters update completed in ${timeEnd - timeStart} ms.`,
+    );
+  }
+}

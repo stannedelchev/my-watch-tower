@@ -17,7 +17,7 @@ datasource db {
 model TleSource {
   id         Int         @id @default(autoincrement())
   name       String
-  url        String      @unique
+  url        String
   enabled    Boolean     @default(true)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
@@ -33,17 +33,44 @@ model Satellite {
 
   updatedAt DateTime @updatedAt
 
-  sourceId Int?
-  source   TleSource? @relation(fields: [sourceId], references: [id])
+  sourceId     Int
+  source       TleSource    @relation(fields: [sourceId], references: [id])
+  transmitters Transmitter[]
 }
 
 model GroundStation {
-  id        Int      @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   name      String
   latitude  Float
   longitude Float
-  altitude  Float    // in meters
+  altitude  Float // in meters
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Transmitter {
+  id   Int    @id @default(autoincrement())
+  uuid String @unique // SatNOGS UUID for upserts
+
+  description String?
+  type        String? // "Transmitter", "Transponder"
+  status      String? // "active", "inactive", "deep space"
+
+  // String to avoid precision issues - GHz frequencies can become very big
+  uplinkLow    String?
+  uplinkHigh   String?
+  downlinkLow  String?
+  downlinkHigh String?
+
+  mode   String? // "FM", "SSB", "HRPT"
+  baud   Float?
+  invert Boolean @default(false)
+
+  citation String? // info URL
+
+  updatedAt DateTime @updatedAt
+
+  satelliteNoradId Int
+  satellite        Satellite @relation(fields: [satelliteNoradId], references: [id])
 }

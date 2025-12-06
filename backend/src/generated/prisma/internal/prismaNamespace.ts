@@ -386,7 +386,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   TleSource: 'TleSource',
   Satellite: 'Satellite',
-  GroundStation: 'GroundStation'
+  GroundStation: 'GroundStation',
+  Transmitter: 'Transmitter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -402,7 +403,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "tleSource" | "satellite" | "groundStation"
+    modelProps: "tleSource" | "satellite" | "groundStation" | "transmitter"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -628,6 +629,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Transmitter: {
+      payload: Prisma.$TransmitterPayload<ExtArgs>
+      fields: Prisma.TransmitterFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.TransmitterFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.TransmitterFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>
+        }
+        findFirst: {
+          args: Prisma.TransmitterFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.TransmitterFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>
+        }
+        findMany: {
+          args: Prisma.TransmitterFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>[]
+        }
+        create: {
+          args: Prisma.TransmitterCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>
+        }
+        createMany: {
+          args: Prisma.TransmitterCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.TransmitterCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>[]
+        }
+        delete: {
+          args: Prisma.TransmitterDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>
+        }
+        update: {
+          args: Prisma.TransmitterUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>
+        }
+        deleteMany: {
+          args: Prisma.TransmitterDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.TransmitterUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.TransmitterUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>[]
+        }
+        upsert: {
+          args: Prisma.TransmitterUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$TransmitterPayload>
+        }
+        aggregate: {
+          args: Prisma.TransmitterAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateTransmitter>
+        }
+        groupBy: {
+          args: Prisma.TransmitterGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransmitterGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.TransmitterCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.TransmitterCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -702,6 +777,27 @@ export const GroundStationScalarFieldEnum = {
 } as const
 
 export type GroundStationScalarFieldEnum = (typeof GroundStationScalarFieldEnum)[keyof typeof GroundStationScalarFieldEnum]
+
+
+export const TransmitterScalarFieldEnum = {
+  id: 'id',
+  uuid: 'uuid',
+  description: 'description',
+  type: 'type',
+  status: 'status',
+  uplinkLow: 'uplinkLow',
+  uplinkHigh: 'uplinkHigh',
+  downlinkLow: 'downlinkLow',
+  downlinkHigh: 'downlinkHigh',
+  mode: 'mode',
+  baud: 'baud',
+  invert: 'invert',
+  citation: 'citation',
+  updatedAt: 'updatedAt',
+  satelliteNoradId: 'satelliteNoradId'
+} as const
+
+export type TransmitterScalarFieldEnum = (typeof TransmitterScalarFieldEnum)[keyof typeof TransmitterScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -894,6 +990,7 @@ export type GlobalOmitConfig = {
   tleSource?: Prisma.TleSourceOmit
   satellite?: Prisma.SatelliteOmit
   groundStation?: Prisma.GroundStationOmit
+  transmitter?: Prisma.TransmitterOmit
 }
 
 /* Types for Logging */

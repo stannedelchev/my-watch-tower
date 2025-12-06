@@ -52,3 +52,8 @@ export type Satellite = Prisma.SatelliteModel
  * 
  */
 export type GroundStation = Prisma.GroundStationModel
+/**
+ * Model Transmitter
+ * 
+ */
+export type Transmitter = Prisma.TransmitterModel

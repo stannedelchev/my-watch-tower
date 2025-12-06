@@ -53,7 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   TleSource: 'TleSource',
   Satellite: 'Satellite',
-  GroundStation: 'GroundStation'
+  GroundStation: 'GroundStation',
+  Transmitter: 'Transmitter'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -107,6 +108,27 @@ export const GroundStationScalarFieldEnum = {
 } as const
 
 export type GroundStationScalarFieldEnum = (typeof GroundStationScalarFieldEnum)[keyof typeof GroundStationScalarFieldEnum]
+
+
+export const TransmitterScalarFieldEnum = {
+  id: 'id',
+  uuid: 'uuid',
+  description: 'description',
+  type: 'type',
+  status: 'status',
+  uplinkLow: 'uplinkLow',
+  uplinkHigh: 'uplinkHigh',
+  downlinkLow: 'downlinkLow',
+  downlinkHigh: 'downlinkHigh',
+  mode: 'mode',
+  baud: 'baud',
+  invert: 'invert',
+  citation: 'citation',
+  updatedAt: 'updatedAt',
+  satelliteNoradId: 'satelliteNoradId'
+} as const
+
+export type TransmitterScalarFieldEnum = (typeof TransmitterScalarFieldEnum)[keyof typeof TransmitterScalarFieldEnum]
 
 
 export const SortOrder = {

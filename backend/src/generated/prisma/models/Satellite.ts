@@ -195,7 +195,7 @@ export type SatelliteGroupByOutputType = {
   line1: string
   line2: string
   updatedAt: Date
-  sourceId: number | null
+  sourceId: number
   _count: SatelliteCountAggregateOutputType | null
   _avg: SatelliteAvgAggregateOutputType | null
   _sum: SatelliteSumAggregateOutputType | null
@@ -227,8 +227,9 @@ export type SatelliteWhereInput = {
   line1?: Prisma.StringFilter<"Satellite"> | string
   line2?: Prisma.StringFilter<"Satellite"> | string
   updatedAt?: Prisma.DateTimeFilter<"Satellite"> | Date | string
-  sourceId?: Prisma.IntNullableFilter<"Satellite"> | number | null
-  source?: Prisma.XOR<Prisma.TleSourceNullableScalarRelationFilter, Prisma.TleSourceWhereInput> | null
+  sourceId?: Prisma.IntFilter<"Satellite"> | number
+  source?: Prisma.XOR<Prisma.TleSourceScalarRelationFilter, Prisma.TleSourceWhereInput>
+  transmitters?: Prisma.TransmitterListRelationFilter
 }
 
 export type SatelliteOrderByWithRelationInput = {
@@ -237,8 +238,9 @@ export type SatelliteOrderByWithRelationInput = {
   line1?: Prisma.SortOrder
   line2?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  sourceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceId?: Prisma.SortOrder
   source?: Prisma.TleSourceOrderByWithRelationInput
+  transmitters?: Prisma.TransmitterOrderByRelationAggregateInput
 }
 
 export type SatelliteWhereUniqueInput = Prisma.AtLeast<{
@@ -250,8 +252,9 @@ export type SatelliteWhereUniqueInput = Prisma.AtLeast<{
   line1?: Prisma.StringFilter<"Satellite"> | string
   line2?: Prisma.StringFilter<"Satellite"> | string
   updatedAt?: Prisma.DateTimeFilter<"Satellite"> | Date | string
-  sourceId?: Prisma.IntNullableFilter<"Satellite"> | number | null
-  source?: Prisma.XOR<Prisma.TleSourceNullableScalarRelationFilter, Prisma.TleSourceWhereInput> | null
+  sourceId?: Prisma.IntFilter<"Satellite"> | number
+  source?: Prisma.XOR<Prisma.TleSourceScalarRelationFilter, Prisma.TleSourceWhereInput>
+  transmitters?: Prisma.TransmitterListRelationFilter
 }, "id">
 
 export type SatelliteOrderByWithAggregationInput = {
@@ -260,7 +263,7 @@ export type SatelliteOrderByWithAggregationInput = {
   line1?: Prisma.SortOrder
   line2?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  sourceId?: Prisma.SortOrderInput | Prisma.SortOrder
+  sourceId?: Prisma.SortOrder
   _count?: Prisma.SatelliteCountOrderByAggregateInput
   _avg?: Prisma.SatelliteAvgOrderByAggregateInput
   _max?: Prisma.SatelliteMaxOrderByAggregateInput
@@ -277,7 +280,7 @@ export type SatelliteScalarWhereWithAggregatesInput = {
   line1?: Prisma.StringWithAggregatesFilter<"Satellite"> | string
   line2?: Prisma.StringWithAggregatesFilter<"Satellite"> | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Satellite"> | Date | string
-  sourceId?: Prisma.IntNullableWithAggregatesFilter<"Satellite"> | number | null
+  sourceId?: Prisma.IntWithAggregatesFilter<"Satellite"> | number
 }
 
 export type SatelliteCreateInput = {
@@ -286,7 +289,8 @@ export type SatelliteCreateInput = {
   line1: string
   line2: string
   updatedAt?: Date | string
-  source?: Prisma.TleSourceCreateNestedOneWithoutSatellitesInput
+  source: Prisma.TleSourceCreateNestedOneWithoutSatellitesInput
+  transmitters?: Prisma.TransmitterCreateNestedManyWithoutSatelliteInput
 }
 
 export type SatelliteUncheckedCreateInput = {
@@ -295,7 +299,8 @@ export type SatelliteUncheckedCreateInput = {
   line1: string
   line2: string
   updatedAt?: Date | string
-  sourceId?: number | null
+  sourceId: number
+  transmitters?: Prisma.TransmitterUncheckedCreateNestedManyWithoutSatelliteInput
 }
 
 export type SatelliteUpdateInput = {
@@ -304,7 +309,8 @@ export type SatelliteUpdateInput = {
   line1?: Prisma.StringFieldUpdateOperationsInput | string
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  source?: Prisma.TleSourceUpdateOneWithoutSatellitesNestedInput
+  source?: Prisma.TleSourceUpdateOneRequiredWithoutSatellitesNestedInput
+  transmitters?: Prisma.TransmitterUpdateManyWithoutSatelliteNestedInput
 }
 
 export type SatelliteUncheckedUpdateInput = {
@@ -313,7 +319,8 @@ export type SatelliteUncheckedUpdateInput = {
   line1?: Prisma.StringFieldUpdateOperationsInput | string
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sourceId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceId?: Prisma.IntFieldUpdateOperationsInput | number
+  transmitters?: Prisma.TransmitterUncheckedUpdateManyWithoutSatelliteNestedInput
 }
 
 export type SatelliteCreateManyInput = {
@@ -322,7 +329,7 @@ export type SatelliteCreateManyInput = {
   line1: string
   line2: string
   updatedAt?: Date | string
-  sourceId?: number | null
+  sourceId: number
 }
 
 export type SatelliteUpdateManyMutationInput = {
@@ -339,7 +346,7 @@ export type SatelliteUncheckedUpdateManyInput = {
   line1?: Prisma.StringFieldUpdateOperationsInput | string
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sourceId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  sourceId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type SatelliteListRelationFilter = {
@@ -389,6 +396,11 @@ export type SatelliteSumOrderByAggregateInput = {
   sourceId?: Prisma.SortOrder
 }
 
+export type SatelliteScalarRelationFilter = {
+  is?: Prisma.SatelliteWhereInput
+  isNot?: Prisma.SatelliteWhereInput
+}
+
 export type SatelliteCreateNestedManyWithoutSourceInput = {
   create?: Prisma.XOR<Prisma.SatelliteCreateWithoutSourceInput, Prisma.SatelliteUncheckedCreateWithoutSourceInput> | Prisma.SatelliteCreateWithoutSourceInput[] | Prisma.SatelliteUncheckedCreateWithoutSourceInput[]
   connectOrCreate?: Prisma.SatelliteCreateOrConnectWithoutSourceInput | Prisma.SatelliteCreateOrConnectWithoutSourceInput[]
@@ -431,12 +443,18 @@ export type SatelliteUncheckedUpdateManyWithoutSourceNestedInput = {
   deleteMany?: Prisma.SatelliteScalarWhereInput | Prisma.SatelliteScalarWhereInput[]
 }
 
-export type NullableIntFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
+export type SatelliteCreateNestedOneWithoutTransmittersInput = {
+  create?: Prisma.XOR<Prisma.SatelliteCreateWithoutTransmittersInput, Prisma.SatelliteUncheckedCreateWithoutTransmittersInput>
+  connectOrCreate?: Prisma.SatelliteCreateOrConnectWithoutTransmittersInput
+  connect?: Prisma.SatelliteWhereUniqueInput
+}
+
+export type SatelliteUpdateOneRequiredWithoutTransmittersNestedInput = {
+  create?: Prisma.XOR<Prisma.SatelliteCreateWithoutTransmittersInput, Prisma.SatelliteUncheckedCreateWithoutTransmittersInput>
+  connectOrCreate?: Prisma.SatelliteCreateOrConnectWithoutTransmittersInput
+  upsert?: Prisma.SatelliteUpsertWithoutTransmittersInput
+  connect?: Prisma.SatelliteWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SatelliteUpdateToOneWithWhereWithoutTransmittersInput, Prisma.SatelliteUpdateWithoutTransmittersInput>, Prisma.SatelliteUncheckedUpdateWithoutTransmittersInput>
 }
 
 export type SatelliteCreateWithoutSourceInput = {
@@ -445,6 +463,7 @@ export type SatelliteCreateWithoutSourceInput = {
   line1: string
   line2: string
   updatedAt?: Date | string
+  transmitters?: Prisma.TransmitterCreateNestedManyWithoutSatelliteInput
 }
 
 export type SatelliteUncheckedCreateWithoutSourceInput = {
@@ -453,6 +472,7 @@ export type SatelliteUncheckedCreateWithoutSourceInput = {
   line1: string
   line2: string
   updatedAt?: Date | string
+  transmitters?: Prisma.TransmitterUncheckedCreateNestedManyWithoutSatelliteInput
 }
 
 export type SatelliteCreateOrConnectWithoutSourceInput = {
@@ -490,7 +510,59 @@ export type SatelliteScalarWhereInput = {
   line1?: Prisma.StringFilter<"Satellite"> | string
   line2?: Prisma.StringFilter<"Satellite"> | string
   updatedAt?: Prisma.DateTimeFilter<"Satellite"> | Date | string
-  sourceId?: Prisma.IntNullableFilter<"Satellite"> | number | null
+  sourceId?: Prisma.IntFilter<"Satellite"> | number
+}
+
+export type SatelliteCreateWithoutTransmittersInput = {
+  id: number
+  name: string
+  line1: string
+  line2: string
+  updatedAt?: Date | string
+  source: Prisma.TleSourceCreateNestedOneWithoutSatellitesInput
+}
+
+export type SatelliteUncheckedCreateWithoutTransmittersInput = {
+  id: number
+  name: string
+  line1: string
+  line2: string
+  updatedAt?: Date | string
+  sourceId: number
+}
+
+export type SatelliteCreateOrConnectWithoutTransmittersInput = {
+  where: Prisma.SatelliteWhereUniqueInput
+  create: Prisma.XOR<Prisma.SatelliteCreateWithoutTransmittersInput, Prisma.SatelliteUncheckedCreateWithoutTransmittersInput>
+}
+
+export type SatelliteUpsertWithoutTransmittersInput = {
+  update: Prisma.XOR<Prisma.SatelliteUpdateWithoutTransmittersInput, Prisma.SatelliteUncheckedUpdateWithoutTransmittersInput>
+  create: Prisma.XOR<Prisma.SatelliteCreateWithoutTransmittersInput, Prisma.SatelliteUncheckedCreateWithoutTransmittersInput>
+  where?: Prisma.SatelliteWhereInput
+}
+
+export type SatelliteUpdateToOneWithWhereWithoutTransmittersInput = {
+  where?: Prisma.SatelliteWhereInput
+  data: Prisma.XOR<Prisma.SatelliteUpdateWithoutTransmittersInput, Prisma.SatelliteUncheckedUpdateWithoutTransmittersInput>
+}
+
+export type SatelliteUpdateWithoutTransmittersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  line1?: Prisma.StringFieldUpdateOperationsInput | string
+  line2?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  source?: Prisma.TleSourceUpdateOneRequiredWithoutSatellitesNestedInput
+}
+
+export type SatelliteUncheckedUpdateWithoutTransmittersInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  line1?: Prisma.StringFieldUpdateOperationsInput | string
+  line2?: Prisma.StringFieldUpdateOperationsInput | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sourceId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type SatelliteCreateManySourceInput = {
@@ -507,6 +579,7 @@ export type SatelliteUpdateWithoutSourceInput = {
   line1?: Prisma.StringFieldUpdateOperationsInput | string
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transmitters?: Prisma.TransmitterUpdateManyWithoutSatelliteNestedInput
 }
 
 export type SatelliteUncheckedUpdateWithoutSourceInput = {
@@ -515,6 +588,7 @@ export type SatelliteUncheckedUpdateWithoutSourceInput = {
   line1?: Prisma.StringFieldUpdateOperationsInput | string
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  transmitters?: Prisma.TransmitterUncheckedUpdateManyWithoutSatelliteNestedInput
 }
 
 export type SatelliteUncheckedUpdateManyWithoutSourceInput = {
@@ -526,6 +600,35 @@ export type SatelliteUncheckedUpdateManyWithoutSourceInput = {
 }
 
 
+/**
+ * Count Type SatelliteCountOutputType
+ */
+
+export type SatelliteCountOutputType = {
+  transmitters: number
+}
+
+export type SatelliteCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  transmitters?: boolean | SatelliteCountOutputTypeCountTransmittersArgs
+}
+
+/**
+ * SatelliteCountOutputType without action
+ */
+export type SatelliteCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the SatelliteCountOutputType
+   */
+  select?: Prisma.SatelliteCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * SatelliteCountOutputType without action
+ */
+export type SatelliteCountOutputTypeCountTransmittersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.TransmitterWhereInput
+}
+
 
 export type SatelliteSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -534,7 +637,9 @@ export type SatelliteSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   line2?: boolean
   updatedAt?: boolean
   sourceId?: boolean
-  source?: boolean | Prisma.Satellite$sourceArgs<ExtArgs>
+  source?: boolean | Prisma.TleSourceDefaultArgs<ExtArgs>
+  transmitters?: boolean | Prisma.Satellite$transmittersArgs<ExtArgs>
+  _count?: boolean | Prisma.SatelliteCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["satellite"]>
 
 export type SatelliteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -544,7 +649,7 @@ export type SatelliteSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   line2?: boolean
   updatedAt?: boolean
   sourceId?: boolean
-  source?: boolean | Prisma.Satellite$sourceArgs<ExtArgs>
+  source?: boolean | Prisma.TleSourceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["satellite"]>
 
 export type SatelliteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -554,7 +659,7 @@ export type SatelliteSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   line2?: boolean
   updatedAt?: boolean
   sourceId?: boolean
-  source?: boolean | Prisma.Satellite$sourceArgs<ExtArgs>
+  source?: boolean | Prisma.TleSourceDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["satellite"]>
 
 export type SatelliteSelectScalar = {
@@ -568,19 +673,22 @@ export type SatelliteSelectScalar = {
 
 export type SatelliteOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "line1" | "line2" | "updatedAt" | "sourceId", ExtArgs["result"]["satellite"]>
 export type SatelliteInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  source?: boolean | Prisma.Satellite$sourceArgs<ExtArgs>
+  source?: boolean | Prisma.TleSourceDefaultArgs<ExtArgs>
+  transmitters?: boolean | Prisma.Satellite$transmittersArgs<ExtArgs>
+  _count?: boolean | Prisma.SatelliteCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type SatelliteIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  source?: boolean | Prisma.Satellite$sourceArgs<ExtArgs>
+  source?: boolean | Prisma.TleSourceDefaultArgs<ExtArgs>
 }
 export type SatelliteIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  source?: boolean | Prisma.Satellite$sourceArgs<ExtArgs>
+  source?: boolean | Prisma.TleSourceDefaultArgs<ExtArgs>
 }
 
 export type $SatellitePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Satellite"
   objects: {
-    source: Prisma.$TleSourcePayload<ExtArgs> | null
+    source: Prisma.$TleSourcePayload<ExtArgs>
+    transmitters: Prisma.$TransmitterPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -588,7 +696,7 @@ export type $SatellitePayload<ExtArgs extends runtime.Types.Extensions.InternalA
     line1: string
     line2: string
     updatedAt: Date
-    sourceId: number | null
+    sourceId: number
   }, ExtArgs["result"]["satellite"]>
   composites: {}
 }
@@ -983,7 +1091,8 @@ readonly fields: SatelliteFieldRefs;
  */
 export interface Prisma__SatelliteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  source<T extends Prisma.Satellite$sourceArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Satellite$sourceArgs<ExtArgs>>): Prisma.Prisma__TleSourceClient<runtime.Types.Result.GetResult<Prisma.$TleSourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  source<T extends Prisma.TleSourceDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TleSourceDefaultArgs<ExtArgs>>): Prisma.Prisma__TleSourceClient<runtime.Types.Result.GetResult<Prisma.$TleSourcePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  transmitters<T extends Prisma.Satellite$transmittersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Satellite$transmittersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransmitterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1415,22 +1524,27 @@ export type SatelliteDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * Satellite.source
+ * Satellite.transmitters
  */
-export type Satellite$sourceArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Satellite$transmittersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the TleSource
+   * Select specific fields to fetch from the Transmitter
    */
-  select?: Prisma.TleSourceSelect<ExtArgs> | null
+  select?: Prisma.TransmitterSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the TleSource
+   * Omit specific fields from the Transmitter
    */
-  omit?: Prisma.TleSourceOmit<ExtArgs> | null
+  omit?: Prisma.TransmitterOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  where?: Prisma.TleSourceWhereInput
+  include?: Prisma.TransmitterInclude<ExtArgs> | null
+  where?: Prisma.TransmitterWhereInput
+  orderBy?: Prisma.TransmitterOrderByWithRelationInput | Prisma.TransmitterOrderByWithRelationInput[]
+  cursor?: Prisma.TransmitterWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.TransmitterScalarFieldEnum | Prisma.TransmitterScalarFieldEnum[]
 }
 
 /**

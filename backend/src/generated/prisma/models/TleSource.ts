@@ -239,16 +239,16 @@ export type TleSourceOrderByWithRelationInput = {
 
 export type TleSourceWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  url?: string
   AND?: Prisma.TleSourceWhereInput | Prisma.TleSourceWhereInput[]
   OR?: Prisma.TleSourceWhereInput[]
   NOT?: Prisma.TleSourceWhereInput | Prisma.TleSourceWhereInput[]
   name?: Prisma.StringFilter<"TleSource"> | string
+  url?: Prisma.StringFilter<"TleSource"> | string
   enabled?: Prisma.BoolFilter<"TleSource"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TleSource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TleSource"> | Date | string
   satellites?: Prisma.SatelliteListRelationFilter
-}, "id" | "url">
+}, "id">
 
 export type TleSourceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -375,9 +375,9 @@ export type TleSourceSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
 }
 
-export type TleSourceNullableScalarRelationFilter = {
-  is?: Prisma.TleSourceWhereInput | null
-  isNot?: Prisma.TleSourceWhereInput | null
+export type TleSourceScalarRelationFilter = {
+  is?: Prisma.TleSourceWhereInput
+  isNot?: Prisma.TleSourceWhereInput
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -406,12 +406,10 @@ export type TleSourceCreateNestedOneWithoutSatellitesInput = {
   connect?: Prisma.TleSourceWhereUniqueInput
 }
 
-export type TleSourceUpdateOneWithoutSatellitesNestedInput = {
+export type TleSourceUpdateOneRequiredWithoutSatellitesNestedInput = {
   create?: Prisma.XOR<Prisma.TleSourceCreateWithoutSatellitesInput, Prisma.TleSourceUncheckedCreateWithoutSatellitesInput>
   connectOrCreate?: Prisma.TleSourceCreateOrConnectWithoutSatellitesInput
   upsert?: Prisma.TleSourceUpsertWithoutSatellitesInput
-  disconnect?: Prisma.TleSourceWhereInput | boolean
-  delete?: Prisma.TleSourceWhereInput | boolean
   connect?: Prisma.TleSourceWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.TleSourceUpdateToOneWithWhereWithoutSatellitesInput, Prisma.TleSourceUpdateWithoutSatellitesInput>, Prisma.TleSourceUncheckedUpdateWithoutSatellitesInput>
 }
