@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model TleSource {
+  id         Int         @id @default(autoincrement())
+  name       String
+  url        String      @unique
+  enabled    Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  satellites Satellite[]
+}
+
+model Satellite {
+  id    Int    @id // norad ID // @default(autoincrement())
+  // noradId   Int      @unique // not going with separate field as this can be primary key
+  name  String
+  line1 String
+  line2 String
+
+  updatedAt DateTime @updatedAt
+
+  sourceId Int?
+  source   TleSource? @relation(fields: [sourceId], references: [id])
+}
+
+model GroundStation {
+  id        Int      @id @default(autoincrement())
+  name      String
+  latitude  Float
+  longitude Float
+  altitude  Float    // in meters
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
