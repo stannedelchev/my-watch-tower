@@ -10,6 +10,7 @@ import { TransmittersService } from './transmitters/transmitters.service';
 import { SatellitesController } from './satellites/satellites.controller';
 import { SatellitesService } from './satellites/satellites.service';
 import { AppConfigService } from './app-config/app-config.service';
+import { PredictorService } from './predictor/predictor.service';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), GroundStationsModule],
@@ -22,6 +23,7 @@ import { AppConfigService } from './app-config/app-config.service';
     TransmittersService,
     SatellitesService,
     AppConfigService,
+    PredictorService,
   ],
 })
 export class AppModule {}

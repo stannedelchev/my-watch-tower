@@ -14,17 +14,11 @@ export class TleUpdateService implements OnModuleInit {
 
   constructor(private prisma: PrismaService) {}
 
-  async onModuleInit() {
-    // // test try the first source from the database
-    // const firstSource = await this.prisma.tleSource.findFirst();
-    // if (firstSource) {
-    //   await this.updateSource(firstSource);
-    // }
+  onModuleInit() {
     this.logger.log(
       `Scheduling TLE updates every ${REFETCH_INTERVAL_HOURS} hours.`,
     );
-    // not using cron on set time to avoid thundering herd
-    await this.updateStaleSources();
+    // not using cron on specific time to avoid thundering herd
     setInterval(
       () => {
         void this.updateStaleSources();
