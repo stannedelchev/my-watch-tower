@@ -66,6 +66,7 @@ export type GroundStationCountAggregateOutputType = {
   latitude: number
   longitude: number
   altitude: number
+  horizonmask: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -112,6 +113,7 @@ export type GroundStationCountAggregateInputType = {
   latitude?: true
   longitude?: true
   altitude?: true
+  horizonmask?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -209,6 +211,7 @@ export type GroundStationGroupByOutputType = {
   latitude: number
   longitude: number
   altitude: number
+  horizonmask: runtime.JsonValue | null
   createdAt: Date
   updatedAt: Date
   _count: GroundStationCountAggregateOutputType | null
@@ -242,6 +245,7 @@ export type GroundStationWhereInput = {
   latitude?: Prisma.FloatFilter<"GroundStation"> | number
   longitude?: Prisma.FloatFilter<"GroundStation"> | number
   altitude?: Prisma.FloatFilter<"GroundStation"> | number
+  horizonmask?: Prisma.JsonNullableFilter<"GroundStation">
   createdAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
 }
@@ -252,6 +256,7 @@ export type GroundStationOrderByWithRelationInput = {
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   altitude?: Prisma.SortOrder
+  horizonmask?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -265,6 +270,7 @@ export type GroundStationWhereUniqueInput = Prisma.AtLeast<{
   latitude?: Prisma.FloatFilter<"GroundStation"> | number
   longitude?: Prisma.FloatFilter<"GroundStation"> | number
   altitude?: Prisma.FloatFilter<"GroundStation"> | number
+  horizonmask?: Prisma.JsonNullableFilter<"GroundStation">
   createdAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
 }, "id">
@@ -275,6 +281,7 @@ export type GroundStationOrderByWithAggregationInput = {
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   altitude?: Prisma.SortOrder
+  horizonmask?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.GroundStationCountOrderByAggregateInput
@@ -293,6 +300,7 @@ export type GroundStationScalarWhereWithAggregatesInput = {
   latitude?: Prisma.FloatWithAggregatesFilter<"GroundStation"> | number
   longitude?: Prisma.FloatWithAggregatesFilter<"GroundStation"> | number
   altitude?: Prisma.FloatWithAggregatesFilter<"GroundStation"> | number
+  horizonmask?: Prisma.JsonNullableWithAggregatesFilter<"GroundStation">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"GroundStation"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"GroundStation"> | Date | string
 }
@@ -302,6 +310,7 @@ export type GroundStationCreateInput = {
   latitude: number
   longitude: number
   altitude: number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -312,6 +321,7 @@ export type GroundStationUncheckedCreateInput = {
   latitude: number
   longitude: number
   altitude: number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -321,6 +331,7 @@ export type GroundStationUpdateInput = {
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   altitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -331,6 +342,7 @@ export type GroundStationUncheckedUpdateInput = {
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   altitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -341,6 +353,7 @@ export type GroundStationCreateManyInput = {
   latitude: number
   longitude: number
   altitude: number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -350,6 +363,7 @@ export type GroundStationUpdateManyMutationInput = {
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   altitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -360,6 +374,7 @@ export type GroundStationUncheckedUpdateManyInput = {
   latitude?: Prisma.FloatFieldUpdateOperationsInput | number
   longitude?: Prisma.FloatFieldUpdateOperationsInput | number
   altitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  horizonmask?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -370,6 +385,7 @@ export type GroundStationCountOrderByAggregateInput = {
   latitude?: Prisma.SortOrder
   longitude?: Prisma.SortOrder
   altitude?: Prisma.SortOrder
+  horizonmask?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -424,6 +440,7 @@ export type GroundStationSelect<ExtArgs extends runtime.Types.Extensions.Interna
   latitude?: boolean
   longitude?: boolean
   altitude?: boolean
+  horizonmask?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["groundStation"]>
@@ -434,6 +451,7 @@ export type GroundStationSelectCreateManyAndReturn<ExtArgs extends runtime.Types
   latitude?: boolean
   longitude?: boolean
   altitude?: boolean
+  horizonmask?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["groundStation"]>
@@ -444,6 +462,7 @@ export type GroundStationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types
   latitude?: boolean
   longitude?: boolean
   altitude?: boolean
+  horizonmask?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["groundStation"]>
@@ -454,11 +473,12 @@ export type GroundStationSelectScalar = {
   latitude?: boolean
   longitude?: boolean
   altitude?: boolean
+  horizonmask?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type GroundStationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "latitude" | "longitude" | "altitude" | "createdAt" | "updatedAt", ExtArgs["result"]["groundStation"]>
+export type GroundStationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "latitude" | "longitude" | "altitude" | "horizonmask" | "createdAt" | "updatedAt", ExtArgs["result"]["groundStation"]>
 
 export type $GroundStationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GroundStation"
@@ -469,6 +489,7 @@ export type $GroundStationPayload<ExtArgs extends runtime.Types.Extensions.Inter
     latitude: number
     longitude: number
     altitude: number
+    horizonmask: runtime.JsonValue | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["groundStation"]>
@@ -899,6 +920,7 @@ export interface GroundStationFieldRefs {
   readonly latitude: Prisma.FieldRef<"GroundStation", 'Float'>
   readonly longitude: Prisma.FieldRef<"GroundStation", 'Float'>
   readonly altitude: Prisma.FieldRef<"GroundStation", 'Float'>
+  readonly horizonmask: Prisma.FieldRef<"GroundStation", 'Json'>
   readonly createdAt: Prisma.FieldRef<"GroundStation", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"GroundStation", 'DateTime'>
 }

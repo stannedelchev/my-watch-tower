@@ -60,6 +60,8 @@ model GroundStation {
   longitude Float
   altitude  Float // in meters
 
+  horizonmask Json? // array of [azimuth (deg), elevation (deg)] pairs defining the horizon mask polygon
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
