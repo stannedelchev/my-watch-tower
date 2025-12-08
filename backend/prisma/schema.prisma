@@ -44,7 +44,7 @@ model Satellite {
   tags Tags[] @relation("SatelliteTags")
 }
 
-// do we need to specify SatelliteTags? Probably no - no other types of Tags for now
+// do we need to specify "SatelliteTags" instead of just "Tags"?  Probably no - no other types of Tags for now
 model Tags {
   id   Int    @id @default(autoincrement())
   name String @unique
@@ -72,7 +72,7 @@ model Transmitter {
   type        String? // "Transmitter", "Transponder"
   status      String? // "active", "inactive", "deep space"
 
-  // String to avoid precision issues - GHz frequencies can become very big
+  // String to avoid precision issues - GHz frequencies can become very large numbers
   uplinkLow    String?
   uplinkHigh   String?
   downlinkLow  String?

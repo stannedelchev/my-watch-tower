@@ -3,6 +3,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import axios, { AxiosResponse } from 'axios';
 import { getCatalogNumber } from 'tle.js';
 import { Satellite, TleSource } from 'src/generated/prisma/client';
+import { SatnogsdbTle } from './tle-update.interfaces';
 
 // refetch every X hours
 const REFETCH_INTERVAL_HOURS = 24;
@@ -51,8 +52,6 @@ export class TleUpdateService implements OnModuleInit {
         data: { updatedAt: new Date() },
       });
     }
-
-    // TODO: trigger transmitters update
   }
 
   async updateAllSources() {
@@ -73,6 +72,7 @@ export class TleUpdateService implements OnModuleInit {
     this.logger.debug(`Updating TLE source from URL: ${source.url}`);
 
     let response: AxiosResponse<string>;
+    let satellites: Partial<Satellite>[] = [];
     try {
       response = await axios.get<string>(source.url, { responseType: 'text' });
     } catch (error) {
@@ -83,38 +83,15 @@ export class TleUpdateService implements OnModuleInit {
     }
     const tleData = response.data;
     if (source.parser === 'rawText') {
-      await this.processRawTextTleData(tleData, source);
+      satellites = this.processRawTextTleData(tleData, source);
+    } else if (source.parser === 'satnogsdbJson') {
+      satellites = this.processSatnogsdbTleData(tleData, source);
     } else {
       this.logger.error(
         `Unknown parser "${source.parser}" for TLE source ${source.name}. Skipping.`,
       );
+      return;
     }
-  }
-
-  async processRawTextTleData(tleData: string, source: TleSource) {
-    const lines = tleData.split(/\r?\n/).filter((line) => line.length > 0);
-    const satellites: Partial<Satellite>[] = [];
-
-    for (let i = 0; i < lines.length; i += 3) {
-      const name = lines[i].trim();
-      const line1 = lines[i + 1]?.trim();
-      const line2 = lines[i + 2]?.trim();
-      const id = getCatalogNumber(`${name}\n${line1}\n${line2}`);
-
-      if (line1 && line2) {
-        satellites.push({
-          id,
-          name,
-          line1,
-          line2,
-          updatedAt: new Date(),
-        });
-      }
-    }
-
-    this.logger.log(
-      `Fetched ${satellites.length} satellites from ${source.url}. Updating DB...`,
-    );
 
     // chunk in batches of 100
     const chunkSize = 100;
@@ -143,5 +120,58 @@ export class TleUpdateService implements OnModuleInit {
     this.logger.log(
       `Updated ${satellites.length} satellites from source ${source.name}.`,
     );
+  }
+
+  processRawTextTleData(tleData: string, source: TleSource) {
+    const lines = tleData.split(/\r?\n/).filter((line) => line.length > 0);
+    const satellites: Partial<Satellite>[] = [];
+
+    for (let i = 0; i < lines.length; i += 3) {
+      const name = lines[i].trim();
+      const line1 = lines[i + 1]?.trim();
+      const line2 = lines[i + 2]?.trim();
+      const id = getCatalogNumber(`${name}\n${line1}\n${line2}`);
+
+      if (line1 && line2) {
+        satellites.push({
+          id,
+          name,
+          line1,
+          line2,
+        });
+      }
+    }
+
+    this.logger.log(
+      `Fetched ${satellites.length} satellites from ${source.url}. Updating DB...`,
+    );
+
+    return satellites;
+  }
+
+  processSatnogsdbTleData(tleData: string, source: TleSource) {
+    const satellites: Partial<Satellite>[] = [];
+    const satnogsdbData = JSON.parse(tleData) as SatnogsdbTle[];
+
+    for (const satData of satnogsdbData) {
+      // "tle0": "0 NANOSAT C BR1",
+      const line0 = satData.tle0;
+      const line1 = satData.tle1;
+      const line2 = satData.tle2;
+      const id = getCatalogNumber(`${line0}\n${line1}\n${line2}`);
+      const name = satData.tle0.substring(2).trim();
+      satellites.push({
+        id,
+        name,
+        line1,
+        line2,
+      });
+    }
+
+    this.logger.log(
+      `Fetched ${satellites.length} satellites from ${source.url}. Updating DB...`,
+    );
+
+    return satellites;
   }
 }

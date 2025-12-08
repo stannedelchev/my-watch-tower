@@ -3,6 +3,7 @@ import { AppConfigService } from 'src/app-config/app-config.service';
 import { DEFAULT_TLE_SOURCES } from 'src/config/default-tle-sources';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SatellitesService } from 'src/satellites/satellites.service';
+import { TleUpdateService } from 'src/tle-update/tle-update.service';
 import { TransmittersService } from 'src/transmitters/transmitters.service';
 
 @Injectable()
@@ -14,6 +15,7 @@ export class BootstrapService implements OnModuleInit {
     private appConfigService: AppConfigService,
     private satellitesService: SatellitesService,
     private transmittersService: TransmittersService,
+    private tleUpdateService: TleUpdateService,
   ) {}
 
   async onModuleInit() {
@@ -21,6 +23,7 @@ export class BootstrapService implements OnModuleInit {
     await this.seedTleSources();
     await this.updateSatnogsdbSatellites();
     await this.updateSatnogsdbTransmitters();
+    await this.tleUpdateService.updateStaleSources();
     this.logger.log('Bootstrap tasks completed.');
   }
 

@@ -3,6 +3,7 @@ export const DEFAULT_TLE_SOURCES = [
     name: 'SatNOGS DB',
     url: 'https://db.satnogs.org/api/tle/?format=json',
     parser: 'satnogsdbJson',
+    updatedAt: '1970-01-01T00:00:00Z', // to trigger immediate update on first run
   },
   // Note: all of these should be included in the SatNOGS DB as well
   // {
