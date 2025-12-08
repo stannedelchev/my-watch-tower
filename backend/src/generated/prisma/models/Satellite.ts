@@ -225,7 +225,7 @@ export type SatelliteWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Satellite"> | Date | string
   isTracked?: Prisma.BoolFilter<"Satellite"> | boolean
   transmitters?: Prisma.TransmitterListRelationFilter
-  tags?: Prisma.TagsListRelationFilter
+  tags?: Prisma.TagListRelationFilter
 }
 
 export type SatelliteOrderByWithRelationInput = {
@@ -236,7 +236,7 @@ export type SatelliteOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   isTracked?: Prisma.SortOrder
   transmitters?: Prisma.TransmitterOrderByRelationAggregateInput
-  tags?: Prisma.TagsOrderByRelationAggregateInput
+  tags?: Prisma.TagOrderByRelationAggregateInput
 }
 
 export type SatelliteWhereUniqueInput = Prisma.AtLeast<{
@@ -250,7 +250,7 @@ export type SatelliteWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"Satellite"> | Date | string
   isTracked?: Prisma.BoolFilter<"Satellite"> | boolean
   transmitters?: Prisma.TransmitterListRelationFilter
-  tags?: Prisma.TagsListRelationFilter
+  tags?: Prisma.TagListRelationFilter
 }, "id">
 
 export type SatelliteOrderByWithAggregationInput = {
@@ -287,7 +287,7 @@ export type SatelliteCreateInput = {
   updatedAt?: Date | string
   isTracked?: boolean
   transmitters?: Prisma.TransmitterCreateNestedManyWithoutSatelliteInput
-  tags?: Prisma.TagsCreateNestedManyWithoutSatellitesInput
+  tags?: Prisma.TagCreateNestedManyWithoutSatellitesInput
 }
 
 export type SatelliteUncheckedCreateInput = {
@@ -298,7 +298,7 @@ export type SatelliteUncheckedCreateInput = {
   updatedAt?: Date | string
   isTracked?: boolean
   transmitters?: Prisma.TransmitterUncheckedCreateNestedManyWithoutSatelliteInput
-  tags?: Prisma.TagsUncheckedCreateNestedManyWithoutSatellitesInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutSatellitesInput
 }
 
 export type SatelliteUpdateInput = {
@@ -309,7 +309,7 @@ export type SatelliteUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   transmitters?: Prisma.TransmitterUpdateManyWithoutSatelliteNestedInput
-  tags?: Prisma.TagsUpdateManyWithoutSatellitesNestedInput
+  tags?: Prisma.TagUpdateManyWithoutSatellitesNestedInput
 }
 
 export type SatelliteUncheckedUpdateInput = {
@@ -320,7 +320,7 @@ export type SatelliteUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
   transmitters?: Prisma.TransmitterUncheckedUpdateManyWithoutSatelliteNestedInput
-  tags?: Prisma.TagsUncheckedUpdateManyWithoutSatellitesNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutSatellitesNestedInput
 }
 
 export type SatelliteCreateManyInput = {
@@ -512,7 +512,7 @@ export type SatelliteCreateWithoutTransmittersInput = {
   line2: string
   updatedAt?: Date | string
   isTracked?: boolean
-  tags?: Prisma.TagsCreateNestedManyWithoutSatellitesInput
+  tags?: Prisma.TagCreateNestedManyWithoutSatellitesInput
 }
 
 export type SatelliteUncheckedCreateWithoutTransmittersInput = {
@@ -522,7 +522,7 @@ export type SatelliteUncheckedCreateWithoutTransmittersInput = {
   line2: string
   updatedAt?: Date | string
   isTracked?: boolean
-  tags?: Prisma.TagsUncheckedCreateNestedManyWithoutSatellitesInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutSatellitesInput
 }
 
 export type SatelliteCreateOrConnectWithoutTransmittersInput = {
@@ -548,7 +548,7 @@ export type SatelliteUpdateWithoutTransmittersInput = {
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  tags?: Prisma.TagsUpdateManyWithoutSatellitesNestedInput
+  tags?: Prisma.TagUpdateManyWithoutSatellitesNestedInput
 }
 
 export type SatelliteUncheckedUpdateWithoutTransmittersInput = {
@@ -558,7 +558,7 @@ export type SatelliteUncheckedUpdateWithoutTransmittersInput = {
   line2?: Prisma.StringFieldUpdateOperationsInput | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   isTracked?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  tags?: Prisma.TagsUncheckedUpdateManyWithoutSatellitesNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutSatellitesNestedInput
 }
 
 export type SatelliteUpdateWithoutTagsInput = {
@@ -626,7 +626,7 @@ export type SatelliteCountOutputTypeCountTransmittersArgs<ExtArgs extends runtim
  * SatelliteCountOutputType without action
  */
 export type SatelliteCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.TagsWhereInput
+  where?: Prisma.TagWhereInput
 }
 
 
@@ -682,7 +682,7 @@ export type $SatellitePayload<ExtArgs extends runtime.Types.Extensions.InternalA
   name: "Satellite"
   objects: {
     transmitters: Prisma.$TransmitterPayload<ExtArgs>[]
-    tags: Prisma.$TagsPayload<ExtArgs>[]
+    tags: Prisma.$TagPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1086,7 +1086,7 @@ readonly fields: SatelliteFieldRefs;
 export interface Prisma__SatelliteClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   transmitters<T extends Prisma.Satellite$transmittersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Satellite$transmittersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransmitterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  tags<T extends Prisma.Satellite$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Satellite$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  tags<T extends Prisma.Satellite$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Satellite$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1538,23 +1538,23 @@ export type Satellite$transmittersArgs<ExtArgs extends runtime.Types.Extensions.
  */
 export type Satellite$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Tags
+   * Select specific fields to fetch from the Tag
    */
-  select?: Prisma.TagsSelect<ExtArgs> | null
+  select?: Prisma.TagSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Tags
+   * Omit specific fields from the Tag
    */
-  omit?: Prisma.TagsOmit<ExtArgs> | null
+  omit?: Prisma.TagOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.TagsInclude<ExtArgs> | null
-  where?: Prisma.TagsWhereInput
-  orderBy?: Prisma.TagsOrderByWithRelationInput | Prisma.TagsOrderByWithRelationInput[]
-  cursor?: Prisma.TagsWhereUniqueInput
+  include?: Prisma.TagInclude<ExtArgs> | null
+  where?: Prisma.TagWhereInput
+  orderBy?: Prisma.TagOrderByWithRelationInput | Prisma.TagOrderByWithRelationInput[]
+  cursor?: Prisma.TagWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.TagsScalarFieldEnum | Prisma.TagsScalarFieldEnum[]
+  distinct?: Prisma.TagScalarFieldEnum | Prisma.TagScalarFieldEnum[]
 }
 
 /**

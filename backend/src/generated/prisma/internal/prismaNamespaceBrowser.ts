@@ -54,7 +54,7 @@ export const ModelName = {
   AppConfig: 'AppConfig',
   TleSource: 'TleSource',
   Satellite: 'Satellite',
-  Tags: 'Tags',
+  Tag: 'Tag',
   GroundStation: 'GroundStation',
   Transmitter: 'Transmitter'
 } as const
@@ -111,13 +111,13 @@ export const SatelliteScalarFieldEnum = {
 export type SatelliteScalarFieldEnum = (typeof SatelliteScalarFieldEnum)[keyof typeof SatelliteScalarFieldEnum]
 
 
-export const TagsScalarFieldEnum = {
+export const TagScalarFieldEnum = {
   id: 'id',
   name: 'name',
   color: 'color'
 } as const
 
-export type TagsScalarFieldEnum = (typeof TagsScalarFieldEnum)[keyof typeof TagsScalarFieldEnum]
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
 
 
 export const GroundStationScalarFieldEnum = {

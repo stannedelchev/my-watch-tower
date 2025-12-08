@@ -120,6 +120,11 @@ export class TleUpdateService implements OnModuleInit {
     this.logger.log(
       `Updated ${satellites.length} satellites from source ${source.name}.`,
     );
+    // update updatedAt in TleSource
+    await this.prisma.tleSource.update({
+      where: { id: source.id },
+      data: { updatedAt: new Date() },
+    });
   }
 
   processRawTextTleData(tleData: string, source: TleSource) {

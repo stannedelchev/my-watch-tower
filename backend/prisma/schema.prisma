@@ -41,11 +41,11 @@ model Satellite {
   updatedAt DateTime @updatedAt
   isTracked Boolean @default(false)
   transmitters Transmitter[]
-  tags Tags[] @relation("SatelliteTags")
+  tags Tag[] @relation("SatelliteTags")
 }
 
 // do we need to specify "SatelliteTags" instead of just "Tags"?  Probably no - no other types of Tags for now
-model Tags {
+model Tag {
   id   Int    @id @default(autoincrement())
   name String @unique
   color String? // hex color code, e.g. #ff0000

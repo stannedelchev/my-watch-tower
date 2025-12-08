@@ -36,7 +36,15 @@ export class TransmittersService implements OnModuleInit {
 
     this.logger.log(`Fetched ${transmittersData.length} transmitters.`);
     const timeStart = Date.now();
+    let cntr = 0;
     for (const transmitter of transmittersData) {
+      cntr++;
+      if (cntr % 100 === 0) {
+        const timeNow = Date.now();
+        this.logger.debug(
+          `Processing transmitter ${cntr}/${transmittersData.length} - elapsed time: ${timeNow - timeStart} ms`,
+        );
+      }
       const satelliteExists = await this.prisma.satellite.findUnique({
         where: { id: transmitter.norad_cat_id },
       });
@@ -75,6 +83,37 @@ export class TransmittersService implements OnModuleInit {
           satelliteNoradId: transmitter.norad_cat_id,
         },
       });
+
+      // auto assign Tags to this particular Satellite
+      const tagName = transmitter.service ?? 'Unknown';
+      const existings = await this.prisma.satellite.count({
+        where: {
+          id: transmitter.norad_cat_id,
+          tags: {
+            some: {
+              name: tagName,
+            },
+          },
+        },
+      });
+      if (existings === 0) {
+        // create the Tag and link to Satellite
+        await this.prisma.tag.upsert({
+          where: { name: tagName },
+          update: {},
+          create: {
+            name: tagName,
+          },
+        });
+        await this.prisma.satellite.update({
+          where: { id: transmitter.norad_cat_id },
+          data: {
+            tags: {
+              connect: { name: tagName },
+            },
+          },
+        });
+      }
     }
     const timeEnd = Date.now();
     this.logger.debug(
