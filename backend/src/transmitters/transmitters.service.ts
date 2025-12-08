@@ -1,13 +1,17 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { SatnogsdbTransmitter } from './satnogsdb.interfaces';
+import { SatnogsdbTransmitter } from './transmitters.interfaces';
+import { AppConfigService } from 'src/app-config/app-config.service';
 
 @Injectable()
-export class TransmittersUpdateService implements OnModuleInit {
-  private readonly logger = new Logger(TransmittersUpdateService.name);
+export class TransmittersService implements OnModuleInit {
+  private readonly logger = new Logger(TransmittersService.name);
 
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private appConfigService: AppConfigService,
+  ) {}
 
   onModuleInit() {
     this.logger.log('Starting transmitters update on module init.');
@@ -75,6 +79,11 @@ export class TransmittersUpdateService implements OnModuleInit {
     const timeEnd = Date.now();
     this.logger.debug(
       `Transmitters update completed in ${timeEnd - timeStart} ms.`,
+    );
+
+    await this.appConfigService.set(
+      'core.last_satnogsdb_transmitter_update.time',
+      new Date().toISOString(),
     );
   }
 }

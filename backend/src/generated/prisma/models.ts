@@ -8,6 +8,7 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/AppConfig.js'
 export type * from './models/TleSource.js'
 export type * from './models/Satellite.js'
 export type * from './models/Tags.js'

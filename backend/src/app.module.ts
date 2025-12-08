@@ -6,13 +6,22 @@ import { BootstrapService } from './bootstrap/bootstrap.service';
 import { ConfigModule } from '@nestjs/config';
 import { TleUpdateService } from './tle-update/tle-update.service';
 import { GroundStationsModule } from './ground-stations/ground-stations.module';
-import { TransmittersUpdateService } from './transmitters-update/transmitters-update.service';
+import { TransmittersService } from './transmitters/transmitters.service';
 import { SatellitesController } from './satellites/satellites.controller';
 import { SatellitesService } from './satellites/satellites.service';
+import { AppConfigService } from './app-config/app-config.service';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), GroundStationsModule],
   controllers: [AppController, SatellitesController],
-  providers: [AppService, PrismaService, BootstrapService, TleUpdateService, TransmittersUpdateService, SatellitesService],
+  providers: [
+    AppService,
+    PrismaService,
+    BootstrapService,
+    TleUpdateService,
+    TransmittersService,
+    SatellitesService,
+    AppConfigService,
+  ],
 })
 export class AppModule {}

@@ -14,14 +14,22 @@ datasource db {
   provider = "postgresql"
 }
 
+model AppConfig {
+  key         String   @id // string like "core.last_satnogsdb_satellite_update"
+  value       String   // be careful as max size for string is 191
+  description String?
+  isSystem    Boolean  @default(false) // true = not user-editable
+  updatedAt   DateTime @updatedAt
+}
+
 model TleSource {
   id         Int         @id @default(autoincrement())
   name       String
   url        String
+  parser     String      @default("rawText") // e.g. "rawText", "satnogsdbJson", etc.
   enabled    Boolean     @default(true)
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @updatedAt
-  satellites Satellite[]
 }
 
 model Satellite {
@@ -30,15 +38,9 @@ model Satellite {
   name  String
   line1 String
   line2 String
-
   updatedAt DateTime @updatedAt
-
   isTracked Boolean @default(false)
-
-  sourceId     Int
-  source       TleSource    @relation(fields: [sourceId], references: [id])
   transmitters Transmitter[]
-
   tags Tags[] @relation("SatelliteTags")
 }
 

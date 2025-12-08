@@ -1,26 +1,38 @@
 export const DEFAULT_TLE_SOURCES = [
   {
-    name: 'Amateur Radio',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle',
+    name: 'SatNOGS DB',
+    url: 'https://db.satnogs.org/api/tle/?format=json',
+    parser: 'satnogsdbJson',
   },
-  {
-    name: 'Weather Satellites',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=weather&FORMAT=tle',
-  },
-  {
-    name: 'NOAA',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=noaa&FORMAT=tle',
-  },
-  {
-    name: 'CubeSats',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=cubesat&FORMAT=tle',
-  },
-  {
-    name: 'Space Stations (ISS)',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle',
-  },
-  {
-    name: 'Orbcomm',
-    url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=orbcomm&FORMAT=tle',
-  },
+  // Note: all of these should be included in the SatNOGS DB as well
+  // {
+  //   name: 'Amateur Radio',
+  //   url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=amateur&FORMAT=tle',
+  //   parser: 'rawText',
+  // },
+  // {
+  //   name: 'Weather Satellites',
+  //   url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=weather&FORMAT=tle',
+  //   parser: 'rawText',
+  // },
+  // {
+  //   name: 'NOAA',
+  //   url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=noaa&FORMAT=tle',
+  //   parser: 'rawText',
+  // },
+  // {
+  //   name: 'CubeSats',
+  //   url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=cubesat&FORMAT=tle',
+  //   parser: 'rawText',
+  // },
+  // {
+  //   name: 'Space Stations (ISS)',
+  //   url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=stations&FORMAT=tle',
+  //   parser: 'rawText',
+  // },
+  // {
+  //   name: 'Orbcomm',
+  //   url: 'https://celestrak.org/NORAD/elements/gp.php?GROUP=orbcomm&FORMAT=tle',
+  //   parser: 'rawText',
+  // },
 ];

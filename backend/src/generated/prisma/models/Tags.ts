@@ -357,10 +357,6 @@ export type TagsUncheckedUpdateManyWithoutSatellitesNestedInput = {
   deleteMany?: Prisma.TagsScalarWhereInput | Prisma.TagsScalarWhereInput[]
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
-}
-
 export type TagsCreateWithoutSatellitesInput = {
   name: string
   color?: string | null

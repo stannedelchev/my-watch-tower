@@ -38,6 +38,7 @@ export type TleSourceMinAggregateOutputType = {
   id: number | null
   name: string | null
   url: string | null
+  parser: string | null
   enabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -47,6 +48,7 @@ export type TleSourceMaxAggregateOutputType = {
   id: number | null
   name: string | null
   url: string | null
+  parser: string | null
   enabled: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -56,6 +58,7 @@ export type TleSourceCountAggregateOutputType = {
   id: number
   name: number
   url: number
+  parser: number
   enabled: number
   createdAt: number
   updatedAt: number
@@ -75,6 +78,7 @@ export type TleSourceMinAggregateInputType = {
   id?: true
   name?: true
   url?: true
+  parser?: true
   enabled?: true
   createdAt?: true
   updatedAt?: true
@@ -84,6 +88,7 @@ export type TleSourceMaxAggregateInputType = {
   id?: true
   name?: true
   url?: true
+  parser?: true
   enabled?: true
   createdAt?: true
   updatedAt?: true
@@ -93,6 +98,7 @@ export type TleSourceCountAggregateInputType = {
   id?: true
   name?: true
   url?: true
+  parser?: true
   enabled?: true
   createdAt?: true
   updatedAt?: true
@@ -189,6 +195,7 @@ export type TleSourceGroupByOutputType = {
   id: number
   name: string
   url: string
+  parser: string
   enabled: boolean
   createdAt: Date
   updatedAt: Date
@@ -221,20 +228,20 @@ export type TleSourceWhereInput = {
   id?: Prisma.IntFilter<"TleSource"> | number
   name?: Prisma.StringFilter<"TleSource"> | string
   url?: Prisma.StringFilter<"TleSource"> | string
+  parser?: Prisma.StringFilter<"TleSource"> | string
   enabled?: Prisma.BoolFilter<"TleSource"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TleSource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TleSource"> | Date | string
-  satellites?: Prisma.SatelliteListRelationFilter
 }
 
 export type TleSourceOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  parser?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  satellites?: Prisma.SatelliteOrderByRelationAggregateInput
 }
 
 export type TleSourceWhereUniqueInput = Prisma.AtLeast<{
@@ -244,16 +251,17 @@ export type TleSourceWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.TleSourceWhereInput | Prisma.TleSourceWhereInput[]
   name?: Prisma.StringFilter<"TleSource"> | string
   url?: Prisma.StringFilter<"TleSource"> | string
+  parser?: Prisma.StringFilter<"TleSource"> | string
   enabled?: Prisma.BoolFilter<"TleSource"> | boolean
   createdAt?: Prisma.DateTimeFilter<"TleSource"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"TleSource"> | Date | string
-  satellites?: Prisma.SatelliteListRelationFilter
 }, "id">
 
 export type TleSourceOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  parser?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -271,6 +279,7 @@ export type TleSourceScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"TleSource"> | number
   name?: Prisma.StringWithAggregatesFilter<"TleSource"> | string
   url?: Prisma.StringWithAggregatesFilter<"TleSource"> | string
+  parser?: Prisma.StringWithAggregatesFilter<"TleSource"> | string
   enabled?: Prisma.BoolWithAggregatesFilter<"TleSource"> | boolean
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"TleSource"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"TleSource"> | Date | string
@@ -279,45 +288,46 @@ export type TleSourceScalarWhereWithAggregatesInput = {
 export type TleSourceCreateInput = {
   name: string
   url: string
+  parser?: string
   enabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  satellites?: Prisma.SatelliteCreateNestedManyWithoutSourceInput
 }
 
 export type TleSourceUncheckedCreateInput = {
   id?: number
   name: string
   url: string
+  parser?: string
   enabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
-  satellites?: Prisma.SatelliteUncheckedCreateNestedManyWithoutSourceInput
 }
 
 export type TleSourceUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  parser?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  satellites?: Prisma.SatelliteUpdateManyWithoutSourceNestedInput
 }
 
 export type TleSourceUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  parser?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  satellites?: Prisma.SatelliteUncheckedUpdateManyWithoutSourceNestedInput
 }
 
 export type TleSourceCreateManyInput = {
   id?: number
   name: string
   url: string
+  parser?: string
   enabled?: boolean
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -326,6 +336,7 @@ export type TleSourceCreateManyInput = {
 export type TleSourceUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  parser?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -335,6 +346,7 @@ export type TleSourceUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
   url?: Prisma.StringFieldUpdateOperationsInput | string
+  parser?: Prisma.StringFieldUpdateOperationsInput | string
   enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -344,6 +356,7 @@ export type TleSourceCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  parser?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -357,6 +370,7 @@ export type TleSourceMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  parser?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -366,6 +380,7 @@ export type TleSourceMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   url?: Prisma.SortOrder
+  parser?: Prisma.SortOrder
   enabled?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -373,23 +388,6 @@ export type TleSourceMinOrderByAggregateInput = {
 
 export type TleSourceSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-}
-
-export type TleSourceScalarRelationFilter = {
-  is?: Prisma.TleSourceWhereInput
-  isNot?: Prisma.TleSourceWhereInput
-}
-
-export type StringFieldUpdateOperationsInput = {
-  set?: string
-}
-
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type IntFieldUpdateOperationsInput = {
@@ -400,116 +398,23 @@ export type IntFieldUpdateOperationsInput = {
   divide?: number
 }
 
-export type TleSourceCreateNestedOneWithoutSatellitesInput = {
-  create?: Prisma.XOR<Prisma.TleSourceCreateWithoutSatellitesInput, Prisma.TleSourceUncheckedCreateWithoutSatellitesInput>
-  connectOrCreate?: Prisma.TleSourceCreateOrConnectWithoutSatellitesInput
-  connect?: Prisma.TleSourceWhereUniqueInput
-}
-
-export type TleSourceUpdateOneRequiredWithoutSatellitesNestedInput = {
-  create?: Prisma.XOR<Prisma.TleSourceCreateWithoutSatellitesInput, Prisma.TleSourceUncheckedCreateWithoutSatellitesInput>
-  connectOrCreate?: Prisma.TleSourceCreateOrConnectWithoutSatellitesInput
-  upsert?: Prisma.TleSourceUpsertWithoutSatellitesInput
-  connect?: Prisma.TleSourceWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.TleSourceUpdateToOneWithWhereWithoutSatellitesInput, Prisma.TleSourceUpdateWithoutSatellitesInput>, Prisma.TleSourceUncheckedUpdateWithoutSatellitesInput>
-}
-
-export type TleSourceCreateWithoutSatellitesInput = {
-  name: string
-  url: string
-  enabled?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TleSourceUncheckedCreateWithoutSatellitesInput = {
-  id?: number
-  name: string
-  url: string
-  enabled?: boolean
-  createdAt?: Date | string
-  updatedAt?: Date | string
-}
-
-export type TleSourceCreateOrConnectWithoutSatellitesInput = {
-  where: Prisma.TleSourceWhereUniqueInput
-  create: Prisma.XOR<Prisma.TleSourceCreateWithoutSatellitesInput, Prisma.TleSourceUncheckedCreateWithoutSatellitesInput>
-}
-
-export type TleSourceUpsertWithoutSatellitesInput = {
-  update: Prisma.XOR<Prisma.TleSourceUpdateWithoutSatellitesInput, Prisma.TleSourceUncheckedUpdateWithoutSatellitesInput>
-  create: Prisma.XOR<Prisma.TleSourceCreateWithoutSatellitesInput, Prisma.TleSourceUncheckedCreateWithoutSatellitesInput>
-  where?: Prisma.TleSourceWhereInput
-}
-
-export type TleSourceUpdateToOneWithWhereWithoutSatellitesInput = {
-  where?: Prisma.TleSourceWhereInput
-  data: Prisma.XOR<Prisma.TleSourceUpdateWithoutSatellitesInput, Prisma.TleSourceUncheckedUpdateWithoutSatellitesInput>
-}
-
-export type TleSourceUpdateWithoutSatellitesInput = {
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-export type TleSourceUncheckedUpdateWithoutSatellitesInput = {
-  id?: Prisma.IntFieldUpdateOperationsInput | number
-  name?: Prisma.StringFieldUpdateOperationsInput | string
-  url?: Prisma.StringFieldUpdateOperationsInput | string
-  enabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-}
-
-
-/**
- * Count Type TleSourceCountOutputType
- */
-
-export type TleSourceCountOutputType = {
-  satellites: number
-}
-
-export type TleSourceCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  satellites?: boolean | TleSourceCountOutputTypeCountSatellitesArgs
-}
-
-/**
- * TleSourceCountOutputType without action
- */
-export type TleSourceCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the TleSourceCountOutputType
-   */
-  select?: Prisma.TleSourceCountOutputTypeSelect<ExtArgs> | null
-}
-
-/**
- * TleSourceCountOutputType without action
- */
-export type TleSourceCountOutputTypeCountSatellitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.SatelliteWhereInput
-}
 
 
 export type TleSourceSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   url?: boolean
+  parser?: boolean
   enabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  satellites?: boolean | Prisma.TleSource$satellitesArgs<ExtArgs>
-  _count?: boolean | Prisma.TleSourceCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["tleSource"]>
 
 export type TleSourceSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
   url?: boolean
+  parser?: boolean
   enabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -519,6 +424,7 @@ export type TleSourceSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   id?: boolean
   name?: boolean
   url?: boolean
+  parser?: boolean
   enabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
@@ -528,28 +434,22 @@ export type TleSourceSelectScalar = {
   id?: boolean
   name?: boolean
   url?: boolean
+  parser?: boolean
   enabled?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type TleSourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "url" | "enabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tleSource"]>
-export type TleSourceInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  satellites?: boolean | Prisma.TleSource$satellitesArgs<ExtArgs>
-  _count?: boolean | Prisma.TleSourceCountOutputTypeDefaultArgs<ExtArgs>
-}
-export type TleSourceIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type TleSourceIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type TleSourceOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "url" | "parser" | "enabled" | "createdAt" | "updatedAt", ExtArgs["result"]["tleSource"]>
 
 export type $TleSourcePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "TleSource"
-  objects: {
-    satellites: Prisma.$SatellitePayload<ExtArgs>[]
-  }
+  objects: {}
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
     url: string
+    parser: string
     enabled: boolean
     createdAt: Date
     updatedAt: Date
@@ -947,7 +847,6 @@ readonly fields: TleSourceFieldRefs;
  */
 export interface Prisma__TleSourceClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  satellites<T extends Prisma.TleSource$satellitesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.TleSource$satellitesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SatellitePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -980,6 +879,7 @@ export interface TleSourceFieldRefs {
   readonly id: Prisma.FieldRef<"TleSource", 'Int'>
   readonly name: Prisma.FieldRef<"TleSource", 'String'>
   readonly url: Prisma.FieldRef<"TleSource", 'String'>
+  readonly parser: Prisma.FieldRef<"TleSource", 'String'>
   readonly enabled: Prisma.FieldRef<"TleSource", 'Boolean'>
   readonly createdAt: Prisma.FieldRef<"TleSource", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"TleSource", 'DateTime'>
@@ -1000,10 +900,6 @@ export type TleSourceFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  /**
    * Filter, which TleSource to fetch.
    */
   where: Prisma.TleSourceWhereUniqueInput
@@ -1022,10 +918,6 @@ export type TleSourceFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensi
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  /**
    * Filter, which TleSource to fetch.
    */
   where: Prisma.TleSourceWhereUniqueInput
@@ -1043,10 +935,6 @@ export type TleSourceFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the TleSource
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
   /**
    * Filter, which TleSource to fetch.
    */
@@ -1096,10 +984,6 @@ export type TleSourceFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  /**
    * Filter, which TleSource to fetch.
    */
   where?: Prisma.TleSourceWhereInput
@@ -1148,10 +1032,6 @@ export type TleSourceFindManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  /**
    * Filter, which TleSources to fetch.
    */
   where?: Prisma.TleSourceWhereInput
@@ -1194,10 +1074,6 @@ export type TleSourceCreateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the TleSource
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
   /**
    * The data needed to create a TleSource.
    */
@@ -1246,10 +1122,6 @@ export type TleSourceUpdateArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the TleSource
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
   /**
    * The data needed to update a TleSource.
    */
@@ -1317,10 +1189,6 @@ export type TleSourceUpsertArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  /**
    * The filter to search for the TleSource to update in case it exists.
    */
   where: Prisma.TleSourceWhereUniqueInput
@@ -1347,10 +1215,6 @@ export type TleSourceDeleteArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
   /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
-  /**
    * Filter which TleSource to delete.
    */
   where: Prisma.TleSourceWhereUniqueInput
@@ -1371,30 +1235,6 @@ export type TleSourceDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
 }
 
 /**
- * TleSource.satellites
- */
-export type TleSource$satellitesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  /**
-   * Select specific fields to fetch from the Satellite
-   */
-  select?: Prisma.SatelliteSelect<ExtArgs> | null
-  /**
-   * Omit specific fields from the Satellite
-   */
-  omit?: Prisma.SatelliteOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.SatelliteInclude<ExtArgs> | null
-  where?: Prisma.SatelliteWhereInput
-  orderBy?: Prisma.SatelliteOrderByWithRelationInput | Prisma.SatelliteOrderByWithRelationInput[]
-  cursor?: Prisma.SatelliteWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.SatelliteScalarFieldEnum | Prisma.SatelliteScalarFieldEnum[]
-}
-
-/**
  * TleSource without action
  */
 export type TleSourceDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1406,8 +1246,4 @@ export type TleSourceDefaultArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the TleSource
    */
   omit?: Prisma.TleSourceOmit<ExtArgs> | null
-  /**
-   * Choose, which related nodes to fetch as well
-   */
-  include?: Prisma.TleSourceInclude<ExtArgs> | null
 }

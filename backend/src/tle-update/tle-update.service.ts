@@ -51,6 +51,8 @@ export class TleUpdateService implements OnModuleInit {
         data: { updatedAt: new Date() },
       });
     }
+
+    // TODO: trigger transmitters update
   }
 
   async updateAllSources() {
@@ -64,6 +66,7 @@ export class TleUpdateService implements OnModuleInit {
       });
     }
     this.logger.log('Completed TLE update for all sources.');
+    // TODO: trigger transmitters update
   }
 
   async updateSource(source: TleSource) {
@@ -79,6 +82,16 @@ export class TleUpdateService implements OnModuleInit {
       return;
     }
     const tleData = response.data;
+    if (source.parser === 'rawText') {
+      await this.processRawTextTleData(tleData, source);
+    } else {
+      this.logger.error(
+        `Unknown parser "${source.parser}" for TLE source ${source.name}. Skipping.`,
+      );
+    }
+  }
+
+  async processRawTextTleData(tleData: string, source: TleSource) {
     const lines = tleData.split(/\r?\n/).filter((line) => line.length > 0);
     const satellites: Partial<Satellite>[] = [];
 
@@ -94,7 +107,6 @@ export class TleUpdateService implements OnModuleInit {
           name,
           line1,
           line2,
-          sourceId: source.id,
           updatedAt: new Date(),
         });
       }
@@ -115,7 +127,6 @@ export class TleUpdateService implements OnModuleInit {
             name: sat.name,
             line1: sat.line1,
             line2: sat.line2,
-            sourceId: sat.sourceId,
           },
           // create requires full type
           create: {
@@ -123,7 +134,6 @@ export class TleUpdateService implements OnModuleInit {
             name: sat.name!,
             line1: sat.line1!,
             line2: sat.line2!,
-            sourceId: sat.sourceId!,
           },
         }),
       );

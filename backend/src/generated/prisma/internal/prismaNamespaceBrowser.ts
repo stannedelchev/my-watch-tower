@@ -51,6 +51,7 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  AppConfig: 'AppConfig',
   TleSource: 'TleSource',
   Satellite: 'Satellite',
   Tags: 'Tags',
@@ -74,10 +75,22 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const AppConfigScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  description: 'description',
+  isSystem: 'isSystem',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AppConfigScalarFieldEnum = (typeof AppConfigScalarFieldEnum)[keyof typeof AppConfigScalarFieldEnum]
+
+
 export const TleSourceScalarFieldEnum = {
   id: 'id',
   name: 'name',
   url: 'url',
+  parser: 'parser',
   enabled: 'enabled',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -92,8 +105,7 @@ export const SatelliteScalarFieldEnum = {
   line1: 'line1',
   line2: 'line2',
   updatedAt: 'updatedAt',
-  isTracked: 'isTracked',
-  sourceId: 'sourceId'
+  isTracked: 'isTracked'
 } as const
 
 export type SatelliteScalarFieldEnum = (typeof SatelliteScalarFieldEnum)[keyof typeof SatelliteScalarFieldEnum]
