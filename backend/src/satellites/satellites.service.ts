@@ -1,7 +1,7 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateSatelliteDto } from './dto/update-satellite.dto';
-import { Satellite } from 'src/generated/prisma/client';
+import { Prisma, Satellite } from 'src/generated/prisma/client';
 import { AppConfigService } from 'src/app-config/app-config.service';
 import axios from 'axios';
 import { SatnogsdbSatellite } from './satellites.interfaces';
@@ -13,6 +13,44 @@ export class SatellitesService {
     private prisma: PrismaService,
     private appConfigService: AppConfigService,
   ) {}
+
+  async findAll(params: {
+    tracked?: boolean;
+    tag?: string;
+    search?: string;
+    page?: number;
+  }) {
+    const { tracked, tag, search, page = 1 } = params;
+    const take = 10;
+    const skip = (page - 1) * take;
+
+    const where: Prisma.SatelliteWhereInput = {
+      ...(tracked !== undefined && { isTracked: tracked }),
+      ...(search && {
+        name: { contains: search, mode: 'insensitive' },
+      }),
+      ...(tag && {
+        tags: {
+          some: {
+            name: tag,
+          },
+        },
+      }),
+    };
+
+    const [items, total] = await Promise.all([
+      this.prisma.satellite.findMany({
+        where,
+        take,
+        skip,
+        include: { tags: true },
+        orderBy: { name: 'asc' },
+      }),
+      this.prisma.satellite.count({ where }),
+    ]);
+
+    return { items, total, page };
+  }
 
   async update(
     id: number,
