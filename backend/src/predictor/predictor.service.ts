@@ -39,11 +39,21 @@ export class PredictorService implements OnModuleInit {
     dateStart: Date;
     dateEnd: Date;
   }) {
+    const targetSatellite = await this.prisma.satellite.findUnique({
+      where: { id: satelliteId },
+    });
+    if (!targetSatellite) {
+      throw new Error('Satellite not found');
+    }
+    const satrec = satellite.twoline2satrec(
+      targetSatellite.line1,
+      targetSatellite.line2,
+    );
+
     const roughAngles = await this.calculateAngles({
       groundStationId,
       satelliteId,
       dateStart,
-      // 7 days ahead
       dateEnd,
       stepSeconds: 60,
     });
@@ -93,6 +103,7 @@ export class PredictorService implements OnModuleInit {
       startTime: Date;
       endTime: Date;
       highestElevation: number;
+      orbitNumber: number;
       points: PassPoint[];
     }[] = [];
     for (const pass of roughPassPoints) {
@@ -114,16 +125,21 @@ export class PredictorService implements OnModuleInit {
       const endingPoint =
         filteredHighResPoints[filteredHighResPoints.length - 1];
       fineGrainPasses.push({
-        startTime: new Date(startingPoint.time.getTime() - 60 * 1000),
-        endTime: new Date(endingPoint.time.getTime() + 60 * 1000),
+        startTime: new Date(startingPoint.time.getTime()),
+        endTime: new Date(endingPoint.time.getTime()),
         highestElevation: maxElevation,
+        orbitNumber: this.calculateOrbitNumber(
+          satrec,
+          targetSatellite?.line2,
+          startingPoint.time,
+        ),
         points: filteredHighResPoints,
       });
     }
     // debug
     for (const rp of fineGrainPasses) {
       console.log(
-        `Pass from ${rp.startTime.toISOString()} to ${rp.endTime.toISOString()} (max ${rp.highestElevation.toFixed(2)}°, ${rp.points.length} rough points)`,
+        `Pass (orb #${rp.orbitNumber}) from ${rp.startTime.toISOString()} to ${rp.endTime.toISOString()} (max ${rp.highestElevation.toFixed(2)}°, ${rp.points.length} rough points)`,
       );
     }
   }
@@ -214,5 +230,42 @@ export class PredictorService implements OnModuleInit {
       } ms`,
     );
     return passPoints;
+  }
+
+  calculateOrbitNumber(
+    satrec: satellite.SatRec,
+    tleLine2: string,
+    targetDate: Date,
+  ): number {
+    // 1. Parse the TLE using satellite.js for physics data
+    // 2. Manually parse the Revolution Number from Line 2 (Columns 64-68)
+    // TLE is a fixed-width format. In JS strings (0-indexed), this is index 63 to 68.
+    const revNumBase = parseInt(tleLine2.substring(63, 68), 10);
+
+    // 3. Calculate Julian Date for the Target Time
+    const jdTarget = satellite.jday(
+      targetDate.getUTCFullYear(),
+      targetDate.getUTCMonth() + 1,
+      targetDate.getUTCDate(),
+      targetDate.getUTCHours(),
+      targetDate.getUTCMinutes(),
+      targetDate.getUTCSeconds(),
+    );
+
+    // 4. Get the Julian Date of the TLE Epoch
+    const jdEpoch = satrec.jdsatepoch;
+
+    // 5. Calculate time difference in minutes
+    // 1440 is the number of minutes in a day
+    const minutesDiff = (jdTarget - jdEpoch) * 1440.0;
+
+    // 6. Calculate how many revolutions happened since epoch
+    // satrec.no is Mean Motion in "radians per minute"
+    const revolutionsSinceEpoch = (minutesDiff * satrec.no) / (2 * Math.PI);
+
+    // 7. Add to the base revolution number
+    const currentRev = revNumBase + revolutionsSinceEpoch;
+
+    return Math.floor(currentRev);
   }
 }
