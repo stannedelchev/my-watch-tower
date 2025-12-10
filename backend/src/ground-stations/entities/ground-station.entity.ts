@@ -1,5 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import type { JsonValue } from '@prisma/client/runtime/client';
 import { GroundStation } from 'src/generated/prisma/client';
 
 export class GroundStationEntity implements GroundStation {
@@ -13,8 +12,8 @@ export class GroundStationEntity implements GroundStation {
   longitude: number;
   @ApiProperty()
   altitude: number;
-  @ApiProperty({ required: false })
-  horizonmask: JsonValue;
+  @ApiProperty()
+  horizonmask: string;
   @ApiProperty()
   createdAt: Date;
   @ApiProperty()

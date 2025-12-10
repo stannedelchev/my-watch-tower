@@ -9,6 +9,6 @@ export class CreateGroundStationDto {
   longitude: number;
   @ApiProperty()
   altitude: number;
-  @ApiProperty({ required: false })
-  horizonmask?: string;
+  @ApiProperty()
+  horizonmask: string;
 }

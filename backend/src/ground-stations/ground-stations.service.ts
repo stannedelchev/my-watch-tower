@@ -3,16 +3,15 @@ import { CreateGroundStationDto } from './dto/create-ground-station.dto';
 import { UpdateGroundStationDto } from './dto/update-ground-station.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { GroundStation } from 'src/generated/prisma/client';
-import { GroundStationCreateInput } from 'src/generated/prisma/models';
+// import { GroundStationCreateInput } from 'src/generated/prisma/models';
 
 @Injectable()
 export class GroundStationsService {
   constructor(private prisma: PrismaService) {}
-  async create(
-    createGroundStationDto: CreateGroundStationDto,
-  ): Promise<GroundStation> {
-    return await this.prisma.groundStation.create({
-      data: createGroundStationDto as GroundStationCreateInput,
+
+  async create(data: CreateGroundStationDto): Promise<GroundStation> {
+    return this.prisma.groundStation.create({
+      data,
     });
   }
 
@@ -32,7 +31,7 @@ export class GroundStationsService {
 
   async update(
     id: number,
-    updateGroundStationDto: UpdateGroundStationDto,
+    data: UpdateGroundStationDto,
   ): Promise<GroundStation> {
     const item = await this.prisma.groundStation.findUnique({
       where: { id },
@@ -42,7 +41,7 @@ export class GroundStationsService {
     }
     return await this.prisma.groundStation.update({
       where: { id },
-      data: updateGroundStationDto,
+      data,
     });
   }
 
