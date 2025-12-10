@@ -86,6 +86,7 @@ export default function StationEditor({ mode }: { mode: "create" | "edit" }) {
             <div>Latitude:</div>
             <input
               type="number"
+              step="any"
               {...register("latitude", { valueAsNumber: true })}
             />
           </label>
@@ -95,6 +96,7 @@ export default function StationEditor({ mode }: { mode: "create" | "edit" }) {
             <div>Longitude:</div>
             <input
               type="number"
+              step="any"
               {...register("longitude", { valueAsNumber: true })}
             />
           </label>
@@ -104,12 +106,19 @@ export default function StationEditor({ mode }: { mode: "create" | "edit" }) {
             <div>Altitude:</div>
             <input
               type="number"
+              step="any"
               {...register("altitude", { valueAsNumber: true })}
             />
           </label>
         </div>
         <h3>Horizon Mask</h3>
         <HorizonCanvas value={displayHorizonMask} onChange={setHorizonMask} />
+        <textarea
+          readOnly
+          value={displayHorizonMask}
+          style={{ width: "100%", height: "100px", marginTop: "10px" }}
+        />
+        <div></div>
         <button
           type="submit"
           disabled={createMutation.isPending || updateMutation.isPending}

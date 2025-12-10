@@ -16,7 +16,9 @@ export class GroundStationsService {
   }
 
   async findAll(): Promise<GroundStation[]> {
-    return await this.prisma.groundStation.findMany();
+    return await this.prisma.groundStation.findMany({
+      orderBy: { id: 'asc' },
+    });
   }
 
   async findOne(id: number): Promise<GroundStation | null> {
