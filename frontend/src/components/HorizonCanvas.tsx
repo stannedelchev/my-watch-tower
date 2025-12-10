@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 
-// This canvas component was heavily authored by Gemini 3 Pro
+// This canvas component was heavily authored by Gemini 3 Pro and Claude Sonnet 4.5
+// All hail our future robot overlords!
 
 interface HorizonCanvasProps {
   value?: string; // string with length 360*90 (32400) of '0' and '1'
@@ -17,6 +18,7 @@ export const HorizonCanvas: React.FC<HorizonCanvasProps> = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [mode, setMode] = useState<"draw" | "clear">("draw");
 
   // internal: flat array 360 * 90
   // index = (elevation_index * 360) + azimuth_index
@@ -172,7 +174,7 @@ export const HorizonCanvas: React.FC<HorizonCanvasProps> = ({
         if (targetAz >= 360) targetAz -= 360;
 
         const idx = targetEl * 360 + targetAz;
-        maskRef.current[idx] = 1; // 1 = Obstacle
+        maskRef.current[idx] = mode === "draw" ? 1 : 0; // Draw or Clear based on mode
       }
     }
 
@@ -197,21 +199,111 @@ export const HorizonCanvas: React.FC<HorizonCanvasProps> = ({
     if (onChange) onChange(str);
   };
 
+  const rotateImage = (degrees: number) => {
+    const newMask = new Uint8Array(360 * 90);
+
+    for (let el = 0; el < 90; el++) {
+      for (let az = 0; az < 360; az++) {
+        let newAz = az + degrees;
+        if (newAz < 0) newAz += 360;
+        if (newAz >= 360) newAz -= 360;
+
+        const oldIdx = el * 360 + az;
+        const newIdx = el * 360 + newAz;
+        newMask[newIdx] = maskRef.current[oldIdx];
+      }
+    }
+
+    maskRef.current = newMask;
+    draw();
+
+    // Export updated mask
+    const str = Array.from(maskRef.current).join("");
+    if (onChange) onChange(str);
+  };
+
   return (
-    <canvas
-      ref={canvasRef}
-      width={width}
-      height={height}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      style={{
-        cursor: "crosshair",
-        border: "1px solid #ddd",
-        borderRadius: "50%",
-      }}
-    />
+    <div>
+      <div
+        style={{
+          marginBottom: "10px",
+          display: "flex",
+          gap: "10px",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => setMode(mode === "draw" ? "clear" : "draw")}
+          style={{
+            padding: "8px 16px",
+            cursor: "pointer",
+            backgroundColor: mode === "draw" ? "#dc3545" : "#28a745",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+          }}
+        >
+          Mode: {mode === "draw" ? "Draw Obstacle" : "Clear Obstacle"}
+        </button>
+        <div
+          style={{
+            display: "flex",
+            gap: "5px",
+            alignItems: "center",
+          }}
+        >
+          <button
+            type="button"
+            onClick={() => rotateImage(-1)}
+            style={{
+              padding: "8px 16px",
+              cursor: "pointer",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              fontWeight: "bold",
+            }}
+            title="Rotate left 1°"
+          >
+            &lt;
+          </button>
+          <span style={{ fontSize: "12px", color: "#666" }}>Rotate</span>
+          <button
+            type="button"
+            onClick={() => rotateImage(1)}
+            style={{
+              padding: "8px 16px",
+              cursor: "pointer",
+              backgroundColor: "#007bff",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              fontWeight: "bold",
+            }}
+            title="Rotate right 1°"
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+      <canvas
+        ref={canvasRef}
+        width={width}
+        height={height}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        style={{
+          cursor: "crosshair",
+          border: "1px solid #ddd",
+          borderRadius: "50%",
+        }}
+      />
+    </div>
   );
 };
 
