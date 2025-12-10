@@ -6,10 +6,9 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface CreateGroundStationDto {
-  name: string;
-  latitude: number;
-  longitude: number;
-  altitude: number;
-  horizonmask: string;
-}
+export type GetSatellitesParams = {
+tracked?: string;
+tag?: string;
+search?: string;
+page?: string;
+};

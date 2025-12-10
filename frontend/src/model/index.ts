@@ -7,5 +7,10 @@
  */
 
 export * from './createGroundStationDto';
+export * from './getSatellitesParams';
 export * from './groundStationEntity';
+export * from './groundStationEntityHorizonmask';
+export * from './satelliteEntity';
+export * from './trackSatelliteDto';
+export * from './uint8Array';
 export * from './updateGroundStationDto';

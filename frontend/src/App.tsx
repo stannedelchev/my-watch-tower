@@ -1,29 +1,29 @@
-import { useGetAllGroundStations } from "./api/generated/ground-stations/ground-stations";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import type { GroundStationEntity } from "./model";
+import Layout from "./components/Layout";
+import StationsList from "./components/StationsList";
+import StationEditor from "./components/StationEditor";
+import Home from "./components/Home";
 
 function App() {
-  const { data, isLoading, error } = useGetAllGroundStations();
-
   return (
-    <>
-      <div className="card">
-        <div id="ground-stations">
-          <h2>Ground Stations</h2>
-          {isLoading && <p>Loading ground stations...</p>}
-          {error && <p>Error loading ground stations: {String(error)}</p>}
-          {data && (
-            <ul>
-              {data.map((station: GroundStationEntity) => (
-                <li key={station.id}>
-                  {station.name} - ({station.latitude}, {station.longitude})
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
-    </>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Stations CRUD */}
+          <Route path="/stations" element={<StationsList />} />
+          <Route
+            path="/stations/new"
+            element={<StationEditor mode="create" />}
+          />
+          <Route
+            path="/stations/:id/edit"
+            element={<StationEditor mode="edit" />}
+          />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

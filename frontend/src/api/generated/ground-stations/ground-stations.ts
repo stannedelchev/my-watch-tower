@@ -38,7 +38,7 @@ type SecondParameter<T extends (...args: never) => unknown> = Parameters<T>[1];
 
 
 
-export const groundStationsControllerCreate = (
+export const createGroundStation = (
     createGroundStationDto: BodyType<CreateGroundStationDto>,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
@@ -54,11 +54,11 @@ export const groundStationsControllerCreate = (
   
 
 
-export const getGroundStationsControllerCreateMutationOptions = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerCreate>>, TError,{data: BodyType<CreateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerCreate>>, TError,{data: BodyType<CreateGroundStationDto>}, TContext> => {
+export const getCreateGroundStationMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGroundStation>>, TError,{data: BodyType<CreateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof createGroundStation>>, TError,{data: BodyType<CreateGroundStationDto>}, TContext> => {
 
-const mutationKey = ['groundStationsControllerCreate'];
+const mutationKey = ['createGroundStation'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -68,10 +68,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof groundStationsControllerCreate>>, {data: BodyType<CreateGroundStationDto>}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createGroundStation>>, {data: BodyType<CreateGroundStationDto>}> = (props) => {
           const {data} = props ?? {};
 
-          return  groundStationsControllerCreate(data,requestOptions)
+          return  createGroundStation(data,requestOptions)
         }
 
         
@@ -79,20 +79,20 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type GroundStationsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof groundStationsControllerCreate>>>
-    export type GroundStationsControllerCreateMutationBody = BodyType<CreateGroundStationDto>
-    export type GroundStationsControllerCreateMutationError = ErrorType<unknown>
+    export type CreateGroundStationMutationResult = NonNullable<Awaited<ReturnType<typeof createGroundStation>>>
+    export type CreateGroundStationMutationBody = BodyType<CreateGroundStationDto>
+    export type CreateGroundStationMutationError = ErrorType<unknown>
 
-    export const useGroundStationsControllerCreate = <TError = ErrorType<unknown>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerCreate>>, TError,{data: BodyType<CreateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+    export const useCreateGroundStation = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createGroundStation>>, TError,{data: BodyType<CreateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof groundStationsControllerCreate>>,
+        Awaited<ReturnType<typeof createGroundStation>>,
         TError,
         {data: BodyType<CreateGroundStationDto>},
         TContext
       > => {
 
-      const mutationOptions = getGroundStationsControllerCreateMutationOptions(options);
+      const mutationOptions = getCreateGroundStationMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
@@ -182,7 +182,7 @@ export function useGetAllGroundStations<TData = Awaited<ReturnType<typeof getAll
 
 
 
-export const groundStationsControllerFindOne = (
+export const getGroundStationById = (
     id: string,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
@@ -197,66 +197,66 @@ export const groundStationsControllerFindOne = (
 
 
 
-export const getGroundStationsControllerFindOneQueryKey = (id?: string,) => {
+export const getGetGroundStationByIdQueryKey = (id?: string,) => {
     return [
     `/ground-stations/${id}`
     ] as const;
     }
 
     
-export const getGroundStationsControllerFindOneQueryOptions = <TData = Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError = ErrorType<void>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export const getGetGroundStationByIdQueryOptions = <TData = Awaited<ReturnType<typeof getGroundStationById>>, TError = ErrorType<void>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroundStationById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
 ) => {
 
 const {query: queryOptions, request: requestOptions} = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getGroundStationsControllerFindOneQueryKey(id);
+  const queryKey =  queryOptions?.queryKey ?? getGetGroundStationByIdQueryKey(id);
 
   
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof groundStationsControllerFindOne>>> = ({ signal }) => groundStationsControllerFindOne(id, requestOptions, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGroundStationById>>> = ({ signal }) => getGroundStationById(id, requestOptions, signal);
 
       
 
       
 
-   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getGroundStationById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export type GroundStationsControllerFindOneQueryResult = NonNullable<Awaited<ReturnType<typeof groundStationsControllerFindOne>>>
-export type GroundStationsControllerFindOneQueryError = ErrorType<void>
+export type GetGroundStationByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getGroundStationById>>>
+export type GetGroundStationByIdQueryError = ErrorType<void>
 
 
-export function useGroundStationsControllerFindOne<TData = Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError = ErrorType<void>>(
- id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError, TData>> & Pick<
+export function useGetGroundStationById<TData = Awaited<ReturnType<typeof getGroundStationById>>, TError = ErrorType<void>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroundStationById>>, TError, TData>> & Pick<
         DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof groundStationsControllerFindOne>>,
+          Awaited<ReturnType<typeof getGroundStationById>>,
           TError,
-          Awaited<ReturnType<typeof groundStationsControllerFindOne>>
+          Awaited<ReturnType<typeof getGroundStationById>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroundStationsControllerFindOne<TData = Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError = ErrorType<void>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError, TData>> & Pick<
+export function useGetGroundStationById<TData = Awaited<ReturnType<typeof getGroundStationById>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroundStationById>>, TError, TData>> & Pick<
         UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof groundStationsControllerFindOne>>,
+          Awaited<ReturnType<typeof getGroundStationById>>,
           TError,
-          Awaited<ReturnType<typeof groundStationsControllerFindOne>>
+          Awaited<ReturnType<typeof getGroundStationById>>
         > , 'initialData'
       >, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGroundStationsControllerFindOne<TData = Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError = ErrorType<void>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useGetGroundStationById<TData = Awaited<ReturnType<typeof getGroundStationById>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroundStationById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient
   ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
 
-export function useGroundStationsControllerFindOne<TData = Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError = ErrorType<void>>(
- id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof groundStationsControllerFindOne>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+export function useGetGroundStationById<TData = Awaited<ReturnType<typeof getGroundStationById>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getGroundStationById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient 
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
-  const queryOptions = getGroundStationsControllerFindOneQueryOptions(id,options)
+  const queryOptions = getGetGroundStationByIdQueryOptions(id,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -268,7 +268,7 @@ export function useGroundStationsControllerFindOne<TData = Awaited<ReturnType<ty
 
 
 
-export const groundStationsControllerUpdate = (
+export const updateGroundStation = (
     id: string,
     updateGroundStationDto: BodyType<UpdateGroundStationDto>,
  options?: SecondParameter<typeof customInstance>,) => {
@@ -284,11 +284,11 @@ export const groundStationsControllerUpdate = (
   
 
 
-export const getGroundStationsControllerUpdateMutationOptions = <TError = ErrorType<void>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerUpdate>>, TError,{id: string;data: BodyType<UpdateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerUpdate>>, TError,{id: string;data: BodyType<UpdateGroundStationDto>}, TContext> => {
+export const getUpdateGroundStationMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGroundStation>>, TError,{id: string;data: BodyType<UpdateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateGroundStation>>, TError,{id: string;data: BodyType<UpdateGroundStationDto>}, TContext> => {
 
-const mutationKey = ['groundStationsControllerUpdate'];
+const mutationKey = ['updateGroundStation'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -298,10 +298,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof groundStationsControllerUpdate>>, {id: string;data: BodyType<UpdateGroundStationDto>}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateGroundStation>>, {id: string;data: BodyType<UpdateGroundStationDto>}> = (props) => {
           const {id,data} = props ?? {};
 
-          return  groundStationsControllerUpdate(id,data,requestOptions)
+          return  updateGroundStation(id,data,requestOptions)
         }
 
         
@@ -309,24 +309,24 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type GroundStationsControllerUpdateMutationResult = NonNullable<Awaited<ReturnType<typeof groundStationsControllerUpdate>>>
-    export type GroundStationsControllerUpdateMutationBody = BodyType<UpdateGroundStationDto>
-    export type GroundStationsControllerUpdateMutationError = ErrorType<void>
+    export type UpdateGroundStationMutationResult = NonNullable<Awaited<ReturnType<typeof updateGroundStation>>>
+    export type UpdateGroundStationMutationBody = BodyType<UpdateGroundStationDto>
+    export type UpdateGroundStationMutationError = ErrorType<void>
 
-    export const useGroundStationsControllerUpdate = <TError = ErrorType<void>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerUpdate>>, TError,{id: string;data: BodyType<UpdateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+    export const useUpdateGroundStation = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateGroundStation>>, TError,{id: string;data: BodyType<UpdateGroundStationDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof groundStationsControllerUpdate>>,
+        Awaited<ReturnType<typeof updateGroundStation>>,
         TError,
         {id: string;data: BodyType<UpdateGroundStationDto>},
         TContext
       > => {
 
-      const mutationOptions = getGroundStationsControllerUpdateMutationOptions(options);
+      const mutationOptions = getUpdateGroundStationMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }
-    export const groundStationsControllerRemove = (
+    export const removeGroundStation = (
     id: string,
  options?: SecondParameter<typeof customInstance>,) => {
       
@@ -339,11 +339,11 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
   
 
 
-export const getGroundStationsControllerRemoveMutationOptions = <TError = ErrorType<void>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
-): UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerRemove>>, TError,{id: string}, TContext> => {
+export const getRemoveGroundStationMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeGroundStation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof removeGroundStation>>, TError,{id: string}, TContext> => {
 
-const mutationKey = ['groundStationsControllerRemove'];
+const mutationKey = ['removeGroundStation'];
 const {mutation: mutationOptions, request: requestOptions} = options ?
       options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
       options
@@ -353,10 +353,10 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
       
 
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof groundStationsControllerRemove>>, {id: string}> = (props) => {
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof removeGroundStation>>, {id: string}> = (props) => {
           const {id} = props ?? {};
 
-          return  groundStationsControllerRemove(id,requestOptions)
+          return  removeGroundStation(id,requestOptions)
         }
 
         
@@ -364,20 +364,20 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
   return  { mutationFn, ...mutationOptions }}
 
-    export type GroundStationsControllerRemoveMutationResult = NonNullable<Awaited<ReturnType<typeof groundStationsControllerRemove>>>
+    export type RemoveGroundStationMutationResult = NonNullable<Awaited<ReturnType<typeof removeGroundStation>>>
     
-    export type GroundStationsControllerRemoveMutationError = ErrorType<void>
+    export type RemoveGroundStationMutationError = ErrorType<void>
 
-    export const useGroundStationsControllerRemove = <TError = ErrorType<void>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof groundStationsControllerRemove>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
+    export const useRemoveGroundStation = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof removeGroundStation>>, TError,{id: string}, TContext>, request?: SecondParameter<typeof customInstance>}
  , queryClient?: QueryClient): UseMutationResult<
-        Awaited<ReturnType<typeof groundStationsControllerRemove>>,
+        Awaited<ReturnType<typeof removeGroundStation>>,
         TError,
         {id: string},
         TContext
       > => {
 
-      const mutationOptions = getGroundStationsControllerRemoveMutationOptions(options);
+      const mutationOptions = getRemoveGroundStationMutationOptions(options);
 
       return useMutation(mutationOptions, queryClient);
     }

@@ -6,13 +6,17 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface GroundStationEntity {
+export interface SatelliteEntity {
   id: number;
   name: string;
-  latitude: number;
-  longitude: number;
-  altitude: number;
-  horizonmask: string;
+  noradId: number;
+  catalogNumber: number;
+  internationalDesignator: string;
+  launchDate: string;
+  isTracked: boolean;
   createdAt: string;
   updatedAt: string;
+  line1: string;
+  line2: string;
+  sourceId: number;
 }
