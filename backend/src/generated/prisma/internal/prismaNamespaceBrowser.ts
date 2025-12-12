@@ -56,7 +56,8 @@ export const ModelName = {
   Satellite: 'Satellite',
   Tag: 'Tag',
   GroundStation: 'GroundStation',
-  Transmitter: 'Transmitter'
+  Transmitter: 'Transmitter',
+  PassEvent: 'PassEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -153,6 +154,25 @@ export const TransmitterScalarFieldEnum = {
 } as const
 
 export type TransmitterScalarFieldEnum = (typeof TransmitterScalarFieldEnum)[keyof typeof TransmitterScalarFieldEnum]
+
+
+export const PassEventScalarFieldEnum = {
+  id: 'id',
+  groundStationId: 'groundStationId',
+  satelliteId: 'satelliteId',
+  orbitNumber: 'orbitNumber',
+  aos: 'aos',
+  los: 'los',
+  maxElevation: 'maxElevation',
+  duration: 'duration',
+  visibleSegments: 'visibleSegments',
+  totalVisibleDuration: 'totalVisibleDuration',
+  maxVisibleElevation: 'maxVisibleElevation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PassEventScalarFieldEnum = (typeof PassEventScalarFieldEnum)[keyof typeof PassEventScalarFieldEnum]
 
 
 export const SortOrder = {

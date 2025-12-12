@@ -67,3 +67,8 @@ export type GroundStation = Prisma.GroundStationModel
  * 
  */
 export type Transmitter = Prisma.TransmitterModel
+/**
+ * Model PassEvent
+ * 
+ */
+export type PassEvent = Prisma.PassEventModel

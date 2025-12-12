@@ -1,6 +1,7 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { AppConfigService } from 'src/app-config/app-config.service';
 import { DEFAULT_TLE_SOURCES } from 'src/config/default-tle-sources';
+import { PredictorService } from 'src/predictor/predictor.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SatellitesService } from 'src/satellites/satellites.service';
 import { TleUpdateService } from 'src/tle-update/tle-update.service';
@@ -16,14 +17,16 @@ export class BootstrapService implements OnModuleInit {
     private satellitesService: SatellitesService,
     private transmittersService: TransmittersService,
     private tleUpdateService: TleUpdateService,
+    private predictorService: PredictorService,
   ) {}
 
   async onModuleInit() {
     this.logger.log('Running bootstrap tasks...');
-    await this.seedTleSources();
     await this.updateSatnogsdbSatellites();
     await this.updateSatnogsdbTransmitters();
-    await this.tleUpdateService.updateStaleSources();
+    await this.seedTleSources();
+    await this.updateTleSources();
+    await this.setupPredictorScheduler();
     this.logger.log('Bootstrap tasks completed.');
   }
 
@@ -39,6 +42,17 @@ export class BootstrapService implements OnModuleInit {
     });
     this.logger.log(
       `Seeded ${DEFAULT_TLE_SOURCES.length} default TLE sources.`,
+    );
+  }
+
+  async updateTleSources() {
+    const REFETCH_INTERVAL_HOURS = 24;
+    await this.tleUpdateService.updateAllSources();
+    setInterval(
+      () => {
+        void this.tleUpdateService.updateStaleSources();
+      },
+      REFETCH_INTERVAL_HOURS * 60 * 60 * 1000,
     );
   }
 
@@ -64,6 +78,12 @@ export class BootstrapService implements OnModuleInit {
     }
 
     await this.satellitesService.updateFromSatnogsdb();
+    setInterval(
+      () => {
+        void this.satellitesService.updateFromSatnogsdb();
+      },
+      SATELLITES_STALE_HOURS * 60 * 60 * 1000,
+    );
   }
 
   async updateSatnogsdbTransmitters() {
@@ -88,5 +108,22 @@ export class BootstrapService implements OnModuleInit {
     }
 
     await this.transmittersService.updateTransmitters();
+    setInterval(
+      () => {
+        void this.transmittersService.updateTransmitters();
+      },
+      TRANSMITTERS_STALE_HOURS * 60 * 60 * 1000,
+    );
+  }
+
+  async setupPredictorScheduler() {
+    const PREDICT_INTERVAL_HOURS = 1;
+    await this.predictorService.bulkPredictor();
+    setInterval(
+      () => {
+        void this.predictorService.bulkPredictor();
+      },
+      PREDICT_INTERVAL_HOURS * 60 * 60 * 1000,
+    );
   }
 }

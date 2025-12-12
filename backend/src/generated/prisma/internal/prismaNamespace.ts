@@ -389,7 +389,8 @@ export const ModelName = {
   Satellite: 'Satellite',
   Tag: 'Tag',
   GroundStation: 'GroundStation',
-  Transmitter: 'Transmitter'
+  Transmitter: 'Transmitter',
+  PassEvent: 'PassEvent'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -405,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "appConfig" | "tleSource" | "satellite" | "tag" | "groundStation" | "transmitter"
+    modelProps: "appConfig" | "tleSource" | "satellite" | "tag" | "groundStation" | "transmitter" | "passEvent"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -853,6 +854,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PassEvent: {
+      payload: Prisma.$PassEventPayload<ExtArgs>
+      fields: Prisma.PassEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PassEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PassEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>
+        }
+        findFirst: {
+          args: Prisma.PassEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PassEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>
+        }
+        findMany: {
+          args: Prisma.PassEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>[]
+        }
+        create: {
+          args: Prisma.PassEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>
+        }
+        createMany: {
+          args: Prisma.PassEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PassEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>[]
+        }
+        delete: {
+          args: Prisma.PassEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>
+        }
+        update: {
+          args: Prisma.PassEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.PassEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PassEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PassEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.PassEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PassEventPayload>
+        }
+        aggregate: {
+          args: Prisma.PassEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePassEvent>
+        }
+        groupBy: {
+          args: Prisma.PassEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PassEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PassEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PassEventCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -970,6 +1045,25 @@ export const TransmitterScalarFieldEnum = {
 } as const
 
 export type TransmitterScalarFieldEnum = (typeof TransmitterScalarFieldEnum)[keyof typeof TransmitterScalarFieldEnum]
+
+
+export const PassEventScalarFieldEnum = {
+  id: 'id',
+  groundStationId: 'groundStationId',
+  satelliteId: 'satelliteId',
+  orbitNumber: 'orbitNumber',
+  aos: 'aos',
+  los: 'los',
+  maxElevation: 'maxElevation',
+  duration: 'duration',
+  visibleSegments: 'visibleSegments',
+  totalVisibleDuration: 'totalVisibleDuration',
+  maxVisibleElevation: 'maxVisibleElevation',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PassEventScalarFieldEnum = (typeof PassEventScalarFieldEnum)[keyof typeof PassEventScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1165,6 +1259,7 @@ export type GlobalOmitConfig = {
   tag?: Prisma.TagOmit
   groundStation?: Prisma.GroundStationOmit
   transmitter?: Prisma.TransmitterOmit
+  passEvent?: Prisma.PassEventOmit
 }
 
 /* Types for Logging */

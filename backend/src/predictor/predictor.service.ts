@@ -1,34 +1,129 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as satellite from 'satellite.js';
-
-type PassPoint = {
-  time: Date;
-  azimuth: number;
-  elevation: number;
-  rangeSat: number;
-};
+import { PassPoint, PassSegment } from './predictor.interfaces';
 
 @Injectable()
-export class PredictorService implements OnModuleInit {
+export class PredictorService {
   private readonly logger = new Logger(PredictorService.name);
   constructor(private prisma: PrismaService) {}
 
-  async onModuleInit() {
-    // test prediction: TODO: remove
-    const groundStationId = 2;
-    const satelliteId = 59051;
+  async bulkPredictor() {
+    // get all tracked satellites and all ground stations
+    // for each satellite and ground station pair, calculate passes for the next 7 days
+    const satelliteIds = await this.prisma.satellite.findMany({
+      where: { isTracked: true },
+      select: { id: true },
+    });
+    const groundStationIds = await this.prisma.groundStation.findMany({
+      select: { id: true },
+    });
     const dateStart = new Date();
     const dateEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days ahead
-    await this.calculatePasses({
-      groundStationId,
-      satelliteId,
-      dateStart,
-      dateEnd,
-    });
+
+    const promises: Promise<void>[] = [];
+    for (const sat of satelliteIds) {
+      for (const gs of groundStationIds) {
+        promises.push(
+          this.processSatelliteOverGroundStation({
+            groundStationId: gs.id,
+            satelliteId: sat.id,
+            dateStart,
+            dateEnd,
+          }),
+        );
+      }
+    }
+    const startTime = Date.now();
+    await Promise.all(promises);
+    this.logger.log(
+      `Bulk prediction ${satelliteIds.length} sats x ${groundStationIds.length} station calculations completed in ${Date.now() - startTime} ms`,
+    );
   }
 
-  async calculatePasses({
+  /**
+   * Converts a continuous array of position points into discrete pass segments.
+   *
+   * This method analyzes a time series of satellite positions and identifies
+   * distinct "passes" (periods when the satellite is above the horizon).
+   *
+   * @param points - Array of PassPoint objects containing time, azimuth, elevation, and range data
+   * @returns Array of PassSegment objects, each representing one complete pass with:
+   *   - startTime: When the satellite rose above the horizon
+   *   - endTime: When the satellite set below the horizon
+   *   - highestElevation: Maximum elevation angle during the pass
+   *   - duration: Total pass duration in seconds
+   *   - points: All position points during this pass
+   *
+   * Algorithm:
+   * - Scans through points sequentially
+   * - Detects pass start when elevation > 0
+   * - Tracks highest elevation during the pass
+   * - Detects pass end when elevation <= 0
+   * - Creates a new PassSegment for each complete pass
+   */
+  private pointsToPasses(points: PassPoint[]): PassSegment[] {
+    let currentStepIsCounted = false;
+    let passStartTime: Date | null = null;
+    let passEndTime: Date | null = null;
+    let passPoints: PassPoint[] = [];
+    let highestElevation = 0;
+    const segments: PassSegment[] = [];
+    for (let i = 0; i < points.length; i++) {
+      // find start of pass
+      if (points[i].elevation > 0 && !currentStepIsCounted) {
+        currentStepIsCounted = true;
+        passStartTime = points[i].time;
+        passPoints = [points[i]];
+        highestElevation = points[i].elevation;
+      } else if (points[i].elevation > 0 && currentStepIsCounted) {
+        // continue pass
+        passPoints.push(points[i]);
+        if (points[i].elevation > highestElevation) {
+          highestElevation = points[i].elevation;
+        }
+      } else if (points[i].elevation <= 0 && currentStepIsCounted) {
+        // end of pass
+        passEndTime = points[i - 1].time;
+        segments.push({
+          startTime: passStartTime!,
+          endTime: passEndTime,
+          highestElevation,
+          points: passPoints,
+          duration: Math.floor(
+            (passEndTime.getTime() - passStartTime!.getTime()) / 1000,
+          ),
+        });
+        currentStepIsCounted = false;
+      }
+    }
+    return segments;
+  }
+
+  /**
+   * Calculates and stores all satellite passes over a ground station for a given time period.
+   *
+   * This method performs a two-stage prediction process:
+   * 1. Coarse prediction: Samples satellite positions every 60 seconds to identify potential passes
+   * 2. Fine-grain prediction: For each detected pass, samples positions every 1 second for accuracy
+   *
+   * @param groundStationId - Database ID of the ground station
+   * @param satelliteId - Database ID (NORAD ID) of the satellite
+   * @param dateStart - Start of the prediction time window
+   * @param dateEnd - End of the prediction time window
+   *
+   * Process:
+   * - Retrieves satellite TLE data and ground station coordinates
+   * - Performs coarse 60-second sampling to detect horizon crossings
+   * - Refines each detected pass with 1-second sampling (±60 seconds around the pass)
+   * - Applies horizon mask to determine visible segments (accounting for obstacles)
+   * - Calculates orbit numbers for each pass
+   * - Upserts PassEvent records to database with full pass details and visible segments
+   *
+   * The method stores both raw pass data (AOS/LOS times, max elevation, duration) and
+   * visibility-filtered segments that account for terrain/building obstructions.
+   */
+  async processSatelliteOverGroundStation({
     groundStationId,
     satelliteId,
     dateStart,
@@ -38,65 +133,36 @@ export class PredictorService implements OnModuleInit {
     satelliteId: number;
     dateStart: Date;
     dateEnd: Date;
-  }) {
+  }): Promise<void> {
     const targetSatellite = await this.prisma.satellite.findUnique({
       where: { id: satelliteId },
     });
     if (!targetSatellite) {
       throw new Error('Satellite not found');
     }
+    const groundStation = await this.prisma.groundStation.findUnique({
+      where: { id: groundStationId },
+    });
+    if (!groundStation) {
+      throw new Error('Ground station not found');
+    }
     const satrec = satellite.twoline2satrec(
       targetSatellite.line1,
       targetSatellite.line2,
     );
 
-    const roughAngles = await this.calculateAngles({
+    const coarseAngles = await this.calculateAngles({
       groundStationId,
       satelliteId,
       dateStart,
       dateEnd,
       stepSeconds: 60,
     });
-    console.log(`Total predicted positions: ${roughAngles.length}`);
+    // console.log(`Total predicted positions: ${coarseAngles.length}`);
 
-    // separate rough predictions into more refined passes (1s steps)
-    const roughPassPoints: {
-      startTime: Date;
-      endTime: Date;
-      highestElevation: number;
-      points: PassPoint[];
-    }[] = [];
-    let currentStepIsCounted = false;
-    let passStartTime: Date | null = null;
-    let passEndTime: Date | null = null;
-    let passPoints: PassPoint[] = [];
-    let highestElevation = 0;
-    for (let i = 0; i < roughAngles.length; i++) {
-      // find start of pass
-      if (roughAngles[i].elevation > 0 && !currentStepIsCounted) {
-        currentStepIsCounted = true;
-        passStartTime = roughAngles[i].time;
-        passPoints = [roughAngles[i]];
-        highestElevation = roughAngles[i].elevation;
-      } else if (roughAngles[i].elevation > 0 && currentStepIsCounted) {
-        // continue pass
-        passPoints.push(roughAngles[i]);
-        if (roughAngles[i].elevation > highestElevation) {
-          highestElevation = roughAngles[i].elevation;
-        }
-      } else if (roughAngles[i].elevation <= 0 && currentStepIsCounted) {
-        // end of pass
-        passEndTime = roughAngles[i - 1].time;
-        roughPassPoints.push({
-          startTime: passStartTime!,
-          endTime: passEndTime,
-          highestElevation,
-          points: passPoints,
-        });
-        currentStepIsCounted = false;
-      }
-    }
-    console.log(`Total rough passes found: ${roughPassPoints.length}`);
+    // separate coarse predictions into more refined passes (1s steps)
+    const coarsePasses = this.pointsToPasses(coarseAngles);
+    // console.log(`Total coarse passes found: ${coarsePasses.length}`);
 
     // create high-res predictions for each pass - begin 60 sec before and end 60 sec after
     const fineGrainPasses: {
@@ -104,9 +170,10 @@ export class PredictorService implements OnModuleInit {
       endTime: Date;
       highestElevation: number;
       orbitNumber: number;
+      duration: number;
       points: PassPoint[];
     }[] = [];
-    for (const pass of roughPassPoints) {
+    for (const pass of coarsePasses) {
       const highResPoints = await this.calculateAngles({
         groundStationId,
         satelliteId,
@@ -128,6 +195,9 @@ export class PredictorService implements OnModuleInit {
         startTime: new Date(startingPoint.time.getTime()),
         endTime: new Date(endingPoint.time.getTime()),
         highestElevation: maxElevation,
+        duration: Math.floor(
+          (endingPoint.time.getTime() - startingPoint.time.getTime()) / 1000,
+        ),
         orbitNumber: this.calculateOrbitNumber(
           satrec,
           targetSatellite?.line2,
@@ -136,14 +206,167 @@ export class PredictorService implements OnModuleInit {
         points: filteredHighResPoints,
       });
     }
-    // debug
+
     for (const rp of fineGrainPasses) {
-      console.log(
-        `Pass (orb #${rp.orbitNumber}) from ${rp.startTime.toISOString()} to ${rp.endTime.toISOString()} (max ${rp.highestElevation.toFixed(2)}°, ${rp.points.length} rough points)`,
+      // debug
+      // console.log(
+      //   `Pass (orb #${rp.orbitNumber}) from ${rp.startTime.toISOString()} to ${rp.endTime.toISOString()} (max ${rp.highestElevation.toFixed(2)}°, ${rp.points.length} rough points)`,
+      // );
+      const obstructedSegments = this.obstructPass(
+        groundStation.horizonmask,
+        rp.points,
       );
+      // store in DB
+      const partialPassEvent = {
+        satelliteId,
+        groundStationId,
+        orbitNumber: rp.orbitNumber,
+        aos: rp.startTime,
+        los: rp.endTime,
+        maxElevation: rp.highestElevation,
+        duration: rp.duration,
+        visibleSegments: JSON.stringify(obstructedSegments),
+        totalVisibleDuration: obstructedSegments.reduce(
+          (sum, seg) => sum + seg.duration,
+          0,
+        ),
+        maxVisibleElevation: Math.max(
+          ...obstructedSegments.map((seg) => seg.highestElevation),
+        ),
+      };
+      await this.prisma.passEvent.upsert({
+        where: {
+          satelliteId_groundStationId_orbitNumber: {
+            satelliteId,
+            groundStationId,
+            orbitNumber: rp.orbitNumber,
+          },
+        },
+        update: partialPassEvent,
+        create: {
+          ...partialPassEvent,
+        },
+      });
     }
   }
 
+  /**
+   * Filters a satellite pass by applying a horizon mask to identify visible segments.
+   *
+   * This method takes a complete satellite pass and breaks it into visible segments
+   * by checking each position point against a horizon obstruction mask. Points where
+   * the satellite is blocked by terrain or buildings are filtered out.
+   *
+   * @param horizonMask - A 32,400-character string (360 azimuth × 90 elevation) where:
+   *   - '0' = no obstruction (visible)
+   *   - '1' = obstructed by terrain/buildings
+   * @param passPoints - Array of position points for a complete satellite pass
+   * @returns Array of PassSegment objects representing only the visible portions:
+   *   - Each segment is a continuous period where the satellite is not obstructed
+   *   - Contains startTime, endTime, highestElevation, duration, and points
+   *
+   * Algorithm:
+   * - Iterates through each position point in chronological order
+   * - Checks if point is obstructed using azimuth/elevation indices into the mask
+   * - Groups consecutive unobstructed points into visible segments
+   * - When an obstruction is encountered, saves the current segment and starts a new one
+   * - Returns only the visible segments (obstructed portions are discarded)
+   */
+  obstructPass(horizonMask: string, passPoints: PassPoint[]): PassSegment[] {
+    // horizonMask is a string of 360 characters (each representing 1 degree of azimuth) x 90 characters (each representing 1 degree of elevation)
+    // each character is either '0' (no obstruction) or '1' (obstructed)
+    const segments: PassSegment[] = [];
+    let currentSegmentPoints: PassPoint[] = [];
+    let segmentStarted = false;
+
+    for (const point of passPoints) {
+      const azIndex = Math.floor(point.azimuth) % 360;
+      const elIndex = Math.floor(point.elevation);
+      const maskIndex = elIndex * 360 + azIndex;
+      const isObstructed = horizonMask.charAt(maskIndex) === '1';
+
+      if (!isObstructed) {
+        // point is visible
+        currentSegmentPoints.push(point);
+        segmentStarted = true;
+      } else if (segmentStarted) {
+        // point is obstructed, but we were in a visible segment
+        if (currentSegmentPoints.length > 0) {
+          // save the current segment
+          const duration = Math.floor(
+            (currentSegmentPoints[
+              currentSegmentPoints.length - 1
+            ].time.getTime() -
+              currentSegmentPoints[0].time.getTime()) /
+              1000,
+          );
+          const highestElevation = Math.max(
+            ...currentSegmentPoints.map((p) => p.elevation),
+          );
+          segments.push({
+            startTime: currentSegmentPoints[0].time,
+            endTime: currentSegmentPoints[currentSegmentPoints.length - 1].time,
+            highestElevation,
+            duration,
+            points: currentSegmentPoints,
+          });
+        }
+        // reset for the next segment
+        currentSegmentPoints = [];
+        segmentStarted = false;
+      } else {
+        // point is obstructed and we are in continous obstructed state, do nothing
+      }
+    }
+
+    // handle any remaining points after loop
+    if (currentSegmentPoints.length > 0) {
+      const duration = Math.floor(
+        (currentSegmentPoints[currentSegmentPoints.length - 1].time.getTime() -
+          currentSegmentPoints[0].time.getTime()) /
+          1000,
+      );
+      const highestElevation = Math.max(
+        ...currentSegmentPoints.map((p) => p.elevation),
+      );
+      segments.push({
+        startTime: currentSegmentPoints[0].time,
+        endTime: currentSegmentPoints[currentSegmentPoints.length - 1].time,
+        highestElevation,
+        duration,
+        points: currentSegmentPoints,
+      });
+    }
+
+    return segments;
+  }
+
+  /**
+   * Calculates satellite position angles (azimuth, elevation, range) as seen from a ground station.
+   *
+   * This method computes the look angles for a satellite at regular time intervals over a
+   * specified period, using SGP4 propagation model and the satellite's TLE data.
+   *
+   * @param groundStationId - Database ID of the observing ground station
+   * @param satelliteId - Database ID (NORAD ID) of the satellite to track
+   * @param dateStart - Start of the calculation time window
+   * @param dateEnd - End of the calculation time window
+   * @param stepSeconds - Time interval between calculations in seconds (default: 60)
+   * @returns Array of PassPoint objects containing:
+   *   - time: Timestamp of the calculation
+   *   - azimuth: Horizontal angle from North (0-360°)
+   *   - elevation: Vertical angle above horizon (-90° to 90°)
+   *   - rangeSat: Distance to satellite in kilometers
+   *
+   * Algorithm:
+   * - Retrieves satellite TLE and ground station coordinates from database
+   * - Propagates satellite position using SGP4 at each time step
+   * - Converts ECI coordinates to ECF using Greenwich Mean Sidereal Time
+   * - Calculates look angles from ground station's geodetic position
+   * - Returns all calculated points (including below-horizon positions)
+   *
+   * Note: This method does NOT filter out below-horizon points - caller must filter if needed.
+   */
   async calculateAngles({
     groundStationId,
     satelliteId,
@@ -173,14 +396,11 @@ export class PredictorService implements OnModuleInit {
     );
 
     const passPoints: PassPoint[] = [];
-    const now = new Date();
-    let cnt = 0;
     for (
       let time = dateStart.getTime();
       time <= dateEnd.getTime();
       time += stepSeconds * 1000
     ) {
-      cnt++;
       const positionAndVelocity = satellite.propagate(satrec, new Date(time));
       if (positionAndVelocity === null) {
         this.logger.error(
@@ -203,6 +423,7 @@ export class PredictorService implements OnModuleInit {
         // observerEcf = satellite.geodeticToEcf(observerGd),
         // positionGd = satellite.eciToGeodetic(positionEci, gmst),
         lookAngles = satellite.ecfToLookAngles(observerGd, positionEcf);
+      // NOTE: in case we want to calculate doppler factor later
       // dopplerFactor = satellite.dopplerFactor(
       //   observerCoordsEcf,
       //   positionEcf,
@@ -224,14 +445,30 @@ export class PredictorService implements OnModuleInit {
         rangeSat,
       });
     }
-    console.log(
-      `Predicted ${cnt} positions for sat ${satelliteId} in ${
-        Date.now() - now.getTime()
-      } ms`,
-    );
     return passPoints;
   }
 
+  /**
+   * Calculates the current orbit number for a satellite at a specific date/time.
+   *
+   * This method determines which orbital revolution the satellite is on by extrapolating
+   * from the TLE epoch data using the satellite's mean motion.
+   *
+   * @param satrec - SGP4 satellite record containing orbital parameters
+   * @param tleLine2 - Line 2 of the TLE containing the base revolution number at epoch
+   * @param targetDate - The date/time for which to calculate the orbit number
+   * @returns The orbit/revolution number (integer) at the target date
+   *
+   * Algorithm:
+   * - Extracts the base revolution number from TLE Line 2 (columns 64-68)
+   * - Converts target date and TLE epoch to Julian dates
+   * - Calculates time difference in minutes between epoch and target
+   * - Uses mean motion (revolutions per day) to calculate orbits since epoch
+   * - Adds to base revolution number and floors to get current orbit
+   *
+   * Note: Mean motion (satrec.no) is in radians per minute, so we divide by 2*pi
+   * to convert to revolutions.
+   */
   calculateOrbitNumber(
     satrec: satellite.SatRec,
     tleLine2: string,
@@ -267,5 +504,9 @@ export class PredictorService implements OnModuleInit {
     const currentRev = revNumBase + revolutionsSinceEpoch;
 
     return Math.floor(currentRev);
+  }
+
+  async clearOldPassEvents() {
+    // TODO: implement retention policy
   }
 }

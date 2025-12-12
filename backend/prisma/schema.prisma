@@ -16,38 +16,39 @@ datasource db {
 
 model AppConfig {
   key         String   @id // string like "core.last_satnogsdb_satellite_update"
-  value       String   // be careful as max size for string is 191
+  value       String
   description String?
   isSystem    Boolean  @default(false) // true = not user-editable
   updatedAt   DateTime @updatedAt
 }
 
 model TleSource {
-  id         Int         @id @default(autoincrement())
-  name       String
-  url        String
-  parser     String      @default("rawText") // e.g. "rawText", "satnogsdbJson", etc.
-  enabled    Boolean     @default(true)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  url       String
+  parser    String   @default("rawText") // e.g. "rawText", "satnogsdbJson", etc.
+  enabled   Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Satellite {
-  id    Int    @id // norad ID // @default(autoincrement())
+  id           Int           @id // norad ID // @default(autoincrement())
   // noradId   Int      @unique // not going with separate field as this can be primary key
-  name  String
-  line1 String
-  line2 String
-  updatedAt DateTime @updatedAt
-  isTracked Boolean @default(false)
+  name         String
+  line1        String
+  line2        String
+  updatedAt    DateTime      @updatedAt
+  isTracked    Boolean       @default(false)
   transmitters Transmitter[]
-  tags Tag[] @relation("SatelliteTags")
+  tags         Tag[]         @relation("SatelliteTags")
+  passEvents   PassEvent[]
 }
 
 // do we need to specify "SatelliteTags" instead of just "Tags"?  Probably no - no other types of Tags for now
 model Tag {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
   color String? // hex color code, e.g. #ff0000
 
   satellites Satellite[] @relation("SatelliteTags")
@@ -62,8 +63,9 @@ model GroundStation {
 
   horizonmask String // base64 encoded 360x90 grid of bytes, each byte representing 1 degree of azimuth, each bit representing 1 degree of elevation
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  passEvents PassEvent[]
 }
 
 model Transmitter {
@@ -90,4 +92,30 @@ model Transmitter {
 
   satelliteNoradId Int
   satellite        Satellite @relation(fields: [satelliteNoradId], references: [id])
+}
+
+model PassEvent {
+  id              Int           @id @default(autoincrement())
+  groundStationId Int
+  groundStation   GroundStation @relation(fields: [groundStationId], references: [id])
+  satelliteId     Int
+  satellite       Satellite     @relation(fields: [satelliteId], references: [id])
+  orbitNumber     Int
+
+  aos          DateTime
+  los          DateTime
+  maxElevation Float
+  duration     Int // in seconds
+
+  // segments where satellite is visible (not eclipsed)
+  visibleSegments String // JSON like: [{start: DateTime, end: DateTime, maxElevation: Float, duration: Int}, ...]
+
+  // aggregations for visible segments
+  totalVisibleDuration Int // in seconds
+  maxVisibleElevation  Float
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([satelliteId, groundStationId, orbitNumber])
 }

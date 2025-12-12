@@ -252,6 +252,7 @@ export type GroundStationWhereInput = {
   horizonmask?: Prisma.StringFilter<"GroundStation"> | string
   createdAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
+  passEvents?: Prisma.PassEventListRelationFilter
 }
 
 export type GroundStationOrderByWithRelationInput = {
@@ -263,6 +264,7 @@ export type GroundStationOrderByWithRelationInput = {
   horizonmask?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  passEvents?: Prisma.PassEventOrderByRelationAggregateInput
 }
 
 export type GroundStationWhereUniqueInput = Prisma.AtLeast<{
@@ -277,6 +279,7 @@ export type GroundStationWhereUniqueInput = Prisma.AtLeast<{
   horizonmask?: Prisma.StringFilter<"GroundStation"> | string
   createdAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"GroundStation"> | Date | string
+  passEvents?: Prisma.PassEventListRelationFilter
 }, "id">
 
 export type GroundStationOrderByWithAggregationInput = {
@@ -317,6 +320,7 @@ export type GroundStationCreateInput = {
   horizonmask: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  passEvents?: Prisma.PassEventCreateNestedManyWithoutGroundStationInput
 }
 
 export type GroundStationUncheckedCreateInput = {
@@ -328,6 +332,7 @@ export type GroundStationUncheckedCreateInput = {
   horizonmask: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  passEvents?: Prisma.PassEventUncheckedCreateNestedManyWithoutGroundStationInput
 }
 
 export type GroundStationUpdateInput = {
@@ -338,6 +343,7 @@ export type GroundStationUpdateInput = {
   horizonmask?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  passEvents?: Prisma.PassEventUpdateManyWithoutGroundStationNestedInput
 }
 
 export type GroundStationUncheckedUpdateInput = {
@@ -349,6 +355,7 @@ export type GroundStationUncheckedUpdateInput = {
   horizonmask?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  passEvents?: Prisma.PassEventUncheckedUpdateManyWithoutGroundStationNestedInput
 }
 
 export type GroundStationCreateManyInput = {
@@ -430,6 +437,11 @@ export type GroundStationSumOrderByAggregateInput = {
   altitude?: Prisma.SortOrder
 }
 
+export type GroundStationScalarRelationFilter = {
+  is?: Prisma.GroundStationWhereInput
+  isNot?: Prisma.GroundStationWhereInput
+}
+
 export type FloatFieldUpdateOperationsInput = {
   set?: number
   increment?: number
@@ -438,6 +450,107 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type GroundStationCreateNestedOneWithoutPassEventsInput = {
+  create?: Prisma.XOR<Prisma.GroundStationCreateWithoutPassEventsInput, Prisma.GroundStationUncheckedCreateWithoutPassEventsInput>
+  connectOrCreate?: Prisma.GroundStationCreateOrConnectWithoutPassEventsInput
+  connect?: Prisma.GroundStationWhereUniqueInput
+}
+
+export type GroundStationUpdateOneRequiredWithoutPassEventsNestedInput = {
+  create?: Prisma.XOR<Prisma.GroundStationCreateWithoutPassEventsInput, Prisma.GroundStationUncheckedCreateWithoutPassEventsInput>
+  connectOrCreate?: Prisma.GroundStationCreateOrConnectWithoutPassEventsInput
+  upsert?: Prisma.GroundStationUpsertWithoutPassEventsInput
+  connect?: Prisma.GroundStationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.GroundStationUpdateToOneWithWhereWithoutPassEventsInput, Prisma.GroundStationUpdateWithoutPassEventsInput>, Prisma.GroundStationUncheckedUpdateWithoutPassEventsInput>
+}
+
+export type GroundStationCreateWithoutPassEventsInput = {
+  name: string
+  latitude: number
+  longitude: number
+  altitude: number
+  horizonmask: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type GroundStationUncheckedCreateWithoutPassEventsInput = {
+  id?: number
+  name: string
+  latitude: number
+  longitude: number
+  altitude: number
+  horizonmask: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type GroundStationCreateOrConnectWithoutPassEventsInput = {
+  where: Prisma.GroundStationWhereUniqueInput
+  create: Prisma.XOR<Prisma.GroundStationCreateWithoutPassEventsInput, Prisma.GroundStationUncheckedCreateWithoutPassEventsInput>
+}
+
+export type GroundStationUpsertWithoutPassEventsInput = {
+  update: Prisma.XOR<Prisma.GroundStationUpdateWithoutPassEventsInput, Prisma.GroundStationUncheckedUpdateWithoutPassEventsInput>
+  create: Prisma.XOR<Prisma.GroundStationCreateWithoutPassEventsInput, Prisma.GroundStationUncheckedCreateWithoutPassEventsInput>
+  where?: Prisma.GroundStationWhereInput
+}
+
+export type GroundStationUpdateToOneWithWhereWithoutPassEventsInput = {
+  where?: Prisma.GroundStationWhereInput
+  data: Prisma.XOR<Prisma.GroundStationUpdateWithoutPassEventsInput, Prisma.GroundStationUncheckedUpdateWithoutPassEventsInput>
+}
+
+export type GroundStationUpdateWithoutPassEventsInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  altitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  horizonmask?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type GroundStationUncheckedUpdateWithoutPassEventsInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  latitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  longitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  altitude?: Prisma.FloatFieldUpdateOperationsInput | number
+  horizonmask?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type GroundStationCountOutputType
+ */
+
+export type GroundStationCountOutputType = {
+  passEvents: number
+}
+
+export type GroundStationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  passEvents?: boolean | GroundStationCountOutputTypeCountPassEventsArgs
+}
+
+/**
+ * GroundStationCountOutputType without action
+ */
+export type GroundStationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the GroundStationCountOutputType
+   */
+  select?: Prisma.GroundStationCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * GroundStationCountOutputType without action
+ */
+export type GroundStationCountOutputTypeCountPassEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PassEventWhereInput
+}
 
 
 export type GroundStationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -449,6 +562,8 @@ export type GroundStationSelect<ExtArgs extends runtime.Types.Extensions.Interna
   horizonmask?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  passEvents?: boolean | Prisma.GroundStation$passEventsArgs<ExtArgs>
+  _count?: boolean | Prisma.GroundStationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["groundStation"]>
 
 export type GroundStationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -485,10 +600,18 @@ export type GroundStationSelectScalar = {
 }
 
 export type GroundStationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "latitude" | "longitude" | "altitude" | "horizonmask" | "createdAt" | "updatedAt", ExtArgs["result"]["groundStation"]>
+export type GroundStationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  passEvents?: boolean | Prisma.GroundStation$passEventsArgs<ExtArgs>
+  _count?: boolean | Prisma.GroundStationCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type GroundStationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type GroundStationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $GroundStationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "GroundStation"
-  objects: {}
+  objects: {
+    passEvents: Prisma.$PassEventPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
@@ -892,6 +1015,7 @@ readonly fields: GroundStationFieldRefs;
  */
 export interface Prisma__GroundStationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  passEvents<T extends Prisma.GroundStation$passEventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.GroundStation$passEventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PassEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -946,6 +1070,10 @@ export type GroundStationFindUniqueArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
+  /**
    * Filter, which GroundStation to fetch.
    */
   where: Prisma.GroundStationWhereUniqueInput
@@ -964,6 +1092,10 @@ export type GroundStationFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Ext
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
+  /**
    * Filter, which GroundStation to fetch.
    */
   where: Prisma.GroundStationWhereUniqueInput
@@ -981,6 +1113,10 @@ export type GroundStationFindFirstArgs<ExtArgs extends runtime.Types.Extensions.
    * Omit specific fields from the GroundStation
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
   /**
    * Filter, which GroundStation to fetch.
    */
@@ -1030,6 +1166,10 @@ export type GroundStationFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Exte
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
+  /**
    * Filter, which GroundStation to fetch.
    */
   where?: Prisma.GroundStationWhereInput
@@ -1078,6 +1218,10 @@ export type GroundStationFindManyArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
+  /**
    * Filter, which GroundStations to fetch.
    */
   where?: Prisma.GroundStationWhereInput
@@ -1120,6 +1264,10 @@ export type GroundStationCreateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the GroundStation
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
   /**
    * The data needed to create a GroundStation.
    */
@@ -1168,6 +1316,10 @@ export type GroundStationUpdateArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Omit specific fields from the GroundStation
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
   /**
    * The data needed to update a GroundStation.
    */
@@ -1235,6 +1387,10 @@ export type GroundStationUpsertArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
+  /**
    * The filter to search for the GroundStation to update in case it exists.
    */
   where: Prisma.GroundStationWhereUniqueInput
@@ -1261,6 +1417,10 @@ export type GroundStationDeleteArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
+  /**
    * Filter which GroundStation to delete.
    */
   where: Prisma.GroundStationWhereUniqueInput
@@ -1281,6 +1441,30 @@ export type GroundStationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions
 }
 
 /**
+ * GroundStation.passEvents
+ */
+export type GroundStation$passEventsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PassEvent
+   */
+  select?: Prisma.PassEventSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PassEvent
+   */
+  omit?: Prisma.PassEventOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PassEventInclude<ExtArgs> | null
+  where?: Prisma.PassEventWhereInput
+  orderBy?: Prisma.PassEventOrderByWithRelationInput | Prisma.PassEventOrderByWithRelationInput[]
+  cursor?: Prisma.PassEventWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PassEventScalarFieldEnum | Prisma.PassEventScalarFieldEnum[]
+}
+
+/**
  * GroundStation without action
  */
 export type GroundStationDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1292,4 +1476,8 @@ export type GroundStationDefaultArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the GroundStation
    */
   omit?: Prisma.GroundStationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.GroundStationInclude<ExtArgs> | null
 }
