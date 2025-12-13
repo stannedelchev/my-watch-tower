@@ -50,17 +50,11 @@ export class TransmittersService {
         description: transmitter.description,
         type: transmitter.type,
         status: transmitter.status,
-        uplinkLow: transmitter.uplink_low
-          ? transmitter.uplink_low.toString()
-          : null,
-        uplinkHigh: transmitter.uplink_high
-          ? transmitter.uplink_high.toString()
-          : null,
-        downlinkLow: transmitter.downlink_low
-          ? transmitter.downlink_low.toString()
-          : null,
+        uplinkLow: transmitter.uplink_low ? transmitter.uplink_low : null,
+        uplinkHigh: transmitter.uplink_high ? transmitter.uplink_high : null,
+        downlinkLow: transmitter.downlink_low ? transmitter.downlink_low : null,
         downlinkHigh: transmitter.downlink_high
-          ? transmitter.downlink_high.toString()
+          ? transmitter.downlink_high
           : null,
         mode: transmitter.mode,
         baud: transmitter.baud,

@@ -17,18 +17,51 @@ export class SatellitesService {
   async findAll(params: {
     tracked?: boolean;
     tag?: string;
-    search?: string;
+    name?: string;
+    frequencyFilters?: string;
     page?: number;
   }) {
-    const { tracked, tag, search, page = 1 } = params;
+    const { tracked, tag, name, frequencyFilters, page = 1 } = params;
     const take = 10;
     const skip = (page - 1) * take;
 
     const where: Prisma.SatelliteWhereInput = {
       ...(tracked !== undefined && { isTracked: tracked }),
-      ...(search && {
-        name: { contains: search, mode: 'insensitive' },
+      ...(name && {
+        name: { contains: name, mode: 'insensitive' },
       }),
+      ...(frequencyFilters &&
+        (() => {
+          const filters = JSON.parse(frequencyFilters) as {
+            frequency: number;
+            mode: 'le' | 'ge';
+            direction: 'downlink' | 'uplink';
+          }[];
+          return {
+            transmitters: {
+              some: {
+                AND: filters.map((filter) => {
+                  // there is also uplinkHigh/downlinkHigh, but it is rarely used and for simplicity we skip it here
+                  const field =
+                    filter.direction === 'downlink'
+                      ? 'downlinkLow'
+                      : 'uplinkLow';
+                  return filter.mode === 'le'
+                    ? {
+                        [field]: {
+                          lte: filter.frequency,
+                        },
+                      }
+                    : {
+                        [field]: {
+                          gte: filter.frequency,
+                        },
+                      };
+                }),
+              },
+            },
+          };
+        })()),
       ...(tag && {
         tags: {
           some: {
@@ -37,13 +70,14 @@ export class SatellitesService {
         },
       }),
     };
+    console.log(JSON.stringify(where, null, 2));
 
     const [items, total] = await Promise.all([
       this.prisma.satellite.findMany({
         where,
         take,
         skip,
-        include: { tags: true },
+        include: { tags: true, transmitters: true },
         orderBy: { name: 'asc' },
       }),
       this.prisma.satellite.count({ where }),

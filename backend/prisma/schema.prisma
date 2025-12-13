@@ -76,11 +76,10 @@ model Transmitter {
   type        String? // "Transmitter", "Transponder"
   status      String? // "active", "inactive", "deep space"
 
-  // String to avoid precision issues - GHz frequencies can become very large numbers
-  uplinkLow    String?
-  uplinkHigh   String?
-  downlinkLow  String?
-  downlinkHigh String?
+  uplinkLow    BigInt?
+  uplinkHigh   BigInt?
+  downlinkLow  BigInt?
+  downlinkHigh BigInt?
 
   mode   String? // "FM", "SSB", "HRPT"
   baud   Float?

@@ -9,7 +9,10 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     const adapter = new PrismaPg({
       connectionString: process.env.DATABASE_URL,
     });
-    super({ adapter });
+    super({
+      adapter,
+      // log: ['query'] // to enable SQL query logging
+    });
   }
   async onModuleInit() {
     await this.$connect();

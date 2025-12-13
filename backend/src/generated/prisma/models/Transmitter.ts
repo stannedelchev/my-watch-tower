@@ -28,12 +28,20 @@ export type AggregateTransmitter = {
 
 export type TransmitterAvgAggregateOutputType = {
   id: number | null
+  uplinkLow: number | null
+  uplinkHigh: number | null
+  downlinkLow: number | null
+  downlinkHigh: number | null
   baud: number | null
   satelliteNoradId: number | null
 }
 
 export type TransmitterSumAggregateOutputType = {
   id: number | null
+  uplinkLow: bigint | null
+  uplinkHigh: bigint | null
+  downlinkLow: bigint | null
+  downlinkHigh: bigint | null
   baud: number | null
   satelliteNoradId: number | null
 }
@@ -44,10 +52,10 @@ export type TransmitterMinAggregateOutputType = {
   description: string | null
   type: string | null
   status: string | null
-  uplinkLow: string | null
-  uplinkHigh: string | null
-  downlinkLow: string | null
-  downlinkHigh: string | null
+  uplinkLow: bigint | null
+  uplinkHigh: bigint | null
+  downlinkLow: bigint | null
+  downlinkHigh: bigint | null
   mode: string | null
   baud: number | null
   invert: boolean | null
@@ -62,10 +70,10 @@ export type TransmitterMaxAggregateOutputType = {
   description: string | null
   type: string | null
   status: string | null
-  uplinkLow: string | null
-  uplinkHigh: string | null
-  downlinkLow: string | null
-  downlinkHigh: string | null
+  uplinkLow: bigint | null
+  uplinkHigh: bigint | null
+  downlinkLow: bigint | null
+  downlinkHigh: bigint | null
   mode: string | null
   baud: number | null
   invert: boolean | null
@@ -96,12 +104,20 @@ export type TransmitterCountAggregateOutputType = {
 
 export type TransmitterAvgAggregateInputType = {
   id?: true
+  uplinkLow?: true
+  uplinkHigh?: true
+  downlinkLow?: true
+  downlinkHigh?: true
   baud?: true
   satelliteNoradId?: true
 }
 
 export type TransmitterSumAggregateInputType = {
   id?: true
+  uplinkLow?: true
+  uplinkHigh?: true
+  downlinkLow?: true
+  downlinkHigh?: true
   baud?: true
   satelliteNoradId?: true
 }
@@ -253,10 +269,10 @@ export type TransmitterGroupByOutputType = {
   description: string | null
   type: string | null
   status: string | null
-  uplinkLow: string | null
-  uplinkHigh: string | null
-  downlinkLow: string | null
-  downlinkHigh: string | null
+  uplinkLow: bigint | null
+  uplinkHigh: bigint | null
+  downlinkLow: bigint | null
+  downlinkHigh: bigint | null
   mode: string | null
   baud: number | null
   invert: boolean
@@ -294,10 +310,10 @@ export type TransmitterWhereInput = {
   description?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   type?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   status?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  uplinkLow?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  uplinkHigh?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  downlinkLow?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  downlinkHigh?: Prisma.StringNullableFilter<"Transmitter"> | string | null
+  uplinkLow?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  uplinkHigh?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  downlinkLow?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  downlinkHigh?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
   mode?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   baud?: Prisma.FloatNullableFilter<"Transmitter"> | number | null
   invert?: Prisma.BoolFilter<"Transmitter"> | boolean
@@ -335,10 +351,10 @@ export type TransmitterWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   type?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   status?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  uplinkLow?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  uplinkHigh?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  downlinkLow?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  downlinkHigh?: Prisma.StringNullableFilter<"Transmitter"> | string | null
+  uplinkLow?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  uplinkHigh?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  downlinkLow?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  downlinkHigh?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
   mode?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   baud?: Prisma.FloatNullableFilter<"Transmitter"> | number | null
   invert?: Prisma.BoolFilter<"Transmitter"> | boolean
@@ -380,10 +396,10 @@ export type TransmitterScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
   type?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
   status?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
-  uplinkLow?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
-  uplinkHigh?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
-  downlinkLow?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
-  downlinkHigh?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
+  uplinkLow?: Prisma.BigIntNullableWithAggregatesFilter<"Transmitter"> | bigint | number | null
+  uplinkHigh?: Prisma.BigIntNullableWithAggregatesFilter<"Transmitter"> | bigint | number | null
+  downlinkLow?: Prisma.BigIntNullableWithAggregatesFilter<"Transmitter"> | bigint | number | null
+  downlinkHigh?: Prisma.BigIntNullableWithAggregatesFilter<"Transmitter"> | bigint | number | null
   mode?: Prisma.StringNullableWithAggregatesFilter<"Transmitter"> | string | null
   baud?: Prisma.FloatNullableWithAggregatesFilter<"Transmitter"> | number | null
   invert?: Prisma.BoolWithAggregatesFilter<"Transmitter"> | boolean
@@ -397,10 +413,10 @@ export type TransmitterCreateInput = {
   description?: string | null
   type?: string | null
   status?: string | null
-  uplinkLow?: string | null
-  uplinkHigh?: string | null
-  downlinkLow?: string | null
-  downlinkHigh?: string | null
+  uplinkLow?: bigint | number | null
+  uplinkHigh?: bigint | number | null
+  downlinkLow?: bigint | number | null
+  downlinkHigh?: bigint | number | null
   mode?: string | null
   baud?: number | null
   invert?: boolean
@@ -415,10 +431,10 @@ export type TransmitterUncheckedCreateInput = {
   description?: string | null
   type?: string | null
   status?: string | null
-  uplinkLow?: string | null
-  uplinkHigh?: string | null
-  downlinkLow?: string | null
-  downlinkHigh?: string | null
+  uplinkLow?: bigint | number | null
+  uplinkHigh?: bigint | number | null
+  downlinkLow?: bigint | number | null
+  downlinkHigh?: bigint | number | null
   mode?: string | null
   baud?: number | null
   invert?: boolean
@@ -432,10 +448,10 @@ export type TransmitterUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -450,10 +466,10 @@ export type TransmitterUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -468,10 +484,10 @@ export type TransmitterCreateManyInput = {
   description?: string | null
   type?: string | null
   status?: string | null
-  uplinkLow?: string | null
-  uplinkHigh?: string | null
-  downlinkLow?: string | null
-  downlinkHigh?: string | null
+  uplinkLow?: bigint | number | null
+  uplinkHigh?: bigint | number | null
+  downlinkLow?: bigint | number | null
+  downlinkHigh?: bigint | number | null
   mode?: string | null
   baud?: number | null
   invert?: boolean
@@ -485,10 +501,10 @@ export type TransmitterUpdateManyMutationInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -502,10 +518,10 @@ export type TransmitterUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -544,6 +560,10 @@ export type TransmitterCountOrderByAggregateInput = {
 
 export type TransmitterAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uplinkLow?: Prisma.SortOrder
+  uplinkHigh?: Prisma.SortOrder
+  downlinkLow?: Prisma.SortOrder
+  downlinkHigh?: Prisma.SortOrder
   baud?: Prisma.SortOrder
   satelliteNoradId?: Prisma.SortOrder
 }
@@ -586,6 +606,10 @@ export type TransmitterMinOrderByAggregateInput = {
 
 export type TransmitterSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  uplinkLow?: Prisma.SortOrder
+  uplinkHigh?: Prisma.SortOrder
+  downlinkLow?: Prisma.SortOrder
+  downlinkHigh?: Prisma.SortOrder
   baud?: Prisma.SortOrder
   satelliteNoradId?: Prisma.SortOrder
 }
@@ -632,6 +656,14 @@ export type TransmitterUncheckedUpdateManyWithoutSatelliteNestedInput = {
   deleteMany?: Prisma.TransmitterScalarWhereInput | Prisma.TransmitterScalarWhereInput[]
 }
 
+export type NullableBigIntFieldUpdateOperationsInput = {
+  set?: bigint | number | null
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
+}
+
 export type NullableFloatFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -645,10 +677,10 @@ export type TransmitterCreateWithoutSatelliteInput = {
   description?: string | null
   type?: string | null
   status?: string | null
-  uplinkLow?: string | null
-  uplinkHigh?: string | null
-  downlinkLow?: string | null
-  downlinkHigh?: string | null
+  uplinkLow?: bigint | number | null
+  uplinkHigh?: bigint | number | null
+  downlinkLow?: bigint | number | null
+  downlinkHigh?: bigint | number | null
   mode?: string | null
   baud?: number | null
   invert?: boolean
@@ -662,10 +694,10 @@ export type TransmitterUncheckedCreateWithoutSatelliteInput = {
   description?: string | null
   type?: string | null
   status?: string | null
-  uplinkLow?: string | null
-  uplinkHigh?: string | null
-  downlinkLow?: string | null
-  downlinkHigh?: string | null
+  uplinkLow?: bigint | number | null
+  uplinkHigh?: bigint | number | null
+  downlinkLow?: bigint | number | null
+  downlinkHigh?: bigint | number | null
   mode?: string | null
   baud?: number | null
   invert?: boolean
@@ -708,10 +740,10 @@ export type TransmitterScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   type?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   status?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  uplinkLow?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  uplinkHigh?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  downlinkLow?: Prisma.StringNullableFilter<"Transmitter"> | string | null
-  downlinkHigh?: Prisma.StringNullableFilter<"Transmitter"> | string | null
+  uplinkLow?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  uplinkHigh?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  downlinkLow?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
+  downlinkHigh?: Prisma.BigIntNullableFilter<"Transmitter"> | bigint | number | null
   mode?: Prisma.StringNullableFilter<"Transmitter"> | string | null
   baud?: Prisma.FloatNullableFilter<"Transmitter"> | number | null
   invert?: Prisma.BoolFilter<"Transmitter"> | boolean
@@ -726,10 +758,10 @@ export type TransmitterCreateManySatelliteInput = {
   description?: string | null
   type?: string | null
   status?: string | null
-  uplinkLow?: string | null
-  uplinkHigh?: string | null
-  downlinkLow?: string | null
-  downlinkHigh?: string | null
+  uplinkLow?: bigint | number | null
+  uplinkHigh?: bigint | number | null
+  downlinkLow?: bigint | number | null
+  downlinkHigh?: bigint | number | null
   mode?: string | null
   baud?: number | null
   invert?: boolean
@@ -742,10 +774,10 @@ export type TransmitterUpdateWithoutSatelliteInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -759,10 +791,10 @@ export type TransmitterUncheckedUpdateWithoutSatelliteInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -776,10 +808,10 @@ export type TransmitterUncheckedUpdateManyWithoutSatelliteInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   type?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   status?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  uplinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkLow?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  downlinkHigh?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  uplinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  uplinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkLow?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  downlinkHigh?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
   mode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   baud?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   invert?: Prisma.BoolFieldUpdateOperationsInput | boolean
@@ -886,10 +918,10 @@ export type $TransmitterPayload<ExtArgs extends runtime.Types.Extensions.Interna
     description: string | null
     type: string | null
     status: string | null
-    uplinkLow: string | null
-    uplinkHigh: string | null
-    downlinkLow: string | null
-    downlinkHigh: string | null
+    uplinkLow: bigint | null
+    uplinkHigh: bigint | null
+    downlinkLow: bigint | null
+    downlinkHigh: bigint | null
     mode: string | null
     baud: number | null
     invert: boolean
@@ -1325,10 +1357,10 @@ export interface TransmitterFieldRefs {
   readonly description: Prisma.FieldRef<"Transmitter", 'String'>
   readonly type: Prisma.FieldRef<"Transmitter", 'String'>
   readonly status: Prisma.FieldRef<"Transmitter", 'String'>
-  readonly uplinkLow: Prisma.FieldRef<"Transmitter", 'String'>
-  readonly uplinkHigh: Prisma.FieldRef<"Transmitter", 'String'>
-  readonly downlinkLow: Prisma.FieldRef<"Transmitter", 'String'>
-  readonly downlinkHigh: Prisma.FieldRef<"Transmitter", 'String'>
+  readonly uplinkLow: Prisma.FieldRef<"Transmitter", 'BigInt'>
+  readonly uplinkHigh: Prisma.FieldRef<"Transmitter", 'BigInt'>
+  readonly downlinkLow: Prisma.FieldRef<"Transmitter", 'BigInt'>
+  readonly downlinkHigh: Prisma.FieldRef<"Transmitter", 'BigInt'>
   readonly mode: Prisma.FieldRef<"Transmitter", 'String'>
   readonly baud: Prisma.FieldRef<"Transmitter", 'Float'>
   readonly invert: Prisma.FieldRef<"Transmitter", 'Boolean'>

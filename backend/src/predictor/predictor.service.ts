@@ -11,6 +11,7 @@ export class PredictorService {
   async bulkPredictor() {
     // get all tracked satellites and all ground stations
     // for each satellite and ground station pair, calculate passes for the next 7 days
+    this.logger.log('Starting bulk prediction of satellite passes...');
     const satelliteIds = await this.prisma.satellite.findMany({
       where: { isTracked: true },
       select: { id: true },

@@ -29,7 +29,8 @@ export class SatellitesController {
     return this.satelliteService.findAll({
       tracked: query?.tracked ? query.tracked === 'true' : undefined,
       tag: query?.tag,
-      search: query?.search,
+      name: query?.name,
+      frequencyFilters: query?.frequencyFilters,
       page: query?.page ? parseInt(query.page, 10) : undefined,
     });
   }

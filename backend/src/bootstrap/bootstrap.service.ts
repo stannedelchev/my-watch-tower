@@ -118,7 +118,8 @@ export class BootstrapService implements OnModuleInit {
 
   async setupPredictorScheduler() {
     const PREDICT_INTERVAL_HOURS = 1;
-    await this.predictorService.bulkPredictor();
+    // TODO: it is annoyng to wait at the first run. Disable it at least during development?
+    // await this.predictorService.bulkPredictor();
     setInterval(
       () => {
         void this.predictorService.bulkPredictor();
