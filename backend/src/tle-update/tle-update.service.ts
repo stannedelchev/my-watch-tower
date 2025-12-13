@@ -1,31 +1,15 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import axios, { AxiosResponse } from 'axios';
 import { getCatalogNumber } from 'tle.js';
 import { Satellite, TleSource } from 'src/generated/prisma/client';
 import { SatnogsdbTle } from './tle-update.interfaces';
 
-// refetch every X hours
-const REFETCH_INTERVAL_HOURS = 24;
-
 @Injectable()
-export class TleUpdateService implements OnModuleInit {
+export class TleUpdateService {
   private readonly logger = new Logger(TleUpdateService.name);
 
   constructor(private prisma: PrismaService) {}
-
-  onModuleInit() {
-    this.logger.log(
-      `Scheduling TLE updates every ${REFETCH_INTERVAL_HOURS} hours.`,
-    );
-    // not using cron on specific time to avoid thundering herd
-    setInterval(
-      () => {
-        void this.updateStaleSources();
-      },
-      REFETCH_INTERVAL_HOURS * 60 * 60 * 1000,
-    );
-  }
 
   async updateStaleSources() {
     this.logger.log('Checking for stale TLE sources to update...');
@@ -46,20 +30,6 @@ export class TleUpdateService implements OnModuleInit {
         data: { updatedAt: new Date() },
       });
     }
-  }
-
-  async updateAllSources() {
-    this.logger.log('Starting TLE update for all sources...');
-    const sources = await this.prisma.tleSource.findMany();
-    for (const source of sources) {
-      await this.updateSource(source);
-      await this.prisma.tleSource.update({
-        where: { id: source.id },
-        data: { updatedAt: new Date() },
-      });
-    }
-    this.logger.log('Completed TLE update for all sources.');
-    // TODO: trigger transmitters update
   }
 
   async updateSource(source: TleSource) {

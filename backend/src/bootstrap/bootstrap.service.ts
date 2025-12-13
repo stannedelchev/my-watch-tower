@@ -47,7 +47,7 @@ export class BootstrapService implements OnModuleInit {
 
   async updateTleSources() {
     const REFETCH_INTERVAL_HOURS = 24;
-    await this.tleUpdateService.updateAllSources();
+    await this.tleUpdateService.updateStaleSources();
     setInterval(
       () => {
         void this.tleUpdateService.updateStaleSources();

@@ -1,23 +1,17 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SatnogsdbTransmitter } from './transmitters.interfaces';
 import { AppConfigService } from 'src/app-config/app-config.service';
 
 @Injectable()
-export class TransmittersService implements OnModuleInit {
+export class TransmittersService {
   private readonly logger = new Logger(TransmittersService.name);
 
   constructor(
     private prisma: PrismaService,
     private appConfigService: AppConfigService,
   ) {}
-
-  onModuleInit() {
-    this.logger.log('Starting transmitters update on module init.');
-    // await this.updateTransmitters();
-    // we need some sort of scheduling here
-  }
 
   async updateTransmitters() {
     const FETCH_URL = 'https://db.satnogs.org/api/transmitters/?format=json';
