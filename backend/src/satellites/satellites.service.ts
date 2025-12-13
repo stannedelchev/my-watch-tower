@@ -99,6 +99,47 @@ export class SatellitesService {
     return await this.prisma.satellite.update({
       where: { id },
       data: updateSatelliteDto,
+      include: { tags: true, transmitters: true },
+    });
+  }
+
+  async resetTags(id: number, tagNames: string[]) {
+    const item = await this.prisma.satellite.findUnique({
+      where: { id },
+    });
+    if (!item) {
+      throw new NotFoundException('Satellite not found');
+    }
+
+    // create any new tags, if needed
+    const tags = await this.prisma.tag.findMany({
+      where: { name: { in: tagNames } },
+    });
+    const existingTagNames = tags.map((t) => t.name);
+    const newTagNames = tagNames.filter(
+      (name) => !existingTagNames.includes(name),
+    );
+
+    const newTags = await Promise.all(
+      newTagNames.map((name) =>
+        this.prisma.tag.create({
+          data: { name },
+        }),
+      ),
+    );
+
+    const allTags = [...tags, ...newTags];
+
+    // attach tags to satellite
+    return this.prisma.satellite.update({
+      where: { id },
+      data: {
+        tags: {
+          set: [],
+          connect: allTags.map((tag) => ({ id: tag.id })),
+        },
+      },
+      include: { tags: true, transmitters: true },
     });
   }
 

@@ -5,6 +5,7 @@ import { ApiOkResponse } from '@nestjs/swagger';
 import { SatelliteEntity } from './entities/satellite.entity';
 import { TrackSatelliteDto } from './dto/track-satellite.dto';
 import { GetSatellitesDto } from './dto/get-satellites.dto';
+import { SetTagsDto } from './dto/set-tags.dto';
 
 @Controller('satellites')
 export class SatellitesController {
@@ -20,6 +21,13 @@ export class SatellitesController {
     return this.satelliteService.update(+id, {
       isTracked: trackSatelliteDto.isTracked,
     });
+  }
+
+  @Patch(':id/tags')
+  @ApiOperation({ operationId: 'updateSatelliteTags' })
+  @ApiOkResponse({ type: SatelliteEntity })
+  async updateSatelliteTags(@Param('id') id: string, @Body() body: SetTagsDto) {
+    return this.satelliteService.resetTags(+id, body.tagNames);
   }
 
   @Get()
