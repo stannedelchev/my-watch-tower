@@ -70,7 +70,6 @@ export class SatellitesService {
         },
       }),
     };
-    console.log(JSON.stringify(where, null, 2));
 
     const [items, total] = await Promise.all([
       this.prisma.satellite.findMany({

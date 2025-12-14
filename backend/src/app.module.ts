@@ -13,10 +13,12 @@ import { AppConfigService } from './app-config/app-config.service';
 import { PredictorService } from './predictor/predictor.service';
 import { TagsService } from './tags/tags.service';
 import { TagsController } from './tags/tags.controller';
+import { PassEventsService } from './pass-events/pass-events.service';
+import { PassEventsController } from './pass-events/pass-events.controller';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), GroundStationsModule],
-  controllers: [AppController, SatellitesController, TagsController],
+  controllers: [AppController, SatellitesController, TagsController, PassEventsController],
   providers: [
     AppService,
     PrismaService,
@@ -27,6 +29,7 @@ import { TagsController } from './tags/tags.controller';
     AppConfigService,
     PredictorService,
     TagsService,
+    PassEventsService,
   ],
 })
 export class AppModule {}
