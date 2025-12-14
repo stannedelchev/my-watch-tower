@@ -27,6 +27,8 @@ import type {
 import type {
   GetSatellitesParams,
   SatelliteEntity,
+  SatelliteEntityResponse,
+  SetTagsDto,
   TrackSatelliteDto
 } from '../../../model';
 
@@ -96,13 +98,71 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
 
       return useMutation(mutationOptions, queryClient);
     }
+    export const updateSatelliteTags = (
+    id: string,
+    setTagsDto: BodyType<SetTagsDto>,
+ options?: SecondParameter<typeof customInstance>,) => {
+      
+      
+      return customInstance<SatelliteEntity>(
+      {url: `/satellites/${id}/tags`, method: 'PATCH',
+      headers: {'Content-Type': 'application/json', },
+      data: setTagsDto
+    },
+      options);
+    }
+  
+
+
+export const getUpdateSatelliteTagsMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSatelliteTags>>, TError,{id: string;data: BodyType<SetTagsDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+): UseMutationOptions<Awaited<ReturnType<typeof updateSatelliteTags>>, TError,{id: string;data: BodyType<SetTagsDto>}, TContext> => {
+
+const mutationKey = ['updateSatelliteTags'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof updateSatelliteTags>>, {id: string;data: BodyType<SetTagsDto>}> = (props) => {
+          const {id,data} = props ?? {};
+
+          return  updateSatelliteTags(id,data,requestOptions)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type UpdateSatelliteTagsMutationResult = NonNullable<Awaited<ReturnType<typeof updateSatelliteTags>>>
+    export type UpdateSatelliteTagsMutationBody = BodyType<SetTagsDto>
+    export type UpdateSatelliteTagsMutationError = ErrorType<unknown>
+
+    export const useUpdateSatelliteTags = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof updateSatelliteTags>>, TError,{id: string;data: BodyType<SetTagsDto>}, TContext>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof updateSatelliteTags>>,
+        TError,
+        {id: string;data: BodyType<SetTagsDto>},
+        TContext
+      > => {
+
+      const mutationOptions = getUpdateSatelliteTagsMutationOptions(options);
+
+      return useMutation(mutationOptions, queryClient);
+    }
     export const getSatellites = (
     params?: GetSatellitesParams,
  options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
 ) => {
       
       
-      return customInstance<SatelliteEntity[]>(
+      return customInstance<SatelliteEntityResponse>(
       {url: `/satellites`, method: 'GET',
         params, signal
     },

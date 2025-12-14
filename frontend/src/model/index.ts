@@ -7,10 +7,27 @@
  */
 
 export * from './createGroundStationDto';
+export * from './getPassEventsByGroundStationIdParams';
 export * from './getSatellitesParams';
 export * from './groundStationEntity';
 export * from './groundStationEntityHorizonmask';
+export * from './passEventEntity';
 export * from './satelliteEntity';
+export * from './satelliteEntityResponse';
+export * from './setTagsDto';
+export * from './tagEntity';
+export * from './tagEntityColor';
 export * from './trackSatelliteDto';
+export * from './transmitterEntity';
+export * from './transmitterEntityBaud';
+export * from './transmitterEntityCitation';
+export * from './transmitterEntityDescription';
+export * from './transmitterEntityDownlinkHigh';
+export * from './transmitterEntityDownlinkLow';
+export * from './transmitterEntityMode';
+export * from './transmitterEntityStatus';
+export * from './transmitterEntityType';
+export * from './transmitterEntityUplinkHigh';
+export * from './transmitterEntityUplinkLow';
 export * from './uint8Array';
 export * from './updateGroundStationDto';

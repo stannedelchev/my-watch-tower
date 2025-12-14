@@ -29,7 +29,7 @@ export default function Navbar() {
         </ul>
         <ul>
           <li>
-            <NavLink to="/satellites">
+            <NavLink to="/satellite-list">
               <Satellite /> <span>Satellite Tracking</span>
             </NavLink>
           </li>

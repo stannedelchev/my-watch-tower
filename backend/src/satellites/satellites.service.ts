@@ -82,7 +82,7 @@ export class SatellitesService {
       this.prisma.satellite.count({ where }),
     ]);
 
-    return { items, total, page };
+    return { items, total, page, pageCount: Math.ceil(total / take) };
   }
 
   async update(

@@ -7,8 +7,21 @@
  */
 
 export type GetSatellitesParams = {
+/**
+ * Fetch only tracked satellites?
+ */
 tracked?: string;
+/**
+ * Filter by tag name
+ */
 tag?: string;
-search?: string;
+/**
+ * Filter by (part of) satellite name, case insensitive
+ */
+name?: string;
+/**
+ * JSON stringified array of frequency filter objects: [ {"frequency": number, "mode": "le" | "ge", "direction": "downlink" | "uplink" } ]
+ */
+frequencyFilters?: string;
 page?: string;
 };

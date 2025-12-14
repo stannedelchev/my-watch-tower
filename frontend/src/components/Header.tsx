@@ -1,4 +1,5 @@
 import { MapPin, TowerControl } from "lucide-react";
+import StationSelector from "./StationSelector";
 
 export default function Header() {
   return (
@@ -9,10 +10,7 @@ export default function Header() {
         </h1>
         <div className="right-header">
           <MapPin />
-          <select>
-            <option>Ground Station 1</option>
-            <option>Ground Station 2</option>
-          </select>
+          <StationSelector />
         </div>
       </div>
     </header>

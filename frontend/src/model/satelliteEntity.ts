@@ -5,6 +5,8 @@
  * Satellite tracker and predictor
  * OpenAPI spec version: 1.0
  */
+import type { TagEntity } from './tagEntity';
+import type { TransmitterEntity } from './transmitterEntity';
 
 export interface SatelliteEntity {
   id: number;
@@ -19,4 +21,6 @@ export interface SatelliteEntity {
   line1: string;
   line2: string;
   sourceId: number;
+  tags: TagEntity[];
+  transmitters: TransmitterEntity[];
 }

@@ -2,7 +2,10 @@ import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { SatellitesService } from './satellites.service';
 import { ApiOperation } from '@nestjs/swagger/dist/decorators/api-operation.decorator';
 import { ApiOkResponse } from '@nestjs/swagger';
-import { SatelliteEntity } from './entities/satellite.entity';
+import {
+  SatelliteEntity,
+  SatelliteEntityResponse,
+} from './entities/satellite.entity';
 import { TrackSatelliteDto } from './dto/track-satellite.dto';
 import { GetSatellitesDto } from './dto/get-satellites.dto';
 import { SetTagsDto } from './dto/set-tags.dto';
@@ -32,7 +35,7 @@ export class SatellitesController {
 
   @Get()
   @ApiOperation({ operationId: 'getSatellites' })
-  @ApiOkResponse({ type: [SatelliteEntity] })
+  @ApiOkResponse({ type: SatelliteEntityResponse })
   async findAll(@Query() query: GetSatellitesDto) {
     return this.satelliteService.findAll({
       tracked: query?.tracked ? query.tracked === 'true' : undefined,

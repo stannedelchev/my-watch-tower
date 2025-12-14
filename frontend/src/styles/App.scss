@@ -35,7 +35,7 @@ header {
   }
 
   h1 svg {
-    color: var(--primary-color)
+    color: var(--primary-color);
   }
 }
 
@@ -73,6 +73,43 @@ nav {
           color: var(--primary-color);
           border-color: var(--primary-color);
         }
+      }
+    }
+  }
+}
+
+.pagination-center {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+ul.pagination {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 0.5rem;
+  li {
+    a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-bottom: 2px solid transparent;
+      color: #9ca3af;
+      transition: color 150ms ease, border-color 150ms ease;
+      cursor: pointer;
+      &.active,
+      &:hover {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+      }
+    }
+    &.selected {
+      a {
+        font-weight: bold;
+        color: var(--primary-color);
+        border-color: var(--primary-color);
       }
     }
   }

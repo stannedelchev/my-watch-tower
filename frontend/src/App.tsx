@@ -1,10 +1,11 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import '@/styles/reset.css';
-import '@/styles/App.scss';
+import "@/styles/reset.css";
+import "@/styles/App.scss";
 import Layout from "./components/Layout";
 import StationsList from "./components/StationsList";
 import StationEditor from "./components/StationEditor";
 import Home from "./components/Home";
+import SatelliteList from "./components/SatelliteList";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             path="/stations/:id/edit"
             element={<StationEditor mode="edit" />}
           />
+          <Route path="/satellite-list" element={<SatelliteList />} />
         </Routes>
       </Layout>
     </BrowserRouter>
