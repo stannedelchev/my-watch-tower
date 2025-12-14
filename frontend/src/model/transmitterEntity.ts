@@ -5,28 +5,28 @@
  * Satellite tracker and predictor
  * OpenAPI spec version: 1.0
  */
-import type { TransmitterEntityDescription } from './transmitterEntityDescription';
-import type { TransmitterEntityType } from './transmitterEntityType';
-import type { TransmitterEntityStatus } from './transmitterEntityStatus';
-import type { TransmitterEntityUplinkLow } from './transmitterEntityUplinkLow';
-import type { TransmitterEntityUplinkHigh } from './transmitterEntityUplinkHigh';
-import type { TransmitterEntityDownlinkLow } from './transmitterEntityDownlinkLow';
-import type { TransmitterEntityDownlinkHigh } from './transmitterEntityDownlinkHigh';
-import type { TransmitterEntityMode } from './transmitterEntityMode';
-import type { TransmitterEntityBaud } from './transmitterEntityBaud';
-import type { TransmitterEntityCitation } from './transmitterEntityCitation';
 
 export interface TransmitterEntity {
   id: number;
-  description: TransmitterEntityDescription;
-  type: TransmitterEntityType;
-  status: TransmitterEntityStatus;
-  uplinkLow: TransmitterEntityUplinkLow;
-  uplinkHigh: TransmitterEntityUplinkHigh;
-  downlinkLow: TransmitterEntityDownlinkLow;
-  downlinkHigh: TransmitterEntityDownlinkHigh;
-  mode: TransmitterEntityMode;
-  baud: TransmitterEntityBaud;
+  /** @nullable */
+  description: string | null;
+  /** @nullable */
+  type: string | null;
+  /** @nullable */
+  status: string | null;
+  /** @nullable */
+  uplinkLow: number | null;
+  /** @nullable */
+  uplinkHigh: number | null;
+  /** @nullable */
+  downlinkLow: number | null;
+  /** @nullable */
+  downlinkHigh: number | null;
+  /** @nullable */
+  mode: string | null;
+  /** @nullable */
+  baud: number | null;
   invert: boolean;
-  citation: TransmitterEntityCitation;
+  /** @nullable */
+  citation: string | null;
 }

@@ -2,30 +2,30 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transmitter } from 'src/generated/prisma/client';
 
 export class TransmitterEntity implements Transmitter {
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   id: number;
   uuid: string;
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   description: string | null;
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   type: string | null;
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   status: string | null;
-  @ApiProperty()
+  @ApiProperty({ type: BigInt, nullable: true })
   uplinkLow: bigint | null;
-  @ApiProperty()
+  @ApiProperty({ type: BigInt, nullable: true })
   uplinkHigh: bigint | null;
-  @ApiProperty()
+  @ApiProperty({ type: BigInt, nullable: true })
   downlinkLow: bigint | null;
-  @ApiProperty()
+  @ApiProperty({ type: BigInt, nullable: true })
   downlinkHigh: bigint | null;
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   mode: string | null;
-  @ApiProperty()
+  @ApiProperty({ type: Number, nullable: true })
   baud: number | null;
-  @ApiProperty()
+  @ApiProperty({ type: Boolean })
   invert: boolean;
-  @ApiProperty()
+  @ApiProperty({ type: String, nullable: true })
   citation: string | null;
   updatedAt: Date;
   satelliteNoradId: number;
