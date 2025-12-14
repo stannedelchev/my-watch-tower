@@ -1,0 +1,92 @@
+@use "responsive" as *;
+
+body {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --primary-color: #60a5fa;
+  --form-fields-background-color: #374151;
+  --form-fields-text-color: #f3f4f6;
+  background-color: #030712;
+  color: #f3f4f6;
+}
+
+a {
+  text-decoration: none;
+}
+
+.constrained-content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #111827;
+  border-bottom: 1px solid #1f2937;
+  div {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .right-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  h1 svg {
+    color: var(--primary-color)
+  }
+}
+
+main {
+  padding: 2rem;
+  text-align: center;
+}
+
+nav {
+  background-color: #111827;
+  border-bottom: 1px solid #1f2937;
+
+  div {
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 0.25rem;
+      padding: 0;
+      margin: 0;
+      li a {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1rem;
+        border-bottom: 2px solid transparent;
+        color: #9ca3af;
+        transition: color 150ms ease, border-color 150ms ease;
+        &.active,
+        &:hover {
+          color: var(--primary-color);
+          border-color: var(--primary-color);
+        }
+      }
+    }
+  }
+}
+
+// form fields
+select {
+  padding: 0.5rem 1rem;
+  background-color: var(--form-fields-background-color);
+  border: 1px solid var(--form-fields-background-color);
+  border-radius: 0.75rem;
+  color: var(--form-fields-text-color);
+  transition: border-color 0.15s ease;
+  &:focus {
+    border-color: var(--primary-color);
+  }
+}

@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
+import '@/styles/reset.css';
+import '@/styles/App.scss';
 import Layout from "./components/Layout";
 import StationsList from "./components/StationsList";
 import StationEditor from "./components/StationEditor";
