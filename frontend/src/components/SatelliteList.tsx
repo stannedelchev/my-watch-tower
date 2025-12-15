@@ -3,13 +3,16 @@ import { useGetSatellites } from "../api/generated/satellites/satellites";
 import { useState } from "react";
 import SatelliteCard from "./SatelliteCard";
 import "@/styles/SatelliteList.scss";
+import GlobalFilters from "./GlobalFilters";
+import { useFilterStore } from "../stores/globalFiltersStore";
 
 export default function SatelliteList() {
   const [currentPage, setCurrentPage] = useState(1);
+  const {filters} = useFilterStore();
   const { data, error } = useGetSatellites({
     page: currentPage.toString(),
+    ...filters,
   });
-  console.log("SatelliteList data:", data);
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     // ReactPaginate uses 0-based indexing, but our API uses 1-based
@@ -19,6 +22,7 @@ export default function SatelliteList() {
   return (
     <div>
       <h2>Satellites</h2>
+      <GlobalFilters />
       {/* {isLoading && <p>Loading satellites...</p>} */}
       {error && <p>Error loading satellites: {String(error)}</p>}
       {data && (

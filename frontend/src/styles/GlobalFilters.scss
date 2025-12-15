@@ -1,0 +1,25 @@
+.global-filters {
+  background-color: #111827;
+  border: 1px solid #1f2937;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin: 1rem 0;
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  .form-groups {
+    display: flex;
+    gap: 1rem;
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      label {
+        color: #9ca3af;
+        font-size: 0.875rem;
+      }
+    }
+  }
+}

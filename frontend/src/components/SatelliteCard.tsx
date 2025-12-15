@@ -1,32 +1,54 @@
+import { Star, Tag } from "lucide-react";
 import type { SatelliteEntity } from "../model";
+import { useTrackSatellite } from "../api/generated/satellites/satellites";
+import { useQueryClient } from "@tanstack/react-query";
+import TransmitterCard from "./TransmitterCard";
 
 export default function SatelliteCard({ item }: { item: SatelliteEntity }) {
-  const formatFrequency = (freq: number | null) => {
-    if (freq === null) return "N/A";
-    const freqNum = Number(freq);
-    if (freqNum >= 1_000_000_000) {
-      return (freqNum / 1_000_000_000).toFixed(2) + " GHz";
-    } else if (freqNum >= 1_000_000) {
-      return (freqNum / 1_000_000).toFixed(2) + " MHz";
-    } else if (freqNum >= 1_000) {
-      return (freqNum / 1_000).toFixed(2) + " kHz";
-    } else {
-      return freqNum + " Hz";
-    }
+  const queryClient = useQueryClient();
+  const setTrackedMutation = useTrackSatellite({
+    mutation: {
+      onSuccess: () => {
+        // Invalidate and refetch satellites list
+        queryClient.invalidateQueries({ queryKey: ["/satellites"] });
+      },
+    },
+  });
+
+  const toggleTracked = () => {
+    setTrackedMutation.mutate({
+      id: item.id.toString(),
+      data: { isTracked: !item.isTracked },
+    });
   };
   return (
-    <div className="satellite-card">
-      <h3>{item.name}</h3>
-      <p>NORAD ID: {item.id}</p>
-      <p>Tracked: {item.isTracked ? "Yes" : "No"}</p>
-      <p>Tags: {item.tags.map((tag) => tag.name).join(", ")}</p>
-      <div>
+    <div
+      className={`satellite-card ${item.isTracked ? "tracked" : "untracked"}`}
+    >
+      <div className={`col`}>
+        <Star
+          className={`tracked-indicator ${
+            item.isTracked ? "tracked" : "untracked"
+          }`}
+          onClick={toggleTracked}
+        />
+      </div>
+      <div className="col">
+        <h3>{item.name}</h3>
+        <p className="norad">NORAD ID: {item.id}</p>
+      </div>
+
+      <div className="col">
+        <div className="tag-list">
+          <Tag size={16} />{" "}
+          {item.tags.map((tag) => (
+            <div className="tag">{tag.name}</div>
+          ))}
+        </div>
+      </div>
+      <div className="col transmitter-list">
         {item.transmitters.map((tx) => (
-          <div key={tx.id} className="transmitter-card">
-            <p>{tx.description?.toString()}</p>
-            <p>Uplink: {formatFrequency(tx.uplinkLow)}</p>
-            <p>Downlink: {formatFrequency(tx.downlinkLow)}</p>
-          </div>
+          <TransmitterCard key={tx.id} item={tx} />
         ))}
       </div>
     </div>

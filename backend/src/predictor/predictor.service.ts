@@ -136,6 +136,10 @@ export class PredictorService {
     dateStart: Date;
     dateEnd: Date;
   }): Promise<void> {
+    const nowTs = new Date().getTime();
+    this.logger.log(
+      `STARTING predictor for SID ${satelliteId} GSID ${groundStationId}`,
+    );
     const targetSatellite = await this.prisma.satellite.findUnique({
       where: { id: satelliteId },
     });
@@ -250,6 +254,11 @@ export class PredictorService {
         },
       });
     }
+    this.logger.log(
+      `ENDING predictor for SID ${satelliteId} GSID ${groundStationId} in ${
+        new Date().getTime() - nowTs
+      } ms`,
+    );
   }
 
   /**

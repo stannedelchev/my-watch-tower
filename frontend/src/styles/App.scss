@@ -41,7 +41,6 @@ header {
 
 main {
   padding: 2rem;
-  text-align: center;
 }
 
 nav {
@@ -116,6 +115,13 @@ ul.pagination {
 }
 
 // form fields
+textarea,
+select,
+input[type="text"],
+input[type="number"],
+input[type="time"],
+button[type="submit"],
+button[type="reset"],
 select {
   padding: 0.5rem 1rem;
   background-color: var(--form-fields-background-color);
@@ -123,7 +129,17 @@ select {
   border-radius: 0.75rem;
   color: var(--form-fields-text-color);
   transition: border-color 0.15s ease;
+  &:active,
   &:focus {
     border-color: var(--primary-color);
+  }
+}
+button[type="submit"],
+button[type="reset"] {
+  cursor: pointer;
+  &:active,
+  &:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
   }
 }

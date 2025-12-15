@@ -17,4 +17,52 @@
   border-radius: 0.75rem;
   padding: 1rem;
   transition: border-color 150ms ease, box-shadow 150ms ease;
+  display: flex;
+  gap: 1rem;
+  &.tracked {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+  }
+  // .col {
+  //   flex: 1;
+  // }
+  .tracked-indicator {
+    cursor: pointer;
+    &.tracked {
+      color: var(--primary-color);
+    }
+    &.untracked {
+      color: #6b7280;
+      &:hover {
+        color: var(--primary-color);
+      }
+    }
+  }
+  .norad {
+    color: #6b7280;
+  }
+  .tag-list {
+    width: 6rem;
+    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    .tag {
+      background-color: rgba(59, 130, 246, 0.2);
+      color: #60a5fa;
+      padding: 0.125rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+    }
+  }
+  .transmitter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    .transmitter-card {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
 }
