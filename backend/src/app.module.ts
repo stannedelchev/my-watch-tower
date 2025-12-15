@@ -15,10 +15,29 @@ import { TagsService } from './tags/tags.service';
 import { TagsController } from './tags/tags.controller';
 import { PassEventsService } from './pass-events/pass-events.service';
 import { PassEventsController } from './pass-events/pass-events.controller';
+import { BullModule } from '@nestjs/bullmq';
+import { PredictorConsumer } from './predictor/predictor.processor';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), GroundStationsModule],
-  controllers: [AppController, SatellitesController, TagsController, PassEventsController],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    GroundStationsModule,
+    BullModule.forRoot({
+      connection: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
+    BullModule.registerQueue({
+      name: 'predictor',
+    }),
+  ],
+  controllers: [
+    AppController,
+    SatellitesController,
+    TagsController,
+    PassEventsController,
+  ],
   providers: [
     AppService,
     PrismaService,
@@ -30,6 +49,7 @@ import { PassEventsController } from './pass-events/pass-events.controller';
     PredictorService,
     TagsService,
     PassEventsService,
+    PredictorConsumer,
   ],
 })
 export class AppModule {}

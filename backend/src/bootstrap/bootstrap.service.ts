@@ -26,7 +26,7 @@ export class BootstrapService implements OnModuleInit {
     await this.updateSatnogsdbTransmitters();
     await this.seedTleSources();
     await this.updateTleSources();
-    await this.setupPredictorScheduler();
+    this.setupPredictorScheduler();
     this.logger.log('Bootstrap tasks completed.');
   }
 
@@ -73,11 +73,11 @@ export class BootstrapService implements OnModuleInit {
             2,
           )} hours ago, skipping.`,
         );
-        return;
+      } else {
+        await this.satellitesService.updateFromSatnogsdb();
       }
     }
 
-    await this.satellitesService.updateFromSatnogsdb();
     setInterval(
       () => {
         void this.satellitesService.updateFromSatnogsdb();
@@ -103,11 +103,11 @@ export class BootstrapService implements OnModuleInit {
             2,
           )} hours ago, skipping.`,
         );
-        return;
+      } else {
+        await this.transmittersService.updateTransmitters();
       }
     }
 
-    await this.transmittersService.updateTransmitters();
     setInterval(
       () => {
         void this.transmittersService.updateTransmitters();
@@ -116,7 +116,7 @@ export class BootstrapService implements OnModuleInit {
     );
   }
 
-  async setupPredictorScheduler() {
+  setupPredictorScheduler() {
     const PREDICT_INTERVAL_HOURS = 1;
     // TODO: it is annoyng to wait at the first run. Disable it at least during development?
     // await this.predictorService.bulkPredictor();
