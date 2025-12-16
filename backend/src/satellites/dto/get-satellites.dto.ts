@@ -22,11 +22,11 @@ export class GetSatellitesDto {
   @ApiProperty({
     required: false,
     description:
-      'JSON stringified array of frequency filter objects: [ {"frequency": number, "mode": "le" | "ge", "direction": "downlink" | "uplink" } ]',
+      'JSON stringified array of frequency filter objects: [ {"min": number, "max": number, "direction": "downlink" | "uplink" } ]',
     example:
-      '[{"frequency": 145000000, "mode": "le", "direction": "downlink"}, {"frequency": 143000000, "mode": "ge", "direction": "downlink"}]',
+      '[{"min": 145000000, "max": 146000000, "direction": "downlink"}, {"min": 143000000, "max": 144000000, "direction": "downlink"}]',
   })
-  frequencyFilters?: string; // [ {"frequency": number, "mode": "le" | "ge", "direction": "downlink" | "uplink" } ]
+  frequencyFilters?: string; // [ {"min": number, "max": number, "direction": "downlink" | "uplink" } ]
   @ApiProperty({ required: false })
   page?: string;
 }

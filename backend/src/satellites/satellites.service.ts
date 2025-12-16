@@ -25,38 +25,50 @@ export class SatellitesService {
     const take = 10;
     const skip = (page - 1) * take;
 
+    let frequencyFiltersParsed: {
+      min: number;
+      max: number;
+      direction: 'downlink' | 'uplink';
+    }[] = [];
+    if (frequencyFilters) {
+      frequencyFiltersParsed = JSON.parse(frequencyFilters) as {
+        min: number;
+        max: number;
+        direction: 'downlink' | 'uplink';
+      }[];
+    }
+
     const where: Prisma.SatelliteWhereInput = {
       ...(tracked !== undefined && { isTracked: tracked }),
-      ...(name && {
-        name: { contains: name, mode: 'insensitive' },
-      }),
-      ...(frequencyFilters &&
+      ...(name &&
+        !isNaN(Number(name)) && {
+          OR: [
+            { name: { contains: name, mode: 'insensitive' } },
+            { id: isNaN(Number(name)) ? undefined : Number(name) },
+          ],
+        }),
+      ...(name &&
+        isNaN(Number(name)) && {
+          name: { contains: name, mode: 'insensitive' },
+        }),
+      ...(frequencyFiltersParsed &&
+        frequencyFiltersParsed.length > 0 &&
         (() => {
-          const filters = JSON.parse(frequencyFilters) as {
-            frequency: number;
-            mode: 'le' | 'ge';
-            direction: 'downlink' | 'uplink';
-          }[];
           return {
             transmitters: {
               some: {
-                AND: filters.map((filter) => {
+                OR: frequencyFiltersParsed.map((filter) => {
                   // there is also uplinkHigh/downlinkHigh, but it is rarely used and for simplicity we skip it here
                   const field =
                     filter.direction === 'downlink'
                       ? 'downlinkLow'
                       : 'uplinkLow';
-                  return filter.mode === 'le'
-                    ? {
-                        [field]: {
-                          lte: filter.frequency,
-                        },
-                      }
-                    : {
-                        [field]: {
-                          gte: filter.frequency,
-                        },
-                      };
+                  return {
+                    [field]: {
+                      gte: filter.min,
+                      lte: filter.max,
+                    },
+                  };
                 }),
               },
             },
