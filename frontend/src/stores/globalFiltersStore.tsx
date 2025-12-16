@@ -1,8 +1,8 @@
 import { create } from "zustand";
 
 export interface FrequencyFilter {
-  frequency: number;
-  mode: "le" | "ge";
+  min: number;
+  max: number;
   direction: "downlink" | "uplink";
 }
 

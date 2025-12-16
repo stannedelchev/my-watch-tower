@@ -8,10 +8,13 @@ import { useFilterStore } from "../stores/globalFiltersStore";
 
 export default function SatelliteList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const {filters} = useFilterStore();
+  const { filters } = useFilterStore();
   const { data, error } = useGetSatellites({
     page: currentPage.toString(),
     ...filters,
+    frequencyFilters: filters.frequencyFilters
+      ? JSON.stringify(filters.frequencyFilters)
+      : undefined,
   });
 
   const handlePageChange = (selectedItem: { selected: number }) => {
