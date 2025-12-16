@@ -32,11 +32,6 @@ export class PredictorConsumer extends WorkerHost {
       dateStart: string;
       dateEnd: string;
     } = job.data;
-    // implement the processing logic here
-    console.log(
-      `Processing satellite ${satelliteId} over ground station ${groundStationId} from ${dateStart} to ${dateEnd}`,
-    );
-    // ...
     return this.processSatelliteOverGroundStation({
       satelliteId,
       groundStationId,
@@ -375,7 +370,8 @@ export class PredictorConsumer extends WorkerHost {
         endTime: currentSegmentPoints[currentSegmentPoints.length - 1].time,
         highestElevation,
         duration,
-        points: currentSegmentPoints,
+        // points: currentSegmentPoints, // don't insert all points in DB, will be calculated in frontend if needed
+        points: [],
       });
     }
 

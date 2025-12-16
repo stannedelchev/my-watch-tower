@@ -15,12 +15,6 @@ export class PredictorService {
   // async onModuleInit() {
   //   const dateStart = new Date();
   //   const dateEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  //   // await this.processSatelliteOverGroundStation({
-  //   //   satelliteId: 29249, // MEO satelite
-  //   //   groundStationId: 6,
-  //   //   dateStart,
-  //   //   dateEnd,
-  //   // });
   //   await this.predictorQueue.add('processSatelliteOverGroundStation', {
   //     satelliteId: 29249, // MEO satelite
   //     groundStationId: 6,
@@ -28,12 +22,6 @@ export class PredictorService {
   //     dateEnd,
   //   });
 
-  //   // await this.processSatelliteOverGroundStation({
-  //   //   satelliteId: 25544, // ISS
-  //   //   groundStationId: 2, // Plovdiv
-  //   //   dateStart,
-  //   //   dateEnd,
-  //   // });
   //   await this.predictorQueue.add('processSatelliteOverGroundStation', {
   //     satelliteId: 25544, // ISS
   //     groundStationId: 2, // Plovdiv
@@ -42,7 +30,19 @@ export class PredictorService {
   //   });
   // }
 
-  // TODO: find a way to run in a worker thread to avoid blocking main event loop
+  async cleanupQueue() {
+    this.logger.log('Cleaning up predictor queue...');
+    await this.predictorQueue.drain();
+    const jobs = await this.predictorQueue.getJobs([
+      'waiting',
+      'active',
+      'delayed',
+    ]);
+    this.logger.log(`Removing ${jobs.length} jobs from the queue...`);
+    await Promise.all(jobs.map((job) => job.remove()));
+    this.logger.log('Predictor queue cleaned up.');
+  }
+
   async bulkPredictor() {
     // get all tracked satellites and all ground stations
     // for each satellite and ground station pair, calculate passes for the next 7 days
@@ -60,13 +60,8 @@ export class PredictorService {
     const promises: Promise<Job>[] = [];
     for (const sat of satelliteIds) {
       for (const gs of groundStationIds) {
+        // run in background Queue
         promises.push(
-          // this.processSatelliteOverGroundStation({
-          //   groundStationId: gs.id,
-          //   satelliteId: sat.id,
-          //   dateStart,
-          //   dateEnd,
-          // }),
           this.predictorQueue.add('processSatelliteOverGroundStation', {
             satelliteId: sat.id,
             groundStationId: gs.id,
