@@ -28,20 +28,39 @@
   .header {
     display: flex;
     justify-content: space-between;
-    .aos, .los {
+    .aos,
+    .los {
       text-align: center;
     }
   }
   .details {
-    .elevation {
-      &.red {
-        color: #ef4444;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 1rem;
+    @include md {
+      flex-direction: row;
+    }
+    .elevation, .duration {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      .visible {
+        display: flex;
+        gap: 0.25rem;
+        align-items: center;
+        &.red {
+          color: #ef4444;
+        }
+        &.yellow {
+          color: #f59e0b;
+        }
+        &.green {
+          color: #10b981;
+        }
       }
-      &.yellow {
-        color: #f59e0b;
-      }
-      &.green {
-        color: #10b981;
+      .max {
+        color: #9ca3af;
       }
     }
   }

@@ -40,7 +40,10 @@ header {
 }
 
 main {
-  padding: 2rem;
+  padding: 0.5rem;
+  @include md {
+    padding: 2rem;
+  }
 }
 
 nav {

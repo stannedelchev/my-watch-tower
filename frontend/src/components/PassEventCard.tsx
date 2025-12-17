@@ -63,7 +63,7 @@ export default function PassEventCard({ item }: { item: PassEventEntity }) {
     const aos = new Date(item.aos);
     const los = new Date(item.los);
     return currentTime >= aos && currentTime <= los;
-  }
+  };
 
   const formatProgressPercent = (aos: string, los: string) => {
     const aosDate = new Date(aos);
@@ -92,13 +92,25 @@ export default function PassEventCard({ item }: { item: PassEventEntity }) {
       )}
       {/* how to present visible vs actual elevation for best UI/UX? */}
       <div className="details">
-        <div className={`elevation ${formatElevationClassName(item.maxVisibleElevation)}`}>
-          <TriangleRight /> {item.maxVisibleElevation.toFixed(0)}° / (
-          {item.maxElevation.toFixed(0)}°)
+        <div className={`elevation `}>
+          <div
+            className={`visible ${formatElevationClassName(
+              item.maxVisibleElevation
+            )}`}
+          >
+            <TriangleRight /> {item.maxVisibleElevation.toFixed(0)}°
+          </div>
+          <div className="max">
+            ({item.maxElevation.toFixed(0)}° max possible)
+          </div>
         </div>
         <div className="duration">
-          <ClockFading /> {formatDuration(item.totalVisibleDuration)} / (
-          {formatDuration(item.duration)})
+          <div className="visible">
+            <ClockFading /> {formatDuration(item.totalVisibleDuration)}
+          </div>
+          <div className="max">
+            ({formatDuration(item.duration)} max possible)
+          </div>
         </div>
       </div>
     </div>
