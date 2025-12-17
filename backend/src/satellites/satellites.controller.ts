@@ -21,7 +21,7 @@ export class SatellitesController {
     @Param('id') id: string,
     @Body() trackSatelliteDto: TrackSatelliteDto,
   ) {
-    return this.satelliteService.update(+id, {
+    return this.satelliteService.setTracked(+id, {
       isTracked: trackSatelliteDto.isTracked,
     });
   }

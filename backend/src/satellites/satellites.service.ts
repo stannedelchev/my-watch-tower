@@ -1,10 +1,10 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdateSatelliteDto } from './dto/update-satellite.dto';
 import { Prisma, Satellite } from 'src/generated/prisma/client';
 import { AppConfigService } from 'src/app-config/app-config.service';
 import axios from 'axios';
 import { SatnogsdbSatellite } from './satellites.interfaces';
+import { PredictorService } from 'src/predictor/predictor.service';
 
 @Injectable()
 export class SatellitesService {
@@ -12,6 +12,7 @@ export class SatellitesService {
   constructor(
     private prisma: PrismaService,
     private appConfigService: AppConfigService,
+    private predictorService: PredictorService,
   ) {}
 
   async findAll(params: {
@@ -97,9 +98,11 @@ export class SatellitesService {
     return { items, total, page, pageCount: Math.ceil(total / take) };
   }
 
-  async update(
+  async setTracked(
     id: number,
-    updateSatelliteDto: UpdateSatelliteDto,
+    updateSatelliteDto: {
+      isTracked: boolean;
+    },
   ): Promise<Satellite> {
     const item = await this.prisma.satellite.findUnique({
       where: { id },
@@ -107,6 +110,12 @@ export class SatellitesService {
     if (!item) {
       throw new NotFoundException('Satellite not found');
     }
+
+    // if starting to track - add to predictor queue to get some passes
+    if (updateSatelliteDto.isTracked && !item.isTracked) {
+      await this.predictorService.addSatellite(id);
+    }
+
     return await this.prisma.satellite.update({
       where: { id },
       data: updateSatelliteDto,
