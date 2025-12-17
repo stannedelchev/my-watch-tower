@@ -48,18 +48,31 @@ export class BootstrapService implements OnModuleInit {
 
   async updateTleSources() {
     const REFETCH_INTERVAL_HOURS = 24;
-    await this.tleUpdateService.updateStaleSources();
+
+    // schedule
     setInterval(
       () => {
         void this.tleUpdateService.updateStaleSources();
       },
       REFETCH_INTERVAL_HOURS * 60 * 60 * 1000,
     );
+
+    // run immediately
+    await this.tleUpdateService.updateStaleSources();
   }
 
   async updateSatnogsdbSatellites() {
     const SATELLITES_STALE_HOURS = 24;
 
+    // schedule
+    setInterval(
+      () => {
+        void this.satellitesService.updateFromSatnogsdb();
+      },
+      SATELLITES_STALE_HOURS * 60 * 60 * 1000,
+    );
+
+    // do we have to run immediately?
     const lastFetchTime = await this.appConfigService.get(
       'core.last_satnogsdb_satellite_update.time',
     );
@@ -74,22 +87,25 @@ export class BootstrapService implements OnModuleInit {
             2,
           )} hours ago, skipping.`,
         );
-      } else {
-        await this.satellitesService.updateFromSatnogsdb();
+        return;
       }
     }
 
-    setInterval(
-      () => {
-        void this.satellitesService.updateFromSatnogsdb();
-      },
-      SATELLITES_STALE_HOURS * 60 * 60 * 1000,
-    );
+    await this.satellitesService.updateFromSatnogsdb();
   }
 
   async updateSatnogsdbTransmitters() {
     const TRANSMITTERS_STALE_HOURS = 24;
 
+    // schedule
+    setInterval(
+      () => {
+        void this.transmittersService.updateTransmitters();
+      },
+      TRANSMITTERS_STALE_HOURS * 60 * 60 * 1000,
+    );
+
+    // do we have to run immediately?
     const lastFetchTime = await this.appConfigService.get(
       'core.last_satnogsdb_transmitter_update.time',
     );
@@ -104,28 +120,24 @@ export class BootstrapService implements OnModuleInit {
             2,
           )} hours ago, skipping.`,
         );
-      } else {
-        await this.transmittersService.updateTransmitters();
+        return;
       }
     }
 
-    setInterval(
-      () => {
-        void this.transmittersService.updateTransmitters();
-      },
-      TRANSMITTERS_STALE_HOURS * 60 * 60 * 1000,
-    );
+    await this.transmittersService.updateTransmitters();
   }
 
   setupPredictorScheduler() {
     const PREDICT_INTERVAL_HOURS = 1;
-    // TODO: it is annoyng to wait at the first run. Disable it at least during development?
-    // this.predictorService.bulkPredictor();
+
+    // schedule
     setInterval(
       () => {
         void this.predictorService.bulkPredictor();
       },
       PREDICT_INTERVAL_HOURS * 60 * 60 * 1000,
     );
+    // TODO: it is annoyng to wait at the first run. Disable it at least during development?
+    // this.predictorService.bulkPredictor();
   }
 }
