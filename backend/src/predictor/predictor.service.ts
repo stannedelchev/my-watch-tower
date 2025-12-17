@@ -1,34 +1,35 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 import { InjectQueue } from '@nestjs/bullmq';
 import { Job, Queue } from 'bullmq';
 
 @Injectable()
-export class PredictorService {
+export class PredictorService implements OnModuleInit {
   private readonly logger = new Logger(PredictorService.name);
   constructor(
     private prisma: PrismaService,
     @InjectQueue('predictor') private predictorQueue: Queue,
   ) {}
 
-  // async onModuleInit() {
-  //   const dateStart = new Date();
-  //   const dateEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  //   await this.predictorQueue.add('processSatelliteOverGroundStation', {
-  //     satelliteId: 29249, // MEO satelite
-  //     groundStationId: 6,
-  //     dateStart,
-  //     dateEnd,
-  //   });
-
-  //   await this.predictorQueue.add('processSatelliteOverGroundStation', {
-  //     satelliteId: 25544, // ISS
-  //     groundStationId: 2, // Plovdiv
-  //     dateStart,
-  //     dateEnd,
-  //   });
-  // }
+  onModuleInit() {
+    // const dateStart = new Date();
+    // const dateEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    // await this.predictorQueue.add('processSatelliteOverGroundStation', {
+    //   satelliteId: 29249, // MEO satelite
+    //   groundStationId: 6,
+    //   dateStart,
+    //   dateEnd,
+    // });
+    //
+    // await this.predictorQueue.add('processSatelliteOverGroundStation', {
+    //   satelliteId: 25544, // ISS
+    //   groundStationId: 2, // Plovdiv
+    //   dateStart,
+    //   dateEnd,
+    // });
+  }
 
   async cleanupQueue() {
     this.logger.log('Cleaning up predictor queue...');
@@ -78,7 +79,48 @@ export class PredictorService {
     );
   }
 
+  async addSatellite(satelliteId: number) {
+    // get all ground stations
+    // for each ground station, calculate passes for the next 7 days
+    this.logger.log(
+      `Adding satellite ${satelliteId} to predictor queue for all ground stations...`,
+    );
+    const groundStationIds = await this.prisma.groundStation.findMany({
+      select: { id: true },
+    });
+    const dateStart = new Date();
+    const dateEnd = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days ahead
+
+    const promises: Promise<Job>[] = [];
+    for (const gs of groundStationIds) {
+      // run in background Queue
+      promises.push(
+        this.predictorQueue.add('processSatelliteOverGroundStation', {
+          satelliteId,
+          groundStationId: gs.id,
+          dateStart,
+          dateEnd,
+        }),
+      );
+    }
+    const startTime = Date.now();
+    await Promise.all(promises);
+    this.logger.log(
+      `Satellite ${satelliteId} added to predictor queue for ${groundStationIds.length} ground stations in ${Date.now() - startTime} ms`,
+    );
+  }
+
+  @Cron('*/1 * * * *') // every minute
   async clearOldPassEvents() {
-    // TODO: implement retention policy
+    // delete pass events where los is older than now
+    const now = new Date();
+    const result = await this.prisma.passEvent.deleteMany({
+      where: {
+        los: {
+          lt: now,
+        },
+      },
+    });
+    this.logger.log(`Deleted ${result.count} old pass events.`);
   }
 }
