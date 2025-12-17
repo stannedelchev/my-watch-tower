@@ -26,9 +26,17 @@ export class PassEventsService {
         omit: {
           visibleSegments: true,
         },
+        include: {
+          satellite: {
+            include: {
+              tags: true,
+              transmitters: true,
+            },
+          },
+        },
       }),
       this.prisma.passEvent.count({ where }),
     ]);
-    return { items, total, page };
+    return { items, total, page, pageCount: Math.ceil(total / take) };
   }
 }

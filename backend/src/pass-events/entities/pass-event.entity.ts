@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { PassEvent } from 'src/generated/prisma/browser';
+import { SatelliteEntity } from 'src/satellites/entities/satellite.entity';
 
 export class PassEventEntity implements PassEvent {
   @ApiProperty()
@@ -8,6 +9,8 @@ export class PassEventEntity implements PassEvent {
   groundStationId: number;
   @ApiProperty()
   satelliteId: number;
+  @ApiProperty({ type: SatelliteEntity })
+  satellite: SatelliteEntity;
   @ApiProperty()
   orbitNumber: number;
   @ApiProperty()
@@ -29,4 +32,15 @@ export class PassEventEntity implements PassEvent {
   createdAt: Date;
   @ApiProperty()
   updatedAt: Date;
+}
+
+export class PassEventEntityResponse {
+  @ApiProperty({ type: [PassEventEntity] })
+  items: PassEventEntity[];
+  @ApiProperty()
+  total: number;
+  @ApiProperty()
+  page: number;
+  @ApiProperty()
+  pageCount: number;
 }
