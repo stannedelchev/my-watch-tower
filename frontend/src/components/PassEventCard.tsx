@@ -1,4 +1,4 @@
-import { ClockFading, TriangleRight } from "lucide-react";
+import { ClockFading, Sunrise, Sunset, TriangleRight } from "lucide-react";
 import type { PassEventEntity } from "../model";
 import { useEffect, useState } from "react";
 
@@ -24,14 +24,14 @@ export default function PassEventCard({ item }: { item: PassEventEntity }) {
       date.getMonth() === now.getMonth() &&
       date.getFullYear() === now.getFullYear()
     ) {
-      return <span>{date.toLocaleTimeString([], { hourCycle: "h24" })}</span>;
+      return <div>{date.toLocaleTimeString([], { hourCycle: "h24" })}</div>;
     } else {
       return (
-        <span>
+        <div>
           {date.toLocaleDateString()}
           <br />
           {date.toLocaleTimeString([], { hourCycle: "h24" })}
-        </span>
+        </div>
       );
     }
   };
@@ -78,9 +78,14 @@ export default function PassEventCard({ item }: { item: PassEventEntity }) {
   return (
     <div className="pass-event-card">
       <div className="header">
-        <div className="aos">{formatDate(item.aos)}</div>
+        <div className="aos">
+          <Sunrise />
+          {formatDate(item.aos)}
+        </div>
         <h3>{item.satellite.name}</h3>
-        <div className="los">{formatDate(item.los)}</div>
+        <div className="los">
+          {formatDate(item.los)} <Sunset />
+        </div>
       </div>
       {isCurrentlyPassing() && (
         <div className="progress-bar-container">

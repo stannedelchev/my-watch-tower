@@ -33,6 +33,7 @@ export default function PassEvents() {
       {!currentGroundStationId && (
         <p>Please select a ground station (above).</p>
       )}
+      <p>All times are local times to browser.</p>
       {error && <p>Error loading pass events: {String(error)}</p>}
       {data && (
         <>

@@ -121,6 +121,8 @@ export class PredictorService implements OnModuleInit {
         },
       },
     });
-    this.logger.log(`Deleted ${result.count} old pass events.`);
+    if (result.count > 0) {
+      this.logger.log(`Deleted ${result.count} old pass events.`);
+    }
   }
 }

@@ -31,6 +31,15 @@
     .aos,
     .los {
       text-align: center;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      svg {
+        display: none;
+        @include md {
+          display: inline;
+        }
+      }
     }
   }
   .details {
