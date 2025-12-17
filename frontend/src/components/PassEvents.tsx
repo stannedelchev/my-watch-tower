@@ -4,9 +4,11 @@ import { useCurrentGroundStationStore } from "../stores/currentGroundStationStor
 import ReactPaginate from "react-paginate";
 import PassEventCard from "./PassEventCard";
 import "@/styles/PassEventList.scss";
+import { useGetAllGroundStations } from "../api/generated/ground-stations/ground-stations";
 
 export default function PassEvents() {
   const [currentPage, setCurrentPage] = useState(1);
+  const { data: groundStations } = useGetAllGroundStations();
   const { currentGroundStationId } = useCurrentGroundStationStore();
   const { data, error } = useGetPassEventsByGroundStationId(
     {
@@ -27,7 +29,7 @@ export default function PassEvents() {
 
   return (
     <div>
-      <h2>Pass Events</h2>
+      <h2>Pass Events for {groundStations?.find(gs => gs.id === currentGroundStationId)?.name || "Selected Ground Station"}</h2>
       {!currentGroundStationId && (
         <p>Please select a ground station (above).</p>
       )}
