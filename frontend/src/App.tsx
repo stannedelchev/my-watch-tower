@@ -4,7 +4,7 @@ import "@/styles/App.scss";
 import Layout from "./components/Layout";
 import StationsList from "./components/StationsList";
 import StationEditor from "./components/StationEditor";
-import Home from "./components/Home";
+import PassEvents from "./components/PassEvents";
 import SatelliteList from "./components/SatelliteList";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<PassEvents />} />
           {/* Stations CRUD */}
           <Route path="/stations" element={<StationsList />} />
           <Route

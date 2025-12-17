@@ -22,7 +22,7 @@ import type {
 
 import type {
   GetPassEventsByGroundStationIdParams,
-  PassEventEntity
+  PassEventEntityResponse
 } from '../../../model';
 
 import { customInstance } from '../../mutator/custom-instance';
@@ -39,7 +39,7 @@ export const getPassEventsByGroundStationId = (
 ) => {
       
       
-      return customInstance<PassEventEntity[]>(
+      return customInstance<PassEventEntityResponse>(
       {url: `/pass-events`, method: 'GET',
         params, signal
     },

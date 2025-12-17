@@ -5,11 +5,13 @@
  * Satellite tracker and predictor
  * OpenAPI spec version: 1.0
  */
+import type { SatelliteEntity } from './satelliteEntity';
 
 export interface PassEventEntity {
   id: number;
   groundStationId: number;
   satelliteId: number;
+  satellite: SatelliteEntity;
   orbitNumber: number;
   aos: string;
   los: string;

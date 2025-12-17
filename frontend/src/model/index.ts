@@ -12,6 +12,7 @@ export * from './getSatellitesParams';
 export * from './groundStationEntity';
 export * from './groundStationEntityHorizonmask';
 export * from './passEventEntity';
+export * from './passEventEntityResponse';
 export * from './satelliteEntity';
 export * from './satelliteEntityResponse';
 export * from './setTagsDto';

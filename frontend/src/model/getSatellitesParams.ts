@@ -20,7 +20,7 @@ tag?: string;
  */
 name?: string;
 /**
- * JSON stringified array of frequency filter objects: [ {"frequency": number, "mode": "le" | "ge", "direction": "downlink" | "uplink" } ]
+ * JSON stringified array of frequency filter objects: [ {"min": number, "max": number, "direction": "downlink" | "uplink" } ]
  */
 frequencyFilters?: string;
 page?: string;
