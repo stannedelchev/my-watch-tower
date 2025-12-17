@@ -17,6 +17,7 @@ import { PassEventsService } from './pass-events/pass-events.service';
 import { PassEventsController } from './pass-events/pass-events.controller';
 import { BullModule } from '@nestjs/bullmq';
 import { PredictorConsumer } from './predictor/predictor.processor';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PredictorConsumer } from './predictor/predictor.processor';
     BullModule.registerQueue({
       name: 'predictor',
     }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [
     AppController,
