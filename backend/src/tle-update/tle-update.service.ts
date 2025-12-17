@@ -65,7 +65,7 @@ export class TleUpdateService {
         this.prisma.satellite.upsert({
           where: { id: sat.id! },
           update: {
-            name: sat.name,
+            // name: sat.name, // names from TLEs are sometimes not very good
             line1: sat.line1,
             line2: sat.line2,
           },
@@ -124,10 +124,9 @@ export class TleUpdateService {
 
     for (const satData of satnogsdbData) {
       // "tle0": "0 NANOSAT C BR1",
-      const line0 = satData.tle0;
       const line1 = satData.tle1;
       const line2 = satData.tle2;
-      const id = getCatalogNumber(`${line0}\n${line1}\n${line2}`);
+      const id = satData.norad_cat_id;
       const name = satData.tle0.substring(2).trim();
       satellites.push({
         id,
