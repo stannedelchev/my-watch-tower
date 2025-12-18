@@ -1,3 +1,4 @@
+.pass-filters,
 .global-filters {
   background-color: #111827;
   border: 1px solid #1f2937;
@@ -24,6 +25,7 @@
     }
   }
 
+  .timing-filters,
   .frequency-filters {
     margin-top: 1rem;
 
@@ -38,10 +40,11 @@
       }
     }
 
+    .timing-row,
     .frequency-row {
       display: flex;
       gap: 1rem;
-      align-items: flex-end;
+      align-items: center;
       margin-bottom: 0.75rem;
 
       .form-group {
