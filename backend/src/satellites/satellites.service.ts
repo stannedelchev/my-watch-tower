@@ -15,16 +15,13 @@ export class SatellitesService {
     private predictorService: PredictorService,
   ) {}
 
-  async findAll(params: {
+  satelliteFiltersToPrismaWhereInput(params: {
     tracked?: boolean;
     tag?: string;
     name?: string;
     frequencyFilters?: string;
-    page?: number;
-  }) {
-    const { tracked, tag, name, frequencyFilters, page = 1 } = params;
-    const take = 10;
-    const skip = (page - 1) * take;
+  }): Prisma.SatelliteWhereInput {
+    const { tracked, tag, name, frequencyFilters } = params;
 
     let frequencyFiltersParsed: {
       min: number;
@@ -83,6 +80,26 @@ export class SatellitesService {
         },
       }),
     };
+    return where;
+  }
+
+  async findAll(params: {
+    tracked?: boolean;
+    tag?: string;
+    name?: string;
+    frequencyFilters?: string;
+    page?: number;
+  }) {
+    const { tracked, tag, name, frequencyFilters, page = 1 } = params;
+    const take = 10;
+    const skip = (page - 1) * take;
+
+    const where = this.satelliteFiltersToPrismaWhereInput({
+      tracked,
+      tag,
+      name,
+      frequencyFilters,
+    });
 
     const [items, total] = await Promise.all([
       this.prisma.satellite.findMany({
