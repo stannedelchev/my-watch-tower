@@ -253,6 +253,11 @@ export class PredictorConsumer extends WorkerHost {
         orbitNumber: rp.orbitNumber,
         aos: rp.startTime,
         los: rp.endTime,
+        aosTime: rp.startTime.toISOString().substring(11, 16),
+        losTime: rp.endTime.toISOString().substring(11, 16),
+        aosDow: ['Su', 'M', 'T', 'W', 'Th', 'F', 'Sa'][
+          rp.startTime.getUTCDay()
+        ],
         maxElevation: rp.highestElevation,
         duration: rp.duration,
         visibleSegments: JSON.stringify(obstructedSegments),

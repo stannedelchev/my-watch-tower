@@ -11,7 +11,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     });
     super({
       adapter,
-      // log: ['query'] // to enable SQL query logging
+      // log: ['query'], // to enable SQL query logging
     });
   }
   async onModuleInit() {

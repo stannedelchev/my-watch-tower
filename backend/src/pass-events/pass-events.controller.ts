@@ -15,6 +15,17 @@ export class PassEventsController {
   async findAllByGroundStationId(@Query() query: FindByGsDto) {
     return this.passEventsService.findAllByGroundStationId({
       groundStationId: parseInt(query.groundStationId, 10),
+      satelliteFilters: {
+        tag: query?.tag,
+        name: query?.name,
+        frequencyFilters: query?.frequencyFilters,
+      },
+      passEventFilters: {
+        minVisibleDuration: query?.minVisibleDuration,
+        minVisibleElevation: query?.minVisibleElevation,
+        browserLocalTzOffsetMinutes: query?.browserLocalTzOffsetMinutes,
+        timingFilters: query?.timingFilters,
+      },
       page: query.page ? parseInt(query.page, 10) : undefined,
     });
   }

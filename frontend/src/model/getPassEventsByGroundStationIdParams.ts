@@ -8,6 +8,38 @@
 
 export type GetPassEventsByGroundStationIdParams = {
 /**
+ * Minimum visible duration in seconds
+ */
+minVisibleDuration?: string;
+/**
+ * Minimum visible elevation in degrees
+ */
+minVisibleElevation?: string;
+/**
+ * JSON stringified array of timing filter objects: [ {"minTime": "HH:MM", "maxTime": "HH:MM", "dows": "M, T, W, Th, F, Sa, Su"} ]
+ */
+timingFilters?: string;
+/**
+ * Browser local timezone offset in minutes (e.g., -120 for UTC+2)
+ */
+browserLocalTzOffsetMinutes?: string;
+/**
+ * Fetch only tracked satellites?
+ */
+tracked?: string;
+/**
+ * Filter by tag name
+ */
+tag?: string;
+/**
+ * Filter by (part of) satellite name, case insensitive
+ */
+name?: string;
+/**
+ * JSON stringified array of frequency filter objects: [ {"min": number, "max": number, "direction": "downlink" | "uplink" } ]
+ */
+frequencyFilters?: string;
+/**
  * Ground Station ID
  */
 groundStationId: string;

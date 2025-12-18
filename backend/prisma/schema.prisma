@@ -103,6 +103,12 @@ model PassEvent {
 
   aos          DateTime
   los          DateTime
+  
+  // derived fields for easier filtering
+  aosTime      String // only "time" part of aos in "HH:mm" format
+  losTime      String // only "time" part of los in "HH:mm" format
+  aosDow       String // day of week for aos, e.g. "M", "T", "W", "Th", "F", "Sa", "Su"
+
   maxElevation Float
   duration     Int // in seconds
 

@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class GetSatellitesDto {
+export class BaseSatelliteFiltersDto {
   @ApiProperty({
     required: false,
     description: 'Fetch only tracked satellites?',
@@ -13,12 +13,14 @@ export class GetSatellitesDto {
     example: 'Amateur',
   })
   tag?: string;
+
   @ApiProperty({
     required: false,
     description: 'Filter by (part of) satellite name, case insensitive',
     example: 'meteor',
   })
   name?: string;
+
   @ApiProperty({
     required: false,
     description:
@@ -26,7 +28,10 @@ export class GetSatellitesDto {
     example:
       '[{"min": 145000000, "max": 146000000, "direction": "downlink"}, {"min": 143000000, "max": 144000000, "direction": "downlink"}]',
   })
-  frequencyFilters?: string; // [ {"min": number, "max": number, "direction": "downlink" | "uplink" } ]
+  frequencyFilters?: string;
+}
+
+export class GetSatellitesDto extends BaseSatelliteFiltersDto {
   @ApiProperty({ required: false })
   page?: string;
 }

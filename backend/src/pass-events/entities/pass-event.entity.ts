@@ -16,6 +16,12 @@ export class PassEventEntity implements PassEvent {
   @ApiProperty()
   aos: Date;
   @ApiProperty()
+  aosTime: string;
+  @ApiProperty()
+  aosDow: string;
+  @ApiProperty()
+  losTime: string;
+  @ApiProperty()
   los: Date;
   @ApiProperty()
   maxElevation: number;

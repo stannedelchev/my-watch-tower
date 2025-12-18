@@ -55,6 +55,9 @@ export type PassEventMinAggregateOutputType = {
   orbitNumber: number | null
   aos: Date | null
   los: Date | null
+  aosTime: string | null
+  losTime: string | null
+  aosDow: string | null
   maxElevation: number | null
   duration: number | null
   visibleSegments: string | null
@@ -71,6 +74,9 @@ export type PassEventMaxAggregateOutputType = {
   orbitNumber: number | null
   aos: Date | null
   los: Date | null
+  aosTime: string | null
+  losTime: string | null
+  aosDow: string | null
   maxElevation: number | null
   duration: number | null
   visibleSegments: string | null
@@ -87,6 +93,9 @@ export type PassEventCountAggregateOutputType = {
   orbitNumber: number
   aos: number
   los: number
+  aosTime: number
+  losTime: number
+  aosDow: number
   maxElevation: number
   duration: number
   visibleSegments: number
@@ -127,6 +136,9 @@ export type PassEventMinAggregateInputType = {
   orbitNumber?: true
   aos?: true
   los?: true
+  aosTime?: true
+  losTime?: true
+  aosDow?: true
   maxElevation?: true
   duration?: true
   visibleSegments?: true
@@ -143,6 +155,9 @@ export type PassEventMaxAggregateInputType = {
   orbitNumber?: true
   aos?: true
   los?: true
+  aosTime?: true
+  losTime?: true
+  aosDow?: true
   maxElevation?: true
   duration?: true
   visibleSegments?: true
@@ -159,6 +174,9 @@ export type PassEventCountAggregateInputType = {
   orbitNumber?: true
   aos?: true
   los?: true
+  aosTime?: true
+  losTime?: true
+  aosDow?: true
   maxElevation?: true
   duration?: true
   visibleSegments?: true
@@ -262,6 +280,9 @@ export type PassEventGroupByOutputType = {
   orbitNumber: number
   aos: Date
   los: Date
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -301,6 +322,9 @@ export type PassEventWhereInput = {
   orbitNumber?: Prisma.IntFilter<"PassEvent"> | number
   aos?: Prisma.DateTimeFilter<"PassEvent"> | Date | string
   los?: Prisma.DateTimeFilter<"PassEvent"> | Date | string
+  aosTime?: Prisma.StringFilter<"PassEvent"> | string
+  losTime?: Prisma.StringFilter<"PassEvent"> | string
+  aosDow?: Prisma.StringFilter<"PassEvent"> | string
   maxElevation?: Prisma.FloatFilter<"PassEvent"> | number
   duration?: Prisma.IntFilter<"PassEvent"> | number
   visibleSegments?: Prisma.StringFilter<"PassEvent"> | string
@@ -319,6 +343,9 @@ export type PassEventOrderByWithRelationInput = {
   orbitNumber?: Prisma.SortOrder
   aos?: Prisma.SortOrder
   los?: Prisma.SortOrder
+  aosTime?: Prisma.SortOrder
+  losTime?: Prisma.SortOrder
+  aosDow?: Prisma.SortOrder
   maxElevation?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   visibleSegments?: Prisma.SortOrder
@@ -341,6 +368,9 @@ export type PassEventWhereUniqueInput = Prisma.AtLeast<{
   orbitNumber?: Prisma.IntFilter<"PassEvent"> | number
   aos?: Prisma.DateTimeFilter<"PassEvent"> | Date | string
   los?: Prisma.DateTimeFilter<"PassEvent"> | Date | string
+  aosTime?: Prisma.StringFilter<"PassEvent"> | string
+  losTime?: Prisma.StringFilter<"PassEvent"> | string
+  aosDow?: Prisma.StringFilter<"PassEvent"> | string
   maxElevation?: Prisma.FloatFilter<"PassEvent"> | number
   duration?: Prisma.IntFilter<"PassEvent"> | number
   visibleSegments?: Prisma.StringFilter<"PassEvent"> | string
@@ -359,6 +389,9 @@ export type PassEventOrderByWithAggregationInput = {
   orbitNumber?: Prisma.SortOrder
   aos?: Prisma.SortOrder
   los?: Prisma.SortOrder
+  aosTime?: Prisma.SortOrder
+  losTime?: Prisma.SortOrder
+  aosDow?: Prisma.SortOrder
   maxElevation?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   visibleSegments?: Prisma.SortOrder
@@ -383,6 +416,9 @@ export type PassEventScalarWhereWithAggregatesInput = {
   orbitNumber?: Prisma.IntWithAggregatesFilter<"PassEvent"> | number
   aos?: Prisma.DateTimeWithAggregatesFilter<"PassEvent"> | Date | string
   los?: Prisma.DateTimeWithAggregatesFilter<"PassEvent"> | Date | string
+  aosTime?: Prisma.StringWithAggregatesFilter<"PassEvent"> | string
+  losTime?: Prisma.StringWithAggregatesFilter<"PassEvent"> | string
+  aosDow?: Prisma.StringWithAggregatesFilter<"PassEvent"> | string
   maxElevation?: Prisma.FloatWithAggregatesFilter<"PassEvent"> | number
   duration?: Prisma.IntWithAggregatesFilter<"PassEvent"> | number
   visibleSegments?: Prisma.StringWithAggregatesFilter<"PassEvent"> | string
@@ -396,6 +432,9 @@ export type PassEventCreateInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -414,6 +453,9 @@ export type PassEventUncheckedCreateInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -427,6 +469,9 @@ export type PassEventUpdateInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -445,6 +490,9 @@ export type PassEventUncheckedUpdateInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -461,6 +509,9 @@ export type PassEventCreateManyInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -474,6 +525,9 @@ export type PassEventUpdateManyMutationInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -490,6 +544,9 @@ export type PassEventUncheckedUpdateManyInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -522,6 +579,9 @@ export type PassEventCountOrderByAggregateInput = {
   orbitNumber?: Prisma.SortOrder
   aos?: Prisma.SortOrder
   los?: Prisma.SortOrder
+  aosTime?: Prisma.SortOrder
+  losTime?: Prisma.SortOrder
+  aosDow?: Prisma.SortOrder
   maxElevation?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   visibleSegments?: Prisma.SortOrder
@@ -549,6 +609,9 @@ export type PassEventMaxOrderByAggregateInput = {
   orbitNumber?: Prisma.SortOrder
   aos?: Prisma.SortOrder
   los?: Prisma.SortOrder
+  aosTime?: Prisma.SortOrder
+  losTime?: Prisma.SortOrder
+  aosDow?: Prisma.SortOrder
   maxElevation?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   visibleSegments?: Prisma.SortOrder
@@ -565,6 +628,9 @@ export type PassEventMinOrderByAggregateInput = {
   orbitNumber?: Prisma.SortOrder
   aos?: Prisma.SortOrder
   los?: Prisma.SortOrder
+  aosTime?: Prisma.SortOrder
+  losTime?: Prisma.SortOrder
+  aosDow?: Prisma.SortOrder
   maxElevation?: Prisma.SortOrder
   duration?: Prisma.SortOrder
   visibleSegments?: Prisma.SortOrder
@@ -673,6 +739,9 @@ export type PassEventCreateWithoutSatelliteInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -689,6 +758,9 @@ export type PassEventUncheckedCreateWithoutSatelliteInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -734,6 +806,9 @@ export type PassEventScalarWhereInput = {
   orbitNumber?: Prisma.IntFilter<"PassEvent"> | number
   aos?: Prisma.DateTimeFilter<"PassEvent"> | Date | string
   los?: Prisma.DateTimeFilter<"PassEvent"> | Date | string
+  aosTime?: Prisma.StringFilter<"PassEvent"> | string
+  losTime?: Prisma.StringFilter<"PassEvent"> | string
+  aosDow?: Prisma.StringFilter<"PassEvent"> | string
   maxElevation?: Prisma.FloatFilter<"PassEvent"> | number
   duration?: Prisma.IntFilter<"PassEvent"> | number
   visibleSegments?: Prisma.StringFilter<"PassEvent"> | string
@@ -747,6 +822,9 @@ export type PassEventCreateWithoutGroundStationInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -763,6 +841,9 @@ export type PassEventUncheckedCreateWithoutGroundStationInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -804,6 +885,9 @@ export type PassEventCreateManySatelliteInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -817,6 +901,9 @@ export type PassEventUpdateWithoutSatelliteInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -833,6 +920,9 @@ export type PassEventUncheckedUpdateWithoutSatelliteInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -848,6 +938,9 @@ export type PassEventUncheckedUpdateManyWithoutSatelliteInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -863,6 +956,9 @@ export type PassEventCreateManyGroundStationInput = {
   orbitNumber: number
   aos: Date | string
   los: Date | string
+  aosTime: string
+  losTime: string
+  aosDow: string
   maxElevation: number
   duration: number
   visibleSegments: string
@@ -876,6 +972,9 @@ export type PassEventUpdateWithoutGroundStationInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -892,6 +991,9 @@ export type PassEventUncheckedUpdateWithoutGroundStationInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -907,6 +1009,9 @@ export type PassEventUncheckedUpdateManyWithoutGroundStationInput = {
   orbitNumber?: Prisma.IntFieldUpdateOperationsInput | number
   aos?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   los?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  aosTime?: Prisma.StringFieldUpdateOperationsInput | string
+  losTime?: Prisma.StringFieldUpdateOperationsInput | string
+  aosDow?: Prisma.StringFieldUpdateOperationsInput | string
   maxElevation?: Prisma.FloatFieldUpdateOperationsInput | number
   duration?: Prisma.IntFieldUpdateOperationsInput | number
   visibleSegments?: Prisma.StringFieldUpdateOperationsInput | string
@@ -925,6 +1030,9 @@ export type PassEventSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   orbitNumber?: boolean
   aos?: boolean
   los?: boolean
+  aosTime?: boolean
+  losTime?: boolean
+  aosDow?: boolean
   maxElevation?: boolean
   duration?: boolean
   visibleSegments?: boolean
@@ -943,6 +1051,9 @@ export type PassEventSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   orbitNumber?: boolean
   aos?: boolean
   los?: boolean
+  aosTime?: boolean
+  losTime?: boolean
+  aosDow?: boolean
   maxElevation?: boolean
   duration?: boolean
   visibleSegments?: boolean
@@ -961,6 +1072,9 @@ export type PassEventSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   orbitNumber?: boolean
   aos?: boolean
   los?: boolean
+  aosTime?: boolean
+  losTime?: boolean
+  aosDow?: boolean
   maxElevation?: boolean
   duration?: boolean
   visibleSegments?: boolean
@@ -979,6 +1093,9 @@ export type PassEventSelectScalar = {
   orbitNumber?: boolean
   aos?: boolean
   los?: boolean
+  aosTime?: boolean
+  losTime?: boolean
+  aosDow?: boolean
   maxElevation?: boolean
   duration?: boolean
   visibleSegments?: boolean
@@ -988,7 +1105,7 @@ export type PassEventSelectScalar = {
   updatedAt?: boolean
 }
 
-export type PassEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groundStationId" | "satelliteId" | "orbitNumber" | "aos" | "los" | "maxElevation" | "duration" | "visibleSegments" | "totalVisibleDuration" | "maxVisibleElevation" | "createdAt" | "updatedAt", ExtArgs["result"]["passEvent"]>
+export type PassEventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "groundStationId" | "satelliteId" | "orbitNumber" | "aos" | "los" | "aosTime" | "losTime" | "aosDow" | "maxElevation" | "duration" | "visibleSegments" | "totalVisibleDuration" | "maxVisibleElevation" | "createdAt" | "updatedAt", ExtArgs["result"]["passEvent"]>
 export type PassEventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   groundStation?: boolean | Prisma.GroundStationDefaultArgs<ExtArgs>
   satellite?: boolean | Prisma.SatelliteDefaultArgs<ExtArgs>
@@ -1015,6 +1132,9 @@ export type $PassEventPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     orbitNumber: number
     aos: Date
     los: Date
+    aosTime: string
+    losTime: string
+    aosDow: string
     maxElevation: number
     duration: number
     visibleSegments: string
@@ -1453,6 +1573,9 @@ export interface PassEventFieldRefs {
   readonly orbitNumber: Prisma.FieldRef<"PassEvent", 'Int'>
   readonly aos: Prisma.FieldRef<"PassEvent", 'DateTime'>
   readonly los: Prisma.FieldRef<"PassEvent", 'DateTime'>
+  readonly aosTime: Prisma.FieldRef<"PassEvent", 'String'>
+  readonly losTime: Prisma.FieldRef<"PassEvent", 'String'>
+  readonly aosDow: Prisma.FieldRef<"PassEvent", 'String'>
   readonly maxElevation: Prisma.FieldRef<"PassEvent", 'Float'>
   readonly duration: Prisma.FieldRef<"PassEvent", 'Int'>
   readonly visibleSegments: Prisma.FieldRef<"PassEvent", 'String'>

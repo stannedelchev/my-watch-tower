@@ -5,15 +5,29 @@ import ReactPaginate from "react-paginate";
 import PassEventCard from "./PassEventCard";
 import "@/styles/PassEventList.scss";
 import { useGetAllGroundStations } from "../api/generated/ground-stations/ground-stations";
+import GlobalFilters from "./GlobalFilters";
+import { useFilterStore } from "../stores/globalFiltersStore";
+import PassFilters from "./PassFilters";
+import { usePassEventsFilterStore } from "../stores/passEventFiltersStore";
 
 export default function PassEvents() {
   const [currentPage, setCurrentPage] = useState(1);
+  const { filters } = useFilterStore();
+  const { filters: passEventFilters } = usePassEventsFilterStore();
   const { data: groundStations } = useGetAllGroundStations();
   const { currentGroundStationId } = useCurrentGroundStationStore();
   const { data, error } = useGetPassEventsByGroundStationId(
     {
       page: currentPage.toString(),
       groundStationId: currentGroundStationId?.toString() || "",
+      ...filters,
+      frequencyFilters: filters.frequencyFilters
+        ? JSON.stringify(filters.frequencyFilters)
+        : undefined,
+      ...passEventFilters,
+      timingFilters: passEventFilters.timingFilters
+        ? JSON.stringify(passEventFilters.timingFilters)
+        : undefined,
     },
     {
       query: {
@@ -29,11 +43,17 @@ export default function PassEvents() {
 
   return (
     <div>
-      <h2>Pass Events for {groundStations?.find(gs => gs.id === currentGroundStationId)?.name || "Selected Ground Station"}</h2>
+      <h2>
+        Pass Events for{" "}
+        {groundStations?.find((gs) => gs.id === currentGroundStationId)?.name ||
+          "Selected Ground Station"}
+      </h2>
       {!currentGroundStationId && (
         <p>Please select a ground station (above).</p>
       )}
       <p>All times are local times to browser.</p>
+      <GlobalFilters />
+      <PassFilters />
       {error && <p>Error loading pass events: {String(error)}</p>}
       {data && (
         <>
