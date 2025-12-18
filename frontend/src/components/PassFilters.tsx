@@ -45,8 +45,8 @@ export default function PassFilters() {
           <label htmlFor="minVisibleElevation">Min Visible Elevation (°)</label>
           <input
             id="minVisibleElevation"
-            type="number"
-            {...register("minVisibleElevation", { valueAsNumber: true })}
+            type="text"
+            {...register("minVisibleElevation")}
             placeholder="e.g., 30"
           />
         </div>
@@ -54,8 +54,8 @@ export default function PassFilters() {
           <label htmlFor="minVisibleDuration">Min Visible Duration (s)</label>
           <input
             id="minVisibleDuration"
-            type="number"
-            {...register("minVisibleDuration", { valueAsNumber: true })}
+            type="text"
+            {...register("minVisibleDuration")}
             placeholder="e.g., 300"
           />
         </div>

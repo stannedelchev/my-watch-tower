@@ -15,8 +15,11 @@ export class PassEventEntity implements PassEvent {
   orbitNumber: number;
   @ApiProperty()
   aos: Date;
+  @ApiProperty()
   aosTime: string;
+  @ApiProperty()
   aosDow: string;
+  @ApiProperty()
   losTime: string;
   @ApiProperty()
   los: Date;

@@ -62,8 +62,8 @@ export class PassEventsService {
       // there is possibility to mismatch times + offsets with day of week, skipping for simplicity
 
       // basic check of minTime, maxTime - use only if format is HH:MM, tolerate empty "" strings
-      let isEmptyFilter = true;
       const orGroups = timingFiltersParsed.map((filter) => {
+        let isEmptyFilter = true;
         const timeConditions: Prisma.PassEventWhereInput = {};
         const aosTimeAndGroup: any[] = [];
         if (filter.minTime && filter.minTime.trim().length > 0) {
@@ -113,7 +113,7 @@ export class PassEventsService {
       }
       where.OR = actualOrGroups;
     }
-    console.log(`Constructed pass event where: ${JSON.stringify(where)}`);
+    // console.log(`Constructed pass event where: ${JSON.stringify(where)}`);
     return where;
   }
 
@@ -158,9 +158,9 @@ export class PassEventsService {
         ...passEventWhere,
       }),
     };
-    console.log(
-      `Final pass event query where: ${JSON.stringify(where, null, 2)}`,
-    );
+    // console.log(
+    //   `Final pass event query where: ${JSON.stringify(where, null, 2)}`,
+    // );
 
     const [items, total] = await Promise.all([
       this.prisma.passEvent.findMany({

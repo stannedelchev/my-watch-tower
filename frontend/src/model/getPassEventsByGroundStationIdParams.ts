@@ -16,9 +16,13 @@ minVisibleDuration?: string;
  */
 minVisibleElevation?: string;
 /**
- * JSON stringified array of timing filter objects: [ {"minTime": "HH:MM", "maxTime": "HH:MM", "dows": ["M","T","W","Th","F","Sa","Su"] } ]
+ * JSON stringified array of timing filter objects: [ {"minTime": "HH:MM", "maxTime": "HH:MM", "dows": "M, T, W, Th, F, Sa, Su"} ]
  */
 timingFilters?: string;
+/**
+ * Browser local timezone offset in minutes (e.g., -120 for UTC+2)
+ */
+browserLocalTzOffsetMinutes?: string;
 /**
  * Fetch only tracked satellites?
  */
