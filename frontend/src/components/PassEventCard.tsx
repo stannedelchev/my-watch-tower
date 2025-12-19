@@ -1,6 +1,11 @@
 import { ClockFading, Sunrise, Sunset, TriangleRight } from "lucide-react";
 import type { PassEventEntity } from "../model";
 import { useEffect, useState } from "react";
+import {
+  formatDate,
+  formatDuration,
+  formatElevationClassName,
+} from "./helpers";
 
 export default function PassEventCard({ item }: { item: PassEventEntity }) {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -14,50 +19,6 @@ export default function PassEventCard({ item }: { item: PassEventEntity }) {
     // Cleanup interval on unmount
     return () => clearInterval(interval);
   }, []);
-
-  const formatDate = (dateStr: string) => {
-    // if today - display only HH:mm:ss (24h format), else "YYYY-MM-DD<br />HH:mm:ss"
-    const date = new Date(dateStr);
-    const now = new Date();
-    if (
-      date.getDate() === now.getDate() &&
-      date.getMonth() === now.getMonth() &&
-      date.getFullYear() === now.getFullYear()
-    ) {
-      return <div>{date.toLocaleTimeString([], { hourCycle: "h24" })}</div>;
-    } else {
-      return (
-        <div>
-          {date.toLocaleDateString()}
-          <br />
-          {date.toLocaleTimeString([], { hourCycle: "h24" })}
-        </div>
-      );
-    }
-  };
-  // 75 => "1m 15s"
-  // 3800 => "1h 3m 20s"
-  const formatDuration = (durationSec: number) => {
-    const hours = Math.floor(durationSec / 3600);
-    const minutes = Math.floor((durationSec % 3600) / 60);
-    const seconds = durationSec % 60;
-    let result = "";
-    if (hours > 0) {
-      result += `${hours}h `;
-    }
-    if (minutes > 0) {
-      result += `${minutes}m `;
-    }
-    result += `${seconds}s`;
-    return result.trim();
-  };
-
-  // 0-30: "red", 31-60: "yellow", 61-90: "green"
-  const formatElevationClassName = (elevation: number) => {
-    if (elevation <= 30) return "red";
-    if (elevation <= 60) return "yellow";
-    return "green";
-  };
 
   const isCurrentlyPassing = () => {
     const aos = new Date(item.aos);

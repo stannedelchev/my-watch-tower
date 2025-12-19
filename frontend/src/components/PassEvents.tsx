@@ -9,6 +9,7 @@ import GlobalFilters from "./GlobalFilters";
 import { useFilterStore } from "../stores/globalFiltersStore";
 import PassFilters from "./PassFilters";
 import { usePassEventsFilterStore } from "../stores/passEventFiltersStore";
+import { Link } from "react-router-dom";
 
 export default function PassEvents() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,11 +56,13 @@ export default function PassEvents() {
       <GlobalFilters />
       <PassFilters />
       {error && <p>Error loading pass events: {String(error)}</p>}
-      {data && (
+      {data && data.items.length > 0 && (
         <>
           <div className="pass-event-list">
             {data.items.map((passEvent) => (
-              <PassEventCard key={passEvent.id} item={passEvent} />
+              <Link to={`/pass-events/${passEvent.id}`} key={passEvent.id}>
+                <PassEventCard item={passEvent} />
+              </Link>
             ))}
           </div>
           <div className="pagination-center">
@@ -73,6 +76,10 @@ export default function PassEvents() {
             />
           </div>
         </>
+      )}
+      {data && data.items.length === 0 && <p>No pass events found.</p>}
+      {!currentGroundStationId && (
+        <h2>Please select a ground station to view pass events.</h2>
       )}
     </div>
   );
