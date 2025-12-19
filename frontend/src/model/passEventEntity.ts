@@ -6,14 +6,19 @@
  * OpenAPI spec version: 1.0
  */
 import type { SatelliteEntity } from './satelliteEntity';
+import type { GroundStationEntity } from './groundStationEntity';
 
 export interface PassEventEntity {
   id: number;
   groundStationId: number;
   satelliteId: number;
   satellite: SatelliteEntity;
+  groundStation: GroundStationEntity;
   orbitNumber: number;
   aos: string;
+  aosTime: string;
+  aosDow: string;
+  losTime: string;
   los: string;
   maxElevation: number;
   duration: number;

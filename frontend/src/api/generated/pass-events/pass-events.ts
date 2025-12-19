@@ -22,6 +22,7 @@ import type {
 
 import type {
   GetPassEventsByGroundStationIdParams,
+  PassEventEntity,
   PassEventEntityResponse
 } from '../../../model';
 
@@ -109,6 +110,178 @@ export function useGetPassEventsByGroundStationId<TData = Awaited<ReturnType<typ
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetPassEventsByGroundStationIdQueryOptions(params,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const comparePassEventsForCurrentOrbit = (
+    id: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<PassEventEntity[]>(
+      {url: `/pass-events/${id}/compare`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getComparePassEventsForCurrentOrbitQueryKey = (id?: string,) => {
+    return [
+    `/pass-events/${id}/compare`
+    ] as const;
+    }
+
+    
+export const getComparePassEventsForCurrentOrbitQueryOptions = <TData = Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getComparePassEventsForCurrentOrbitQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>> = ({ signal }) => comparePassEventsForCurrentOrbit(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type ComparePassEventsForCurrentOrbitQueryResult = NonNullable<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>>
+export type ComparePassEventsForCurrentOrbitQueryError = ErrorType<unknown>
+
+
+export function useComparePassEventsForCurrentOrbit<TData = Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError = ErrorType<unknown>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>,
+          TError,
+          Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useComparePassEventsForCurrentOrbit<TData = Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>,
+          TError,
+          Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useComparePassEventsForCurrentOrbit<TData = Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useComparePassEventsForCurrentOrbit<TData = Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof comparePassEventsForCurrentOrbit>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getComparePassEventsForCurrentOrbitQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const getPassEventById = (
+    id: string,
+ options?: SecondParameter<typeof customInstance>,signal?: AbortSignal
+) => {
+      
+      
+      return customInstance<PassEventEntity>(
+      {url: `/pass-events/${id}`, method: 'GET', signal
+    },
+      options);
+    }
+  
+
+
+
+export const getGetPassEventByIdQueryKey = (id?: string,) => {
+    return [
+    `/pass-events/${id}`
+    ] as const;
+    }
+
+    
+export const getGetPassEventByIdQueryOptions = <TData = Awaited<ReturnType<typeof getPassEventById>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassEventById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetPassEventByIdQueryKey(id);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPassEventById>>> = ({ signal }) => getPassEventById(id, requestOptions, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(id), ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getPassEventById>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetPassEventByIdQueryResult = NonNullable<Awaited<ReturnType<typeof getPassEventById>>>
+export type GetPassEventByIdQueryError = ErrorType<unknown>
+
+
+export function useGetPassEventById<TData = Awaited<ReturnType<typeof getPassEventById>>, TError = ErrorType<unknown>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassEventById>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPassEventById>>,
+          TError,
+          Awaited<ReturnType<typeof getPassEventById>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPassEventById<TData = Awaited<ReturnType<typeof getPassEventById>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassEventById>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getPassEventById>>,
+          TError,
+          Awaited<ReturnType<typeof getPassEventById>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetPassEventById<TData = Awaited<ReturnType<typeof getPassEventById>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassEventById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetPassEventById<TData = Awaited<ReturnType<typeof getPassEventById>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getPassEventById>>, TError, TData>>, request?: SecondParameter<typeof customInstance>}
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetPassEventByIdQueryOptions(id,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
