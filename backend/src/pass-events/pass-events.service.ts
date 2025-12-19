@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Prisma } from 'src/generated/prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SatellitesService } from 'src/satellites/satellites.service';
@@ -209,7 +209,7 @@ export class PassEventsService {
       },
     });
     if (!basePassEvent) {
-      throw new Error(`Pass event with id ${id} not found`);
+      throw new NotFoundException(`Pass event with id ${id} not found`);
     }
     const comparePassEvents = await this.prisma.passEvent.findMany({
       where: {
@@ -222,6 +222,6 @@ export class PassEventsService {
       },
     });
 
-    return [...comparePassEvents];
+    return comparePassEvents;
   }
 }
