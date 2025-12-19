@@ -6,6 +6,7 @@ import StationsList from "./components/StationsList";
 import StationEditor from "./components/StationEditor";
 import PassEvents from "./components/PassEvents";
 import SatelliteList from "./components/SatelliteList";
+import PassDetails from "./components/PassDetails";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             element={<StationEditor mode="edit" />}
           />
           <Route path="/satellite-list" element={<SatelliteList />} />
+          <Route path="/pass-events/:id" element={<PassDetails />} />
         </Routes>
       </Layout>
     </BrowserRouter>
