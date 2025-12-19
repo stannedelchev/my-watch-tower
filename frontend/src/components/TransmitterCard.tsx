@@ -5,21 +5,9 @@ import {
   MoveVertical,
 } from "lucide-react";
 import type { TransmitterEntity } from "../model";
+import { formatFrequency } from "./helpers";
 
 export default function TransmitterCard({ item }: { item: TransmitterEntity }) {
-  const formatFrequency = (freq: number | null) => {
-    if (freq === null) return "N/A";
-    const freqNum = Number(freq);
-    if (freqNum >= 1_000_000_000) {
-      return (freqNum / 1_000_000_000).toFixed(2) + " GHz";
-    } else if (freqNum >= 1_000_000) {
-      return (freqNum / 1_000_000).toFixed(2) + " MHz";
-    } else if (freqNum >= 1_000) {
-      return (freqNum / 1_000).toFixed(2) + " kHz";
-    } else {
-      return freqNum + " Hz";
-    }
-  };
   const formatTxDirection = (
     tx: TransmitterEntity
   ): "uplink" | "downlink" | "duplex" | "unknown" => {

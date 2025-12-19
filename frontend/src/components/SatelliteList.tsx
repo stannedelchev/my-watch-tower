@@ -28,7 +28,7 @@ export default function SatelliteList() {
       <GlobalFilters />
       {/* {isLoading && <p>Loading satellites...</p>} */}
       {error && <p>Error loading satellites: {String(error)}</p>}
-      {data && (
+      {data && data.items.length > 0 && (
         <>
           <div className="satellite-list">
             {data.items.map((satellite) => (
@@ -47,6 +47,7 @@ export default function SatelliteList() {
           </div>
         </>
       )}
+      {data && data.items.length === 0 && <p>No satellites found.</p>}
     </div>
   );
 }
