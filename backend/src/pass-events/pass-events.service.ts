@@ -195,6 +195,7 @@ export class PassEventsService {
             transmitters: true,
           },
         },
+        groundStation: true,
       },
     });
     return item;

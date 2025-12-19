@@ -15,7 +15,6 @@ export default function PassDetails() {
   const { id } = useParams();
   const { data } = useGetPassEventById(id!);
   const { data: comparisonData } = useComparePassEventsForCurrentOrbit(id!);
-  console.log("comparisonData", comparisonData);
   return (
     <div className="pass-details">
       <div className="pass-header">
