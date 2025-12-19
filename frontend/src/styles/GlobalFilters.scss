@@ -1,3 +1,5 @@
+@import "./responsive.scss";
+
 .pass-filters,
 .global-filters {
   background-color: #111827;
@@ -6,14 +8,40 @@
   padding: 1rem;
   margin: 1rem 0;
 
-  h2 {
-    margin-bottom: 1rem;
+  h2, h3 {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .summary {
+      display: none;
+      @include md {
+        display: inline;
+      }
+    }
+  }
+  .summary {
+    color: #9ca3af;
+    font-size: 0.875rem;
+    &.only-small {
+      display: block;
+      margin-top: 0.5rem;
+      @include md {
+        margin-top: 0;
+        display: none;
+      }
+    }
   }
 
   .form-groups {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    margin-top: 1rem;
+
+    &.collapsed {
+      display: none;
+    }
     .form-group {
       display: flex;
       flex-direction: column;

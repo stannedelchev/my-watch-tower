@@ -1,10 +1,21 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { useGetTags } from "../api/generated/tags/tags";
 import "@/styles/GlobalFilters.scss";
-import { Check, CircleX, Plus, Trash2 } from "lucide-react";
+import {
+  Check,
+  ChevronDown,
+  ChevronUp,
+  CircleX,
+  Funnel,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { useFilterStore, type FilterState } from "../stores/globalFiltersStore";
+import { useState } from "react";
+import { formatFrequency } from "./helpers";
 
 export default function GlobalFilters() {
+  const [isCollapsed, setCollapsed] = useState(false);
   const { data } = useGetTags();
   const { filters, setFilters } = useFilterStore();
   const { register, handleSubmit, reset, control } = useForm<FilterState>({
@@ -49,10 +60,47 @@ export default function GlobalFilters() {
     (value) => value !== undefined && value !== ""
   );
 
+  const getSummary = () => {
+    const parts = [];
+    if (filters.name) parts.push(filters.name);
+    if (filters.tracked !== undefined && filters.tracked !== "")
+      parts.push(filters.tracked === "true" ? "Tracked" : "Untracked");
+    if (filters.tag) parts.push(filters.tag);
+    if (filters.frequencyFilters && filters.frequencyFilters.length > 0) {
+      for (const f of filters.frequencyFilters) {
+        const minFreq = f.min ? formatFrequency(f.min) : "N/A";
+        const maxFreq = f.max ? formatFrequency(f.max) : "N/A";
+        let strMinMax = "";
+        if (f.min && f.max) {
+          strMinMax = `${minFreq} - ${maxFreq}`;
+        } else if (f.min && !f.max) {
+          strMinMax = `>= ${minFreq}`;
+        } else if (!f.min && f.max) {
+          strMinMax = `<= ${maxFreq}`;
+        } else {
+          strMinMax = "N/A";
+        }
+        parts.push(`${f.direction === "downlink" ? "D" : "U"}: ${strMinMax}`);
+      }
+    }
+    return parts.join(", ");
+  };
+
   return (
     <form className="global-filters" onSubmit={handleSubmit(onSubmit)}>
-      <h2>Global Filters</h2>
-      <div className="form-groups">
+      <h3 onClick={() => setCollapsed(!isCollapsed)}>
+        <span>
+          <Funnel /> Global Filters
+        </span>
+        {isCollapsed && <span className="summary">{getSummary()}</span>}
+        {isCollapsed ? <ChevronDown /> : <ChevronUp />}
+      </h3>
+      {isCollapsed && (
+        <div className="summary only-small">
+          {getSummary()}
+        </div>
+      )}
+      <div className={`form-groups ${isCollapsed ? "collapsed" : ""}`}>
         <div className="form-group">
           <label htmlFor="name">Name</label>
           <input
@@ -103,7 +151,11 @@ export default function GlobalFilters() {
           </div>
         )}
       </div>
-      <div className="frequency-filters form-groups">
+      <div
+        className={`frequency-filters form-groups ${
+          isCollapsed ? "collapsed" : ""
+        }`}
+      >
         <fieldset>
           <legend>Frequency Bands</legend>
           {fields.map((field, index) => (

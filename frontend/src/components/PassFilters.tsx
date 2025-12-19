@@ -3,10 +3,12 @@ import {
   usePassEventsFilterStore,
   type PassFilterState,
 } from "../stores/passEventFiltersStore";
-import { Check, CircleX } from "lucide-react";
+import { Check, ChevronDown, ChevronUp, CircleX, Funnel } from "lucide-react";
 import "@/styles/GlobalFilters.scss";
+import { useState } from "react";
 
 export default function PassFilters() {
+  const [isCollapsed, setCollapsed] = useState(false);
   const { filters, setFilters } = usePassEventsFilterStore();
   const { register, handleSubmit, reset, control } = useForm<PassFilterState>({
     defaultValues: {
@@ -37,10 +39,42 @@ export default function PassFilters() {
     (value) => value !== undefined && value !== ""
   );
 
+  const getSummary = () => {
+    const parts = [];
+    if (parseInt(filters.minVisibleElevation || "0") > 0) {
+      parts.push(`+${filters.minVisibleElevation}°`);
+    }
+    if (parseInt(filters.minVisibleDuration || "0") > 0) {
+      parts.push(`+${filters.minVisibleDuration}s`);
+    }
+    if (filters.timingFilters && filters.timingFilters.length > 0) {
+      for (const f of filters.timingFilters) {
+        let strTiming = "";
+        if (f.dows) strTiming += `${f.dows}: `;
+        if (f.minTime && f.maxTime) {
+          strTiming += `${f.minTime}-${f.maxTime} `;
+        } else if (f.minTime && !f.maxTime) {
+          strTiming += `after ${f.minTime} `;
+        } else if (!f.minTime && f.maxTime) {
+          strTiming += `before ${f.maxTime} `;
+        }
+        parts.push(strTiming.trim());
+      }
+    }
+    return parts.join(", ");
+  };
+
   return (
     <form className="pass-filters" onSubmit={handleSubmit(onSubmit)}>
-      <h2>Pass Filters</h2>
-      <div className="form-groups">
+      <h3 onClick={() => setCollapsed(!isCollapsed)}>
+        <span>
+          <Funnel /> Pass Filters
+        </span>
+        {isCollapsed && <span className="summary">{getSummary()}</span>}
+        {isCollapsed ? <ChevronDown /> : <ChevronUp />}
+      </h3>
+      {isCollapsed && <div className="summary only-small">{getSummary()}</div>}
+      <div className={`form-groups ${isCollapsed ? "collapsed" : ""}`}>
         <div className="form-group">
           <label htmlFor="minVisibleElevation">Min Visible Elevation (°)</label>
           <input
@@ -81,7 +115,11 @@ export default function PassFilters() {
           </div>
         )}
       </div>
-      <div className="timing-filters">
+      <div
+        className={`timing-filters form-groups ${
+          isCollapsed ? "collapsed" : ""
+        }`}
+      >
         <fieldset>
           <legend>Timing Filters (OR)</legend>
           {fields.map((field, index) => (
