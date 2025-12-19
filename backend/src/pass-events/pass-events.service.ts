@@ -184,4 +184,43 @@ export class PassEventsService {
     ]);
     return { items, total, page, pageCount: Math.ceil(total / take) };
   }
+
+  async findOneById({ id }: { id: number }) {
+    const item = await this.prisma.passEvent.findUnique({
+      where: { id },
+      include: {
+        satellite: {
+          include: {
+            tags: true,
+            transmitters: true,
+          },
+        },
+      },
+    });
+    return item;
+  }
+
+  async comparePassEventsForCurrentOrbit({ id }: { id: number }) {
+    const basePassEvent = await this.prisma.passEvent.findUnique({
+      where: { id },
+      include: {
+        satellite: true,
+      },
+    });
+    if (!basePassEvent) {
+      throw new Error(`Pass event with id ${id} not found`);
+    }
+    const comparePassEvents = await this.prisma.passEvent.findMany({
+      where: {
+        satelliteId: basePassEvent.satelliteId,
+        orbitNumber: basePassEvent.orbitNumber,
+      },
+      include: {
+        satellite: true,
+        groundStation: true,
+      },
+    });
+
+    return [...comparePassEvents];
+  }
 }
