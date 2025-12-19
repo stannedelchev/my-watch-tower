@@ -68,8 +68,8 @@ export default function GlobalFilters() {
     if (filters.tag) parts.push(filters.tag);
     if (filters.frequencyFilters && filters.frequencyFilters.length > 0) {
       for (const f of filters.frequencyFilters) {
-        const minFreq = f.min !== undefined ? formatFrequency(f.min) : "N/A";
-        const maxFreq = f.max !== undefined ? formatFrequency(f.max) : "N/A";
+        const minFreq = f.min ? formatFrequency(f.min) : "N/A";
+        const maxFreq = f.max ? formatFrequency(f.max) : "N/A";
         let strMinMax = "";
         if (f.min && f.max) {
           strMinMax = `${minFreq} - ${maxFreq}`;
