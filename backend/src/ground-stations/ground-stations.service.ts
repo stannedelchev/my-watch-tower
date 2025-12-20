@@ -13,6 +13,7 @@ export class GroundStationsService {
     return this.prisma.groundStation.create({
       data,
     });
+    // TODO: trigger bulk predictor for the new station
   }
 
   async findAll(): Promise<GroundStation[]> {
@@ -45,6 +46,7 @@ export class GroundStationsService {
       where: { id },
       data,
     });
+    // TODO: trigger bulk predictor for the updated station
   }
 
   async remove(id: number): Promise<GroundStation> {

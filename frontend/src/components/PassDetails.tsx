@@ -10,12 +10,128 @@ import {
 } from "./helpers";
 import "@/styles/PassDetails.scss";
 import { Check, ClockFading, TriangleRight } from "lucide-react";
+import HorizonCanvas from "./HorizonCanvas";
+import * as satellite from "satellite.js";
+import type { GroundStationEntity, SatelliteEntity } from "../model";
+import { useEffect, useMemo, useState } from "react";
+
+const calculateAngle = ({
+  groundStation,
+  ourSatellite,
+  time,
+}: {
+  groundStation: GroundStationEntity;
+  ourSatellite: SatelliteEntity;
+  time: Date;
+}) => {
+  const satrec = satellite.twoline2satrec(
+    ourSatellite.line1,
+    ourSatellite.line2
+  );
+  const positionAndVelocity = satellite.propagate(satrec, new Date(time));
+  if (positionAndVelocity === null) {
+    console.error(`Failed to propagate satellite`);
+    return;
+  }
+  const positionEci = positionAndVelocity.position;
+  const velocityEci = positionAndVelocity.velocity;
+
+  const observerGd = {
+    longitude: satellite.degreesToRadians(groundStation.longitude),
+    latitude: satellite.degreesToRadians(groundStation.latitude),
+    height: groundStation.altitude / 1000, // meters to km
+  };
+
+  const gmst = satellite.gstime(new Date(time));
+
+  const positionEcf = satellite.eciToEcf(positionEci, gmst),
+    observerEcf = satellite.geodeticToEcf(observerGd),
+    // positionGd = satellite.eciToGeodetic(positionEci, gmst),
+    lookAngles = satellite.ecfToLookAngles(observerGd, positionEcf);
+  const dopplerFactor = satellite.dopplerFactor(
+    observerEcf,
+    positionEcf,
+    velocityEci
+  );
+
+  const azimuth = lookAngles.azimuth,
+    elevation = lookAngles.elevation,
+    rangeSat = lookAngles.rangeSat;
+
+  if (elevation < 0) {
+    // satellite is below horizon
+    return;
+  }
+  return {
+    azimuth: satellite.radiansToDegrees(azimuth),
+    elevation: satellite.radiansToDegrees(elevation),
+    rangeSat,
+    dopplerFactor,
+  };
+};
 
 export default function PassDetails() {
   const { id } = useParams();
   const { data, error, isLoading } = useGetPassEventById(id!);
   const { data: comparisonData } = useComparePassEventsForCurrentOrbit(id!);
   // TODO: on error, render error message returned from API, but first define global 404 entity response in NestJs
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    // Update current time every second
+    const interval = setInterval(() => {
+      const now = new Date();
+      setCurrentTime(now);
+    }, 1000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  // Draw current satellite position
+  const satellitePosition = useMemo(() => {
+    if (!data) return null;
+
+    const pos = calculateAngle({
+      groundStation: data.groundStation,
+      ourSatellite: data.satellite,
+      time: currentTime,
+    });
+
+    return pos || null;
+  }, [currentTime, data]);
+
+  // Draw path points
+  const satellitePath = useMemo(() => {
+    if (!data?.satellite || !data?.groundStation || !data?.aos || !data?.los) {
+      return [];
+    }
+
+    const pathPoints: Array<{ azimuth: number; elevation: number }> = [];
+    const startTime = new Date(data.aos).getTime();
+    const endTime = new Date(data.los).getTime();
+    const stepMs = 10000; // Calculate every 10 seconds
+
+    for (let time = startTime; time <= endTime; time += stepMs) {
+      const result = calculateAngle({
+        groundStation: data.groundStation,
+        ourSatellite: data.satellite,
+        time: new Date(time),
+      });
+
+      if (result) {
+        pathPoints.push({
+          azimuth: result.azimuth,
+          elevation: result.elevation,
+        });
+      }
+    }
+    // TODO: probably decimate result for easier rendering?
+
+    return pathPoints;
+  }, [data]);
+
   return (
     <div className="pass-details">
       {isLoading && <p>Loading pass details...</p>}
@@ -26,6 +142,30 @@ export default function PassDetails() {
             <h1>{data?.satellite?.name}</h1>
             <p>NORAD ID: {data?.satellite?.id}</p>
             <p>Orbit number: {data?.orbitNumber}</p>
+          </div>
+          <div className="sky">
+            <HorizonCanvas
+              value={data.groundStation.horizonmask}
+              readOnly
+              width={500}
+              height={500}
+              satellites={
+                satellitePosition
+                  ? [{ ...satellitePosition, label: data.satellite.name }]
+                  : []
+              }
+              paths={
+                satellitePath.length > 0
+                  ? [
+                      {
+                        points: satellitePath,
+                        color: "rgba(0, 255, 0, 0.7)",
+                        label: "Pass Path",
+                      },
+                    ]
+                  : []
+              }
+            ></HorizonCanvas>
           </div>
           <div className="pass-comparison">
             {comparisonData && comparisonData.length > 0 ? (
