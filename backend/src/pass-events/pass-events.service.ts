@@ -198,6 +198,9 @@ export class PassEventsService {
         groundStation: true,
       },
     });
+    if (!item) {
+      throw new NotFoundException(`Pass event with id ${id} not found`);
+    }
     return item;
   }
 
