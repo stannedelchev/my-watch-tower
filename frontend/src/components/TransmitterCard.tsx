@@ -2,40 +2,47 @@ import {
   CircleQuestionMark,
   MoveDown,
   MoveUp,
-  MoveVertical,
 } from "lucide-react";
 import type { TransmitterEntity } from "../model";
-import { formatFrequency } from "./helpers";
+import { formatFrequency, formatTxDirection } from "./helpers";
+import "../styles/TransmitterCard.scss";
 
-export default function TransmitterCard({ item }: { item: TransmitterEntity }) {
-  const formatTxDirection = (
-    tx: TransmitterEntity
-  ): "uplink" | "downlink" | "duplex" | "unknown" => {
-    if (tx.uplinkLow && tx.downlinkLow) {
-      return "duplex";
-    } else if (tx.uplinkLow) {
-      return "uplink";
-    } else if (tx.downlinkLow) {
-      return "downlink";
-    } else {
-      return "unknown";
-    }
-  };
-
+export default function TransmitterCard({
+  item,
+  dopplerFactor,
+}: {
+  item: TransmitterEntity;
+  dopplerFactor?: number | undefined;
+}) {
   const direction = formatTxDirection(item);
 
   return (
     <div className="transmitter-card">
-      {direction === "duplex" && <MoveVertical />}
-      {direction === "uplink" && <MoveUp />}
-      {direction === "downlink" && <MoveDown />}
-      {direction === "unknown" && <CircleQuestionMark />}
-      {item.uplinkLow && !item.downlinkLow && formatFrequency(item.uplinkLow)}
-      {item.downlinkLow && !item.uplinkLow && formatFrequency(item.downlinkLow)}
-      {item.uplinkLow && item.downlinkLow && (
+      {direction === "uplink" && (
         <>
-          {formatFrequency(item.uplinkLow)} -{" "}
-          {formatFrequency(item.downlinkLow)}
+          <MoveUp /> {formatFrequency(item.uplinkLow, "uplink", dopplerFactor)}
+        </>
+      )}
+      {direction === "downlink" && (
+        <>
+          <MoveDown />{" "}
+          {formatFrequency(item.downlinkLow, "downlink", dopplerFactor)}
+        </>
+      )}
+      {direction === "duplex" && (
+        <>
+          <MoveUp /> {formatFrequency(item.uplinkLow, "uplink", dopplerFactor)}
+          <MoveDown />{" "}
+          {formatFrequency(item.downlinkLow, "downlink", dopplerFactor)}
+        </>
+      )}
+      {direction === "unknown" && (
+        <>
+          <CircleQuestionMark />{" "}
+          {item.uplinkLow &&
+            formatFrequency(item.uplinkLow, "uplink", dopplerFactor)}
+          {item.downlinkLow &&
+            formatFrequency(item.downlinkLow, "downlink", dopplerFactor)}
         </>
       )}
       <div>{item.description?.toString()}</div>
