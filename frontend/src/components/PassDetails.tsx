@@ -258,7 +258,7 @@ export default function PassDetails() {
                       to={`/pass-events/${pass.id}`}
                       className="pass-comparison-card"
                     >
-                      <h3 className="col">
+                      <h3 className="col large">
                         {pass.groundStationId === data?.groundStationId && (
                           <Check />
                         )}
@@ -266,7 +266,7 @@ export default function PassDetails() {
                       </h3>
                       <div className="col">{formatDate(pass.aos)}</div>
                       <div className="col">{formatDate(pass.los)}</div>
-                      <div className="elevation col large">
+                      <div className="elevation col large content-rows">
                         <div
                           className={`visible ${formatElevationClassName(
                             pass.maxVisibleElevation
@@ -279,7 +279,7 @@ export default function PassDetails() {
                           ({pass.maxElevation.toFixed(0)}° max possible)
                         </div>
                       </div>
-                      <div className="duration col large">
+                      <div className="duration col large content-rows">
                         <div className="visible">
                           <ClockFading />{" "}
                           {formatDuration(pass.totalVisibleDuration)}

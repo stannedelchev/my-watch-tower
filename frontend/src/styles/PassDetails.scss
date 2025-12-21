@@ -35,6 +35,10 @@
         &.large {
           flex: 2;
         }
+        &.content-rows {
+          flex-direction: column;
+          align-items: flex-start;
+        }
       }
 
       .elevation,
@@ -97,6 +101,7 @@
     flex-direction: column;
     @include md {
       flex-direction: row;
+      justify-content: space-between;
     }
     gap: 1rem;
   }
