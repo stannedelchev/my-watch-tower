@@ -60,7 +60,7 @@ export default function MapFootprint({
   const satelliteIcon = createCustomIcon(Satellite, "#60a5fa"); // primary color
 
   return (
-    <div className="map-container">
+    <div className="map-container only-above-md">
       <MapContainer
         center={[groundStation.latitude, groundStation.longitude]}
         zoom={3}

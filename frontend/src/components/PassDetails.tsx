@@ -181,11 +181,13 @@ export default function PassDetails() {
           <div className="pass-header">
             <div className="col">
               <h1>{data?.satellite?.name}</h1>
-              <p>NORAD ID: {data?.satellite?.id}</p>
-              <p>{data?.satellite?.tags.map((t) => t.name).join(", ")}</p>
+              <p className="only-above-md">NORAD ID: {data?.satellite?.id}</p>
+              <p className="only-above-md">
+                {data?.satellite?.tags.map((t) => t.name).join(", ")}
+              </p>
             </div>
 
-            <p>Orbit number: {data?.orbitNumber}</p>
+            <p className="only-above-md">Orbit number: {data?.orbitNumber}</p>
             <div className="col">
               <h2>{data?.groundStation?.name}</h2>
               {satellitePosition && (
@@ -292,7 +294,7 @@ export default function PassDetails() {
                           <TriangleRight />{" "}
                           {pass.maxVisibleElevation.toFixed(0)}°
                         </div>
-                        <div className="max">
+                        <div className="max only-above-md">
                           ({pass.maxElevation.toFixed(0)}° max possible)
                         </div>
                       </div>
@@ -301,7 +303,7 @@ export default function PassDetails() {
                           <ClockFading />{" "}
                           {formatDuration(pass.totalVisibleDuration)}
                         </div>
-                        <div className="max">
+                        <div className="max only-above-md">
                           ({formatDuration(pass.duration)} max possible)
                         </div>
                       </div>

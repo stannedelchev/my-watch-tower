@@ -8,7 +8,7 @@ import "@/styles/GlobalFilters.scss";
 import { useState } from "react";
 
 export default function PassFilters() {
-  const [isCollapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(true);
   const { filters, setFilters } = usePassEventsFilterStore();
   const { register, handleSubmit, reset, control } = useForm<PassFilterState>({
     defaultValues: {

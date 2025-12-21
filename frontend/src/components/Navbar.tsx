@@ -8,29 +8,31 @@ export default function Navbar() {
         <ul>
           <li>
             <NavLink to="/">
-              <Calendar /> <span>Passes</span>
+              <Calendar /> <span className="only-above-md">Passes</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/timeline">
-              <Clock /> <span>Timeline</span>
+              <Clock /> <span className="only-above-md">Timeline</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/sky-now">
-              <Target /> <span>Sky Now</span>
+              <Target /> <span className="only-above-md">Sky Now</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/stations">
-              <MapPinHouse /> <span>Ground Stations</span>
+              <MapPinHouse />{" "}
+              <span className="only-above-md">Ground Stations</span>
             </NavLink>
           </li>
         </ul>
         <ul>
           <li>
             <NavLink to="/satellite-list">
-              <Satellite /> <span>Satellite Tracking</span>
+              <Satellite />{" "}
+              <span className="only-above-md">Satellite Tracking</span>
             </NavLink>
           </li>
         </ul>

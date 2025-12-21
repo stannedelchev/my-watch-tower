@@ -35,8 +35,10 @@ header {
     gap: 0.5rem;
   }
 
-  h1 svg {
-    color: var(--primary-color);
+  h1 {
+    svg {
+      color: var(--primary-color);
+    }
   }
 }
 
@@ -78,6 +80,13 @@ nav {
         }
       }
     }
+  }
+}
+
+.only-above-md {
+  display: none;
+  @include md {
+    display: inline;
   }
 }
 

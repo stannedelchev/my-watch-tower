@@ -15,7 +15,7 @@ import { useState } from "react";
 import { formatFrequency } from "./helpers";
 
 export default function GlobalFilters() {
-  const [isCollapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(true);
   const { data } = useGetTags();
   const { filters, setFilters } = useFilterStore();
   const { register, handleSubmit, reset, control } = useForm<FilterState>({

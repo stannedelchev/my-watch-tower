@@ -6,7 +6,8 @@ export default function Header() {
     <header>
       <div className="constrained-content">
         <h1>
-          <TowerControl size={48} /> My Watch Tower
+          <TowerControl size={48} />{" "}
+          <span className="only-above-md">My Watch Tower</span>
         </h1>
         <div className="right-header">
           <MapPin />
