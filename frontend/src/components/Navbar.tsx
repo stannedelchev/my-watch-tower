@@ -1,7 +1,12 @@
 import { Calendar, Clock, MapPinHouse, Satellite, Target } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useGetSatellites } from "../api/generated/satellites/satellites";
 
 export default function Navbar() {
+  const { data } = useGetSatellites({
+    tracked: "true",
+  });
+
   return (
     <nav>
       <div className="constrained-content">
@@ -32,7 +37,12 @@ export default function Navbar() {
           <li>
             <NavLink to="/satellite-list">
               <Satellite />{" "}
-              <span className="only-above-md">Satellite Tracking</span>
+              <span className="only-above-md">
+                Fav Satellites{" "}
+                <span className={`num ${data?.total === 0 ? "red" : ""}`}>
+                  ({data?.total})
+                </span>
+              </span>
             </NavLink>
           </li>
         </ul>

@@ -24,7 +24,7 @@ header {
   background-color: #111827;
   border-bottom: 1px solid #1f2937;
   div {
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -54,7 +54,6 @@ nav {
   border-bottom: 1px solid #1f2937;
 
   div {
-    padding: 0 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -79,6 +78,12 @@ nav {
           border-color: var(--primary-color);
         }
       }
+    }
+  }
+
+  .num {
+    &.red {
+      color: #ef4444;
     }
   }
 }
