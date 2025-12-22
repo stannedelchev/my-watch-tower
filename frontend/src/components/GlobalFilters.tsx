@@ -60,31 +60,31 @@ export default function GlobalFilters() {
     (value) => value !== undefined && value !== ""
   );
 
-  const getSummary = () => {
-    const parts = [];
-    if (filters.name) parts.push(filters.name);
-    if (filters.tracked !== undefined && filters.tracked !== "")
-      parts.push(filters.tracked === "true" ? "Tracked" : "Untracked");
-    if (filters.tag) parts.push(filters.tag);
-    if (filters.frequencyFilters && filters.frequencyFilters.length > 0) {
-      for (const f of filters.frequencyFilters) {
-        const minFreq = f.min ? formatFrequency(f.min) : "N/A";
-        const maxFreq = f.max ? formatFrequency(f.max) : "N/A";
-        let strMinMax = "";
-        if (f.min && f.max) {
-          strMinMax = `${minFreq} - ${maxFreq}`;
-        } else if (f.min && !f.max) {
-          strMinMax = `>= ${minFreq}`;
-        } else if (!f.min && f.max) {
-          strMinMax = `<= ${maxFreq}`;
-        } else {
-          strMinMax = "N/A";
-        }
-        parts.push(`${f.direction === "downlink" ? "D" : "U"}: ${strMinMax}`);
+  // Generate summary string
+  let summary = '';
+  const parts = [];
+  if (filters.name) parts.push(filters.name);
+  if (filters.tracked !== undefined && filters.tracked !== "")
+    parts.push(filters.tracked === "true" ? "Tracked" : "Untracked");
+  if (filters.tag) parts.push(filters.tag);
+  if (filters.frequencyFilters && filters.frequencyFilters.length > 0) {
+    for (const f of filters.frequencyFilters) {
+      const minFreq = f.min ? formatFrequency(f.min) : "N/A";
+      const maxFreq = f.max ? formatFrequency(f.max) : "N/A";
+      let strMinMax = "";
+      if (f.min && f.max) {
+        strMinMax = `${minFreq} - ${maxFreq}`;
+      } else if (f.min && !f.max) {
+        strMinMax = `>= ${minFreq}`;
+      } else if (!f.min && f.max) {
+        strMinMax = `<= ${maxFreq}`;
+      } else {
+        strMinMax = "N/A";
       }
+      parts.push(`${f.direction === "downlink" ? "D" : "U"}: ${strMinMax}`);
     }
-    return parts.join(", ");
-  };
+  }
+  summary = parts.join(", ");
 
   return (
     <form className="global-filters" onSubmit={handleSubmit(onSubmit)}>
@@ -92,14 +92,10 @@ export default function GlobalFilters() {
         <span>
           <Funnel /> Global Filters
         </span>
-        {isCollapsed && <span className="summary">{getSummary()}</span>}
+        {isCollapsed && summary && <span className="summary">{summary}</span>}
         {isCollapsed ? <ChevronDown /> : <ChevronUp />}
       </h3>
-      {isCollapsed && (
-        <div className="summary only-small">
-          {getSummary()}
-        </div>
-      )}
+      {isCollapsed && summary && <div className="summary only-small">{summary}</div>}
       <div className={`form-groups ${isCollapsed ? "collapsed" : ""}`}>
         <div className="form-group">
           <label htmlFor="name">Name</label>

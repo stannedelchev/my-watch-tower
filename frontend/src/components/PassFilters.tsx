@@ -39,30 +39,30 @@ export default function PassFilters() {
     (value) => value !== undefined && value !== ""
   );
 
-  const getSummary = () => {
-    const parts = [];
-    if (parseInt(filters.minVisibleElevation || "0") > 0) {
-      parts.push(`+${filters.minVisibleElevation}°`);
-    }
-    if (parseInt(filters.minVisibleDuration || "0") > 0) {
-      parts.push(`+${filters.minVisibleDuration}s`);
-    }
-    if (filters.timingFilters && filters.timingFilters.length > 0) {
-      for (const f of filters.timingFilters) {
-        let strTiming = "";
-        if (f.dows) strTiming += `${f.dows}: `;
-        if (f.minTime && f.maxTime) {
-          strTiming += `${f.minTime}-${f.maxTime} `;
-        } else if (f.minTime && !f.maxTime) {
-          strTiming += `after ${f.minTime} `;
-        } else if (!f.minTime && f.maxTime) {
-          strTiming += `before ${f.maxTime} `;
-        }
-        parts.push(strTiming.trim());
+  // Generate summary string
+  let summary = "";
+  const parts = [];
+  if (parseInt(filters.minVisibleElevation || "0") > 0) {
+    parts.push(`+${filters.minVisibleElevation}°`);
+  }
+  if (parseInt(filters.minVisibleDuration || "0") > 0) {
+    parts.push(`+${filters.minVisibleDuration}s`);
+  }
+  if (filters.timingFilters && filters.timingFilters.length > 0) {
+    for (const f of filters.timingFilters) {
+      let strTiming = "";
+      if (f.dows) strTiming += `${f.dows}: `;
+      if (f.minTime && f.maxTime) {
+        strTiming += `${f.minTime}-${f.maxTime} `;
+      } else if (f.minTime && !f.maxTime) {
+        strTiming += `after ${f.minTime} `;
+      } else if (!f.minTime && f.maxTime) {
+        strTiming += `before ${f.maxTime} `;
       }
+      parts.push(strTiming.trim());
     }
-    return parts.join(", ");
-  };
+  }
+  summary = parts.join(", ");
 
   return (
     <form className="pass-filters" onSubmit={handleSubmit(onSubmit)}>
@@ -70,10 +70,12 @@ export default function PassFilters() {
         <span>
           <Funnel /> Pass Filters
         </span>
-        {isCollapsed && <span className="summary">{getSummary()}</span>}
+        {isCollapsed && summary && <span className="summary">{summary}</span>}
         {isCollapsed ? <ChevronDown /> : <ChevronUp />}
       </h3>
-      {isCollapsed && <div className="summary only-small">{getSummary()}</div>}
+      {isCollapsed && summary && (
+        <div className="summary only-small">{summary}</div>
+      )}
       <div className={`form-groups ${isCollapsed ? "collapsed" : ""}`}>
         <div className="form-group">
           <label htmlFor="minVisibleElevation">Min Visible Elevation (°)</label>
