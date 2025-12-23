@@ -41,13 +41,13 @@ export class SatellitesService {
       ...(name &&
         !isNaN(Number(name)) && {
           OR: [
-            { name: { contains: name, mode: 'insensitive' } },
+            { name: { contains: name.trim(), mode: 'insensitive' } },
             { id: isNaN(Number(name)) ? undefined : Number(name) },
           ],
         }),
       ...(name &&
         isNaN(Number(name)) && {
-          name: { contains: name, mode: 'insensitive' },
+          name: { contains: name.trim(), mode: 'insensitive' },
         }),
       ...(frequencyFiltersParsed &&
         frequencyFiltersParsed.length > 0 &&
