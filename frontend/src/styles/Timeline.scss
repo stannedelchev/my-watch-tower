@@ -113,13 +113,16 @@
         );
 
         &:hover {
-          transform: scaleY(1.5);
+          transform: scaleY(2);
           z-index: 20;
           background-color: color-mix(
             in srgb,
             var(--item-color),
             transparent 60%
           );
+        }
+        &.focused {
+          box-shadow: 0 0 10px var(--item-color);
         }
 
         &.dimmed {

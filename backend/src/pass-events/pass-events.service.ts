@@ -129,7 +129,7 @@ export class PassEventsService {
       };
     }
     if (endTime) {
-      where.los = {
+      where.aos = {
         lte: new Date(endTime),
       };
     }
@@ -187,7 +187,7 @@ export class PassEventsService {
       }),
     };
     // console.log(
-    //   `Final pass event query where: ${JSON.stringify(where, null, 2)}`,
+    //   `Final WHERE: ${JSON.stringify(where, null, 2)}\nLIMIT: ${take} OFFSET: ${skip}`,
     // );
 
     const [items, total] = await Promise.all([

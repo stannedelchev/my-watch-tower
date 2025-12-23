@@ -183,8 +183,8 @@ export default function Timeline() {
         timingFilters: passEventFilters.timingFilters
           ? JSON.stringify(passEventFilters.timingFilters)
           : undefined,
-        beginTime: beginTime.toISOString().slice(0, 19).replace("T", " "),
-        endTime: endTime.toISOString().slice(0, 19).replace("T", " "),
+        beginTime: beginTime.toISOString(),
+        endTime: endTime.toISOString(),
       }),
     getNextPageParam: (lastPage) => {
       if (lastPage.page < lastPage.pageCount) {
@@ -332,6 +332,10 @@ export default function Timeline() {
             {allPassEvents.map((event) => (
               <div
                 className={`pass-box ${
+                  focusedPassEvent && focusedPassEvent.id === event.id
+                    ? "focused"
+                    : ""
+                } ${
                   focusedSatelliteId &&
                   focusedSatelliteId !== event.satellite.id
                     ? "dimmed"
