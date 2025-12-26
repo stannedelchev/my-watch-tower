@@ -6,7 +6,7 @@ A satellite tracking application that provides pass predictions for multiple gro
 
 ---
 
-### Why This Project?
+## Why This Project?
 
 Traditional satellite tracking tools often fall short in these key areas:
 
@@ -52,6 +52,21 @@ Traditional satellite tracking tools often fall short in these key areas:
 - **SatNOGS DB Integration**: Import transmitter data and satellite information
 
 ---
+
+## Screenshots
+
+### Pass Event with Horizon Masking
+
+![Pass Event with Horizon Masking](https://i.imgur.com/sOmGyRO.png)
+
+### Comparing same Pass Event against different ground stations
+
+![Comparing same Pass Event against different ground stations](https://i.imgur.com/e8bHiHs.png)
+
+
+### Filtering Pass Events
+
+![Filtering Pass Events](https://i.imgur.com/UxeRH49.png)
 
 ## Technology Stack
 
