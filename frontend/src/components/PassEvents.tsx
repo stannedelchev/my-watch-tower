@@ -8,6 +8,7 @@ import { useGetAllGroundStations } from "../api/generated/ground-stations/ground
 import { Link } from "react-router-dom";
 import FilterContainer from "./FilterContainer";
 import { useFilterStore } from "../stores/filtersStore";
+import FirstRunWarnings from "./FirstRunWarnings";
 
 export default function PassEvents() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,6 +52,7 @@ export default function PassEvents() {
       )}
       <p>All times are local times to browser.</p>
       <FilterContainer showSatelliteFilters={true} showPassFilters={true} />
+      <FirstRunWarnings />
       {error && <p>Error loading pass events: {String(error)}</p>}
       {data && data.items.length > 0 && (
         <>
