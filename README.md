@@ -191,7 +191,77 @@ Server connection is pre-configured in `docker-confs/pgadmin-servers.json`.
 
 ## Calendar Integration
 
-TODO
+My Watch Tower supports exporting pass predictions to calendar applications through standard iCalendar (ICS) format. This enables automatic synchronization of satellite passes with your preferred calendar service.
+
+### Architecture
+
+Calendar feeds are generated dynamically based on your Filter Presets and Ground Stations:
+
+- **One feed per combination**: Each calendar subscription represents a specific Filter Preset applied to a specific Ground Station
+- **Dynamic updates**: Feeds reflect the current state of calculated pass events
+- **Multiple feeds**: Create separate subscriptions for different filter criteria or observation locations
+
+### Setup Requirements
+
+#### Network Configuration
+
+For external calendar services to access your ICS endpoints, the backend API must be publicly accessible:
+
+- **Local Network**: Configure port forwarding (DNAT) on your router to expose port 3000
+- **Alternative Solutions**: Use reverse proxy services like ngrok, Cloudflare Tunnel, or similar
+- **Public Address**: Note your public-facing URL (e.g., `https://your-domain.com` or `http://your-ip:3000`)
+
+#### Application Configuration
+
+1. Navigate to **Filter Presets** in the application
+2. Enter your Public Address in the configuration field
+3. Save the configuration
+
+This address is used to generate absolute URLs for calendar subscription links.
+
+### Usage
+
+#### Export Options
+
+For each Filter Preset and Ground Station combination, you have two options:
+
+A) **Manual Export**
+
+- Click **Export** to download an ICS file
+- Import the file into your calendar application
+- Note: This is a one-time snapshot; updates require re-exporting
+
+B) **Dynamic Subscription (Recommended)**
+
+- Copy the **iCal Link** URL
+- Add as a calendar subscription in your application
+- The feed automatically updates as pass predictions change
+- Requires your backend to be publicly accessible
+
+### Calendar Format
+
+#### Feed Naming Convention
+
+```
+<Ground Station Name> / <Filter Preset Name>
+```
+
+#### Event Properties
+
+- **Title**: Satellite name
+- **Time**: Pass visibility window (AOS to LOS)
+- **Location**: Ground Station name and coordinates
+- **Description**:
+  - Satellite name
+  - Maximum elevation (degrees)
+  - Total visible duration (seconds)
+
+### Example Calendar Applications
+
+- **Google Calendar**: Add other calendars > From URL
+- **Apple Calendar**: TBD
+- **Outlook**: TBD
+- **Thunderbird**: TBD
 
 ## Roadmap & TODOs
 
