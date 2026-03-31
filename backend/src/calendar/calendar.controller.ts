@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Logger, Param, Res } from '@nestjs/common';
 import {
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -10,6 +10,7 @@ import { CalendarService } from './calendar.service';
 @Controller('calendar')
 export class CalendarController {
   constructor(private calendarService: CalendarService) {}
+  private logger = new Logger(CalendarController.name);
 
   // for calendar integrations - return only string
   @Get('ics/station/:stationId/preset/:presetId')
@@ -24,6 +25,9 @@ export class CalendarController {
     const icsData = await this.calendarService.generateICSFile(
       +stationId,
       +presetId,
+    );
+    this.logger.log(
+      `Generated ICS file for station ${stationId} and preset ${presetId}`,
     );
     res.setHeader('Content-Type', 'text/calendar; charset=utf-8');
     res.send(icsData);
