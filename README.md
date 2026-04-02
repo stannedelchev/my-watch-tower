@@ -97,7 +97,7 @@ Traditional satellite tracking tools often fall short in these key areas:
 2. **Start infrastructure services**
 
    ```bash
-   docker compose up -d
+   docker compose up -d postgres redis pgadmin
    ```
 
    This starts PostgreSQL, pgAdmin (optional), and Redis (for BullMq).
@@ -111,7 +111,7 @@ Traditional satellite tracking tools often fall short in these key areas:
 
 4. **Configure environment**
   
-   Copy `backend/.env.sample` to `backend/.env`, probably no need to adjust anything.
+   Copy `backend/.env.sample` to `backend/.env` and `frontend/.env.sample` to `frontend/.env`, probably no need to adjust anything.
 
 5. **Run database migrations**
 
@@ -186,6 +186,29 @@ Default credentials:
 - Password: admin123
 
 Server connection is pre-configured in `docker-confs/pgadmin-servers.json`.
+
+---
+
+## Docker Compose support
+
+Used for deployment. Refer to [Quick Start](#quick-start) for local dev setup.
+
+1. **Environment setup**
+
+Copy `backend/.env.docker.sample` to `backend/.env`, probably no need to adjust anything.
+
+2. **Start the containers**
+
+2.1. Run `docker compose up -d` to run all the services - backend, frontend, Redis, PostgreSQL, pgAdmin (optional).
+Migrations will be applied automatically via the `backend-migrate` service.
+
+2.2. If you prefer to run the migrations manually, you can run the rest of the services separately.
+
+```bash
+docker compose up -d redis postgres
+docker compose up backend-migrate
+docker compose up -d redis postgres backend frontend
+```
 
 ---
 
@@ -303,14 +326,22 @@ Once the backend is running, access the interactive API documentation:
 
 ## Environment Variables
 
+No need to change this, if you are running the provided docker-compose.yml.
+
 ### Backend (`backend/.env`)
 
 ```env
 # Database
 DATABASE_URL="postgresql://admin:admin123@localhost:5432/my_watch_tower"
+REDIS_HOST=localhost
+REDIS_PORT=6379
 ```
 
-No need to change this, if you are running the provided docker-compose.yml.
+### Frontend (`frontend/.env`)
+
+```env
+VITE_BASE_API_URL=http://localhost:3000/
+```
 
 ---
 
