@@ -4,6 +4,8 @@
 
 A satellite tracking application that provides pass predictions for multiple ground stations with real-world visibility calculations based on actual horizon obstacles.
 
+If you are here just to run the project, refer to the [Quick Start (deployment)](#quick-start-deployment) section below.
+
 ---
 
 ## Why This Project?
@@ -63,7 +65,6 @@ Traditional satellite tracking tools often fall short in these key areas:
 
 ![Comparing same Pass Event against different ground stations](https://i.imgur.com/e8bHiHs.png)
 
-
 ### Filtering Pass Events
 
 ![Filtering Pass Events](https://i.imgur.com/UxeRH49.png)
@@ -75,7 +76,7 @@ Traditional satellite tracking tools often fall short in these key areas:
 
 ---
 
-## Quick Start
+## Quick Start (development)
 
 **Note:** This guide assumes a development environment setup. Proper docker images for non-developer audience coming soon.
 
@@ -111,7 +112,7 @@ Traditional satellite tracking tools often fall short in these key areas:
 
 4. **Configure environment**
   
-   Copy `backend/.env.sample` to `backend/.env` and `frontend/.env.sample` to `frontend/.env`, probably no need to adjust anything.
+   Copy `backend/.env.sample` to `backend/.env` probably no need to adjust anything.
 
 5. **Run database migrations**
 
@@ -138,7 +139,7 @@ Traditional satellite tracking tools often fall short in these key areas:
 7. **Access the application**
 
    - Frontend: http://localhost:5173
-   - API Docs: http://localhost:3000/api
+   - API Docs: http://localhost:3000/api/swagger
    - pgAdmin: http://localhost:8080 (admin@example.com / admin123)
 
 ---
@@ -189,27 +190,28 @@ Server connection is pre-configured in `docker-confs/pgadmin-servers.json`.
 
 ---
 
-## Docker Compose support
+## Quick start (deployment)
 
-Used for deployment. Refer to [Quick Start](#quick-start) for local dev setup.
+Docker Compose is used for easy deployment. Refer to [Quick Start (development)](#quick-start-development) for local dev setup.
 
-1. **Environment setup**
+1. **Start the containers**
 
-Copy `backend/.env.docker.sample` to `backend/.env`, probably no need to adjust anything.
+   Run `docker compose up -d` to run all the services - backend, frontend, Redis, PostgreSQL, pgAdmin (optional), nginx.
+   Migrations will be applied automatically via the `backend-migrate` service.
 
-2. **Start the containers**
+   If you prefer to run the migrations manually, you can run the rest of the services separately.
 
-2.1. Run `docker compose up -d` to run all the services - backend, frontend, Redis, PostgreSQL, pgAdmin (optional).
-Migrations will be applied automatically via the `backend-migrate` service.
+   ```bash
+   docker compose up -d redis postgres
+   docker compose up backend-migrate
+   docker compose up -d redis postgres backend frontend nginx
+   ```
 
-2.2. If you prefer to run the migrations manually, you can run the rest of the services separately.
+2. **Access the application**
 
-```bash
-docker compose up -d redis postgres
-docker compose up backend-migrate
-docker compose up -d redis postgres backend frontend
-```
-
+   - Frontend: http://localhost
+   - API Docs: http://localhost/api/swagger
+   - pgAdmin: http://localhost:8080 (admin@example.com / admin123)
 ---
 
 ## Calendar Integration
@@ -293,8 +295,8 @@ B) **Dynamic Subscription (Recommended)**
 - [x] **Timeline view**: Visualize upcoming passes in a timeline format
 - [x] **Current sky**: Real-time sky chart with all visible satellites
 - [ ] **Production Docker Images**: Create optimized Docker images for backend and frontend
-- [ ] **Complete Docker Compose**: Production-ready compose file with all services
-- [ ] **Calendar Integration**: Sync high-value passes to Google Calendar/iCal
+- [x] **Complete Docker Compose**: Production-ready compose file with all services
+- [x] **Calendar Integration**: Sync high-value passes to Google Calendar/iCal
 
 ### Features
 
@@ -316,14 +318,6 @@ B) **Dynamic Subscription (Recommended)**
 
 ---
 
-## API Documentation
-
-Once the backend is running, access the interactive API documentation:
-
-**Swagger UI**: http://localhost:3000/api
-
----
-
 ## Environment Variables
 
 No need to change this, if you are running the provided docker-compose.yml.
@@ -339,9 +333,7 @@ REDIS_PORT=6379
 
 ### Frontend (`frontend/.env`)
 
-```env
-VITE_BASE_API_URL=http://localhost:3000/
-```
+(No .env variables, as getting ENV to work in Vite + Docker is a bit tricky)
 
 ---
 
@@ -367,7 +359,7 @@ This project is licensed under the MIT license - see the LICENSE file for detail
 
 ## Acknowledgments
 
-- **Claude 4.5** and **Gemini 3 Pro** - AI assistance in coding, brainstorming and documentation. All hail our future robot overlords!
+- **Claude 4.5** and **Gemini 3 Pro** - AI assistance is just a tool for building a better product. It is every developer's responsibility to use it ethically and effectively.
 - **SatNOGS** - Satellite and transmitter database, TLE data sources
 - **satellite.js** - SGP4 propagation library
 - **TLE.js** - TLE parsing and analysis
